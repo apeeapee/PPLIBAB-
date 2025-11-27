@@ -61,7 +61,6 @@ class AuthController extends Controller
                 'string',
                 'email',
                 'max:255',
-                'regex:/^[A-Za-z0-9._%+-]+@students\.undip\.ac\.id$/',
                 'unique:users,email',
             ],
             'password' => ['required', 'confirmed', Password::defaults()],
@@ -70,11 +69,14 @@ class AuthController extends Controller
             'nama_toko' => 'required|string|max:255',
             'deskripsi_singkat' => 'required|string|max:500',
             'nama_pic' => 'required|string|max:255',
-            'no_hp_pic' => 'required|string|max:20',
+            'no_hp_pic' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)[0-9]{9,12}$/',
+            ],
             'email_pic' => [
                 'required',
                 'email',
-                'regex:/^[A-Za-z0-9._%+-]+@students\.undip\.ac\.id$/',
             ],
             'alamat_pic' => 'required|string',
             'rt' => 'required|string|max:5',
@@ -82,12 +84,16 @@ class AuthController extends Controller
             'kelurahan' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
             'kota' => 'required|string|max:255',
-            'no_ktp_pic' => 'required|string|max:30',
+            'no_ktp_pic' => [
+                'required',
+                'string',
+                'regex:/^[0-9]{16}$/',
+            ],
             'foto_pic' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'file_ktp_pic' => 'required|mimes:pdf,jpg,jpeg,png|max:4096',
         ], [
-            'email.regex' => 'Email harus menggunakan domain @students.undip.ac.id',
-            'email_pic.regex' => 'Email PIC harus menggunakan domain @students.undip.ac.id',
+            'no_hp_pic.regex' => 'Nomor HP harus berformat Indonesia yang valid (contoh: 081234567890)',
+            'no_ktp_pic.regex' => 'Nomor KTP harus 16 digit angka',
         ]);
 
         $user = User::create([
