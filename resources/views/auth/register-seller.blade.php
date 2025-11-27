@@ -797,17 +797,17 @@ function populateProvinsiDropdown(provinces) {
     provinsiSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
     provinces.forEach(prov => {
         const option = document.createElement('option');
-        option.value = prov.id;
+        option.value = prov.name; // Simpan nama untuk submit form
         option.textContent = prov.name;
-        option.dataset.name = prov.name; // Simpan nama asli
+        option.dataset.id = prov.id; // Simpan ID untuk fetch data berikutnya
         provinsiSelect.appendChild(option);
     });
 }
 
 // Event listener untuk Provinsi
 provinsiSelect.addEventListener('change', async function() {
-    const selectedProvinsiId = this.value;
-    const selectedProvinsiName = this.options[this.selectedIndex]?.dataset?.name || this.options[this.selectedIndex]?.text;
+    const selectedProvinsiId = this.options[this.selectedIndex]?.dataset?.id;
+    const selectedProvinsiName = this.value;
     
     // Reset dropdown
     kotaSelect.innerHTML = '<option value="">Pilih kota/kabupaten</option>';
@@ -850,16 +850,16 @@ function populateKotaDropdown(regencies) {
     kotaSelect.innerHTML = '<option value="">Pilih kota/kabupaten</option>';
     regencies.forEach(reg => {
         const option = document.createElement('option');
-        option.value = reg.id;
+        option.value = reg.name; // Simpan nama untuk submit form
         option.textContent = reg.name;
-        option.dataset.name = reg.name;
+        option.dataset.id = reg.id; // Simpan ID untuk fetch data berikutnya
         kotaSelect.appendChild(option);
     });
 }
 
 // Event listener untuk Kota
 kotaSelect.addEventListener('change', async function() {
-    const selectedKotaId = this.value;
+    const selectedKotaId = this.options[this.selectedIndex]?.dataset?.id;
     
     // Reset dropdown
     kecamatanSelect.innerHTML = '<option value="">Pilih kecamatan</option>';
@@ -891,16 +891,16 @@ function populateKecamatanDropdown(districts) {
     kecamatanSelect.innerHTML = '<option value="">Pilih kecamatan</option>';
     districts.forEach(dist => {
         const option = document.createElement('option');
-        option.value = dist.id;
+        option.value = dist.name; // Simpan nama untuk submit form
         option.textContent = dist.name;
-        option.dataset.name = dist.name;
+        option.dataset.id = dist.id;
         kecamatanSelect.appendChild(option);
     });
 }
 
 // Event listener untuk Kecamatan
 kecamatanSelect.addEventListener('change', async function() {
-    const selectedKecamatanId = this.value;
+    const selectedKecamatanId = this.options[this.selectedIndex]?.dataset?.id;
     
     // Reset dropdown kelurahan
     kelurahanSelect.innerHTML = '<option value="">Pilih kelurahan/desa</option>';
