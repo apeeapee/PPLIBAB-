@@ -1,78 +1,421 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🛒 **KampuStore**
 
-## About Laravel
+### *Marketplace Mahasiswa UNDIP - Katalog, Ulasan & Manajemen Toko*
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Platform e-commerce khusus mahasiswa untuk berjualan dan berbelanja tanpa biaya transaksi**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+[Fitur](#-fitur-lengkap) • [Instalasi](#-instalasi) • [Demo](#-demo-akun) • [Tech Stack](#-tech-stack) • [API](#-api-integration)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+</div>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📖 **Tentang KampuStore**
 
-## Laravel Sponsors
+**KampuStore** adalah platform marketplace yang dirancang khusus untuk mahasiswa Universitas Diponegoro (UNDIP). Platform ini memungkinkan mahasiswa untuk:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- 🛍️ **Berbelanja** produk dari sesama mahasiswa tanpa perlu registrasi
+- 🏪 **Membuka toko** dan menjual produk dengan proses verifikasi admin
+- ⭐ **Memberikan ulasan** dan rating untuk produk yang dibeli
+- 📊 **Mengelola bisnis** dengan dashboard lengkap dan laporan terperinci
+- 📍 **Integrasi wilayah** Indonesia lengkap (83.000+ kelurahan) via API
 
-### Premium Partners
+> **Catatan:** Platform ini fokus pada katalog, review, dan manajemen toko. Transaksi pembayaran dilakukan di luar sistem (COD/transfer langsung).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## ✨ **Fitur Lengkap**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 🛒 **Untuk Pembeli (Guest/User)**
+- ✅ Browsing produk tanpa perlu login
+- ✅ Filter produk berdasarkan kategori, rating, dan harga
+- ✅ Detail produk lengkap dengan foto, deskripsi, dan ulasan
+- ✅ Sistem rating dan review (1-5 bintang)
+- ✅ Contact seller via WhatsApp
+- ✅ Responsive design untuk mobile dan desktop
 
-## Code of Conduct
+### 🏪 **Untuk Penjual (Seller)**
+- ✅ **Registrasi toko** dengan verifikasi KTP dan foto selfie
+- ✅ **Dashboard penjual** dengan statistik produk dan rating
+- ✅ **CRUD Produk** (Create, Read, Update, Delete)
+- ✅ **Upload foto produk** multiple dengan preview
+- ✅ **Manajemen stok** otomatis
+- ✅ **3 Laporan Bisnis:**
+  - 📦 Laporan Stok Produk
+  - ⭐ Laporan Rating Produk
+  - 🔔 Restock Alert (notifikasi stok menipis)
+- ✅ **Export laporan** ke Excel (.xlsx)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 🔐 **Untuk Admin (Platform Manager)**
+- ✅ **Verifikasi toko** (approve/reject seller)
+- ✅ **Dashboard admin** dengan overview platform
+- ✅ **Manajemen seller** dengan status tracking
+- ✅ **3 Laporan Platform:**
+  - 👥 Daftar Akun Penjual
+  - 📍 Distribusi Penjual per Lokasi (Chart.js)
+  - 🏆 Peringkat Produk Terbaik
+- ✅ **Export laporan** ke Excel dengan formatting
 
-## Security Vulnerabilities
+### 🌏 **Fitur Teknis**
+- ✅ **API Wilayah Indonesia** (38 provinsi, 83.000+ kelurahan)
+- ✅ **Smart caching** untuk performa optimal
+- ✅ **Alpine.js** untuk interactive dropdown
+- ✅ **Chart.js** untuk visualisasi data
+- ✅ **Laravel Excel** untuk export data
+- ✅ **Email notifications** untuk verifikasi
+- ✅ **Middleware protection** untuk security
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 💻 **Tech Stack**
 
-## KampuStore: Katalog + Ulasan (Tanpa Beli)
+### **Backend**
+- **Framework:** Laravel 11.x
+- **Language:** PHP 8.2+
+- **Database:** MySQL 8.0+
+- **ORM:** Eloquent
+- **Authentication:** Laravel Breeze (custom)
+- **Export:** Maatwebsite Laravel Excel
 
-Tambahan pada project ini menyediakan:
-- Autentikasi sederhana (register, login, logout)
-- Katalog produk + halaman detail mirip Tokopedia (ringkas)
-- Ulasan dengan rating 1-5; 1 ulasan per user per produk (update jika kirim lagi)
+### **Frontend**
+- **CSS Framework:** TailwindCSS 3.x
+- **Icons:** Unicons
+- **JavaScript:** Alpine.js 3.x
+- **Charts:** Chart.js 4.x
+- **Fonts:** Google Fonts (Inter)
 
-### Menjalankan
+### **External APIs**
+- **Wilayah Indonesia API:** [emsifa/api-wilayah-indonesia](https://github.com/emsifa/api-wilayah-indonesia)
+  - 38 Provinsi
+  - 514 Kota/Kabupaten
+  - 7,200+ Kecamatan
+  - **83,000+ Kelurahan/Desa**
 
-1. Atur `.env` database Anda, lalu jalankan:
-   - `php artisan key:generate`
-   - `php artisan migrate`
-   - (opsional) `php artisan db:seed`
-2. Jalankan server pengembangan:
-   - `php artisan serve`
-3. Buka `http://127.0.0.1:8000` untuk melihat katalog.
+### **Development Tools**
+- **Composer** 2.x - PHP dependency manager
+- **NPM** - Node package manager
+- **Vite** - Frontend build tool
+- **Git** - Version control
 
-Seeder membuat user contoh: `test@example.com` (password default dari factory Laravel).
+---
+
+## 📋 **System Requirements**
+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| **PHP** | 8.2.0 | 8.3+ |
+| **MySQL** | 8.0 | 8.0+ |
+| **Composer** | 2.5 | Latest |
+| **Node.js** | 18.x | 20.x+ |
+| **NPM** | 9.x | Latest |
+| **Memory** | 512 MB | 1 GB+ |
+| **Disk Space** | 500 MB | 1 GB+ |
+
+### **PHP Extensions Required:**
+- OpenSSL
+- PDO
+- Mbstring
+- Tokenizer
+- XML
+- Ctype
+- JSON
+- BCMath
+- Fileinfo
+- GD (untuk image upload)
+- Zip (untuk Excel export)
+
+---
+
+## 🚀 **Instalasi**
+
+### **1. Clone Repository**
+```bash
+git clone https://github.com/yourusername/kampustore.git
+cd kampustore
+```
+
+### **2. Install Dependencies**
+```bash
+# Install PHP dependencies
+composer install
+
+# Install Node dependencies
+npm install
+```
+
+### **3. Environment Setup**
+```bash
+# Copy environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+```
+
+### **4. Configure Database**
+
+Edit file `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=kampustore
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+Create database:
+```bash
+mysql -u root -p
+CREATE DATABASE kampustore;
+exit;
+```
+
+### **5. Run Migrations**
+```bash
+php artisan migrate
+```
+
+### **6. Seed Database (Optional)**
+```bash
+php artisan db:seed
+```
+
+Seeder akan membuat:
+- 1 Admin user
+- 5 Seller accounts (1 approved, 4 pending)
+- 20+ Sample products
+- Sample reviews
+
+### **7. Storage Link**
+```bash
+php artisan storage:link
+```
+
+### **8. Build Assets**
+```bash
+npm run build
+# Atau untuk development:
+npm run dev
+```
+
+### **9. Start Server**
+```bash
+php artisan serve
+```
+
+Akses aplikasi di: **http://127.0.0.1:8000** 🎉
+
+---
+
+## 🔑 **Demo Akun**
+
+Setelah menjalankan `php artisan db:seed`, gunakan akun berikut:
+
+### **👨‍💼 Admin**
+```
+Email: admin@kampustore.com
+Password: admin123
+Dashboard: /admin/dashboard
+```
+
+### **🏪 Seller (Approved)**
+```
+Email: seller@kampustore.com
+Password: seller123
+Dashboard: /seller/dashboard
+```
+
+### **🛒 Guest (No Login Required)**
+```
+Langsung akses: /products
+Bisa langsung belanja tanpa registrasi!
+```
+
+---
+
+## 🌐 **API Integration**
+
+KampuStore mengintegrasikan **API Wilayah Indonesia** untuk data alamat lengkap:
+
+### **Endpoints Used:**
+```javascript
+BASE_URL: https://www.emsifa.com/api-wilayah-indonesia/api
+
+GET /provinces.json              // 38 Provinsi
+GET /regencies/{prov_id}.json    // Kota/Kabupaten
+GET /districts/{city_id}.json    // Kecamatan
+GET /villages/{dist_id}.json     // Kelurahan/Desa
+```
+
+### **Features:**
+- ✅ Dynamic cascading dropdowns
+- ✅ Smart client-side caching
+- ✅ Offline fallback data
+- ✅ Loading states
+- ✅ Error handling
+
+### **Coverage:**
+- **38** Provinsi di Indonesia
+- **514** Kota/Kabupaten
+- **7,200+** Kecamatan
+- **83,000+** Kelurahan/Desa
+
+Data diambil langsung dari API saat user registrasi toko.
+
+---
+
+## 📁 **Project Structure**
+
+```
+kampustore/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/          # Admin controllers
+│   │   │   │   ├── DashboardController.php
+│   │   │   │   ├── SellerController.php
+│   │   │   │   └── ReportController.php
+│   │   │   ├── Seller/         # Seller controllers
+│   │   │   │   ├── DashboardController.php
+│   │   │   │   ├── ProductController.php
+│   │   │   │   └── ReportController.php
+│   │   │   ├── AuthController.php
+│   │   │   ├── ProductController.php
+│   │   │   └── ReviewController.php
+│   │   └── Middleware/
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Seller.php
+│   │   ├── Product.php
+│   │   └── Review.php
+│   └── Exports/                # Excel export classes
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── resources/
+│   └── views/
+│       ├── Admin/              # Admin views
+│       │   ├── Dashboard.blade.php
+│       │   ├── Sellers/
+│       │   └── reports/
+│       ├── Seller/             # Seller views
+│       │   ├── dashboard.blade.php
+│       │   ├── products/
+│       │   └── reports/
+│       ├── auth/               # Auth pages
+│       ├── products/           # Public product pages
+│       └── home.blade.php      # Landing page
+├── routes/
+│   └── web.php                 # All routes
+└── public/
+    └── images/                 # Uploaded images
+```
+
+---
+
+## 🎨 **Screenshots**
+
+### **Homepage**
+Landing page dengan hero section dan featured products.
+
+### **Product Catalog**
+Grid layout responsive dengan filter dan search.
+
+### **Seller Dashboard**
+Overview produk, rating, dan quick actions.
+
+### **Admin Reports**
+Charts dan tabel dengan export to Excel.
+
+### **Registration Form**
+Form lengkap dengan API wilayah Indonesia.
+
+---
+
+## 🐛 **Troubleshooting**
+
+### **Issue: "Class not found"**
+```bash
+composer dump-autoload
+php artisan optimize:clear
+```
+
+### **Issue: "Permission denied" (Storage)**
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+### **Issue: "API Wilayah tidak load"**
+- Cek koneksi internet
+- Fallback data otomatis aktif untuk offline mode
+- Data minimal tersedia untuk Semarang, Jakarta, Jambi
+
+### **Issue: "Excel export error"**
+```bash
+# Pastikan extension PHP zip dan GD terinstall
+composer require maatwebsite/excel
+```
+
+### **Issue: "Alpine.js dropdown tidak bekerja"**
+- Hard refresh browser: `Ctrl+Shift+R` / `Cmd+Shift+R`
+- Clear browser cache
+- Pastikan Alpine.js CDN loaded (cek Console)
+
+---
+
+## 📝 **License**
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👥 **Contributors**
+
+Developed with ❤️ by Team KampuStore - UNDIP Software Engineering Students
+
+- **Project Manager:** -
+- **Lead Developer:** -
+- **Backend Developer:** -
+- **Frontend Developer:** -
+- **QA Tester:** -
+
+---
+
+## 🙏 **Acknowledgments**
+
+- **Laravel** - The PHP Framework for Web Artisans
+- **TailwindCSS** - Utility-first CSS framework
+- **Alpine.js** - Lightweight JavaScript framework
+- **Maatwebsite Excel** - Laravel Excel package
+- **Chart.js** - Simple yet flexible JavaScript charting
+- **API Wilayah Indonesia** by [emsifa](https://github.com/emsifa/api-wilayah-indonesia)
+- **Unicons** - Open-source icon library
+
+---
+
+## 📧 **Contact & Support**
+
+Untuk pertanyaan, bug reports, atau feature requests:
+
+- **Email:** kampustore@undip.ac.id
+- **GitHub Issues:** [Create an issue](https://github.com/yourusername/kampustore/issues)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for UNDIP Students**
+
+⭐ Star this repo if you find it helpful!
+
+</div>
