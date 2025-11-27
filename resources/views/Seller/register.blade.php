@@ -841,7 +841,7 @@
                 <div class="auth-eyebrow">SELLER REGISTRATION</div>
                 <h1 class="auth-title">Buka Toko di kampuStore</h1>
                 <p class="auth-subtitle">
-                    Isi data toko dan penanggung jawab (PIC) di bawah ini. Pengajuanmu akan diperiksa oleh admin sebelum toko aktif.
+                    Isi data toko dan data diri Anda sebagai pemilik/penanggung jawab toko. Pengajuan akan diperiksa oleh admin sebelum toko aktif.
                 </p>
 
                 @if($errors->any())
@@ -860,7 +860,7 @@
                     <div class="step-nav">
                         <div class="step-pill step-pill--active" data-step="1">
                             <span class="step-pill-number">1</span>
-                            <span class="step-pill-text">Data Toko & PIC</span>
+                            <span class="step-pill-text">Data Toko & Pemilik</span>
                         </div>
                         <div class="step-line"></div>
                         <div class="step-pill" data-step="2">
@@ -909,9 +909,9 @@
                             @enderror
                         </div>
 
-                        <div class="section-label">Data PIC</div>
+                        <div class="section-label">Data Pemilik Toko (Anda)</div>
 
-                        {{-- Nama PIC & No HP PIC --}}
+                        {{-- Nama Lengkap & No HP --}}
                         <div class="field-row">
                             <div class="field-group group">
                                 <input
@@ -919,13 +919,13 @@
                                     type="text"
                                     name="nama_pic"
                                     class="auth-input"
-                                    value="{{ old('nama_pic') }}"
+                                    value="{{ old('nama_pic', Auth::user()->name) }}"
                                     required
                                     placeholder=" "
                                 >
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
-                                <label for="nama_pic">Nama PIC</label>
+                                <label for="nama_pic">Nama Lengkap</label>
                                 @error('nama_pic')
                                     <div class="auth-error">{{ $message }}</div>
                                 @enderror
@@ -943,14 +943,14 @@
                                 >
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
-                                <label for="no_hp_pic">No HP PIC</label>
+                                <label for="no_hp_pic">No. HP / WhatsApp</label>
                                 @error('no_hp_pic')
                                     <div class="auth-error">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
 
-                        {{-- No KTP PIC (wajib) --}}
+                        {{-- No KTP (wajib) --}}
                         <div class="field-group group">
                             <input
                                 id="no_ktp_pic"
@@ -963,32 +963,32 @@
                             >
                             <span class="highlight"></span>
                             <span class="bar"></span>
-                            <label for="no_ktp_pic">No KTP PIC</label>
+                            <label for="no_ktp_pic">No. KTP (NIK)</label>
                             @error('no_ktp_pic')
                                 <div class="auth-error">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        {{-- Email PIC --}}
+                        {{-- Email --}}
                         <div class="field-group group">
                             <input
                                 id="email_pic"
                                 type="email"
                                 name="email_pic"
                                 class="auth-input"
-                                value="{{ old('email_pic') }}"
+                                value="{{ old('email_pic', Auth::user()->email) }}"
                                 required
                                 placeholder=" "
                             >
                             <span class="highlight"></span>
                             <span class="bar"></span>
-                            <label for="email_pic">Email PIC</label>
+                            <label for="email_pic">Email (gunakan email @students.undip.ac.id)</label>
                             @error('email_pic')
                                 <div class="auth-error">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        {{-- Alamat PIC --}}
+                        {{-- Alamat Lengkap --}}
                         <div class="field-group group">
                             <textarea
                                 id="alamat_pic"
@@ -999,7 +999,7 @@
                             >{{ old('alamat_pic') }}</textarea>
                             <span class="highlight"></span>
                             <span class="bar"></span>
-                            <label for="alamat_pic">Alamat lengkap PIC</label>
+                            <label for="alamat_pic">Alamat Lengkap (Jalan, No. Rumah)</label>
                             @error('alamat_pic')
                                 <div class="auth-error">{{ $message }}</div>
                             @enderror
@@ -1125,25 +1125,10 @@
 
                     {{-- ================== STEP 2 ================== --}}
                     <div class="step step-2">
-                        <div class="section-label">Tahap 2 · Verifikasi Identitas PIC</div>
+                        <div class="section-label">Tahap 2 · Verifikasi Identitas</div>
 
                         <div class="file-group">
-                            <div class="file-label-main">Foto KTP (depan)</div>
-                            <input
-                                type="file"
-                                name="foto_ktp"
-                                class="file-input"
-                                accept=".jpg,.jpeg,.png"
-                                required
-                            >
-                            <div class="file-help">Format JPG/PNG, maks 2 MB.</div>
-                            @error('foto_ktp')
-                                <div class="auth-error">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="file-group">
-                            <div class="file-label-main">Foto PIC (wajah)</div>
+                            <div class="file-label-main">Foto Anda (Selfie)</div>
                             <input
                                 type="file"
                                 name="foto_pic"
@@ -1151,14 +1136,14 @@
                                 accept=".jpg,.jpeg,.png"
                                 required
                             >
-                            <div class="file-help">Format JPG/PNG, maks 2 MB.</div>
+                            <div class="file-help">Foto wajah jelas, format JPG/PNG, maks 2 MB.</div>
                             @error('foto_pic')
                                 <div class="auth-error">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="file-group">
-                            <div class="file-label-main">File scan KTP (PDF / JPG)</div>
+                            <div class="file-label-main">File Scan KTP (PDF / JPG)</div>
                             <input
                                 type="file"
                                 name="file_ktp_pic"
@@ -1166,7 +1151,7 @@
                                 accept=".pdf,.jpg,.jpeg,.png"
                                 required
                             >
-                            <div class="file-help">PDF atau JPG/PNG, maks 4 MB.</div>
+                            <div class="file-help">Scan atau foto KTP yang jelas, PDF atau JPG/PNG, maks 4 MB.</div>
                             @error('file_ktp_pic')
                                 <div class="auth-error">{{ $message }}</div>
                             @enderror

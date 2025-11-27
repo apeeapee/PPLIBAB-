@@ -36,15 +36,16 @@ class SellerRegistrationController extends Controller
             'rw'                => 'required|string|max:5',
 
             'kelurahan'         => 'required|string|max:255',
-            'provinsi'          => 'required|string|max:255',
+            'kecamatan'         => 'required|string|max:255',
             'kota'              => 'required|string|max:255',
+            'kode_pos'          => 'required|string|max:10',
 
             'no_ktp_pic'        => 'required|string|max:30',
 
             'foto_pic'          => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'file_ktp_pic'      => 'required|mimes:pdf,jpg,jpeg,png|max:4096',
         ], [
-            'email_pic.regex' => 'Email PIC harus menggunakan email @students.undip.ac.id!',
+            'email_pic.regex' => 'Email harus menggunakan email @students.undip.ac.id!',
         ]);
 
         // Pastikan user login
@@ -79,8 +80,10 @@ class SellerRegistrationController extends Controller
             'rt'                => $validated['rt'],
             'rw'                => $validated['rw'],
             'kelurahan'         => $validated['kelurahan'],
-            'provinsi'          => $validated['provinsi'],
+            'kecamatan'         => $validated['kecamatan'],
+            'provinsi'          => 'Jawa Tengah',
             'kota'              => $validated['kota'],
+            'kode_pos'          => $validated['kode_pos'],
 
             'foto_pic'          => $fotoPicPath,
             'file_ktp_pic'      => $fileKtpPath,

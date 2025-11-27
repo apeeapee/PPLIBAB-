@@ -101,6 +101,18 @@ Route::middleware('auth')->get('/market/dashboard', [\App\Http\Controllers\Selle
 
 /*
 |--------------------------------------------------------------------------
+| Seller Registration
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('/seller/register', [SellerRegistrationController::class, 'create'])
+        ->name('seller.register');
+    Route::post('/seller/register', [SellerRegistrationController::class, 'store'])
+        ->name('seller.register.store');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Seller Product Management (SRS-MartPlace-03)
 |--------------------------------------------------------------------------
 */
