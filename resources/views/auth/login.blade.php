@@ -823,7 +823,7 @@
                 <div class="auth-eyebrow">WELCOME BACK</div>
                 <h1 class="auth-title">Login</h1>
                 <p class="auth-subtitle">
-                    Masuk dengan email kampus UNDIP untuk melanjutkan transaksi di kampuStore.
+                    Masuk dengan email untuk melanjutkan transaksi di kampuStore.
                 </p>
 
                 {{-- Info dari login baru: pembeli tidak perlu login --}}

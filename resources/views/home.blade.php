@@ -1203,7 +1203,7 @@
                 </a>
             </div>
             <div class="hero-bottom-text">
-                Hanya untuk civitas UNDIP | Transaksi lebih aman | Barang relevan untuk kuliah
+                 Transaksi lebih aman | Barang relevan untuk kuliah
             </div>
         </div>
 
