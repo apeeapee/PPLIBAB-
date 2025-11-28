@@ -1,6 +1,4 @@
-@php
-    $title = 'Forgot Password | kampuStore';
-@endphp
+@php($title = 'Forgot Password | kampuStore')
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,13 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title }}</title>
 
-    {{-- Icon Unicons --}}
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
 
-        /* ===================== THEME VARIABLES (SAMA DENGAN HOME/LOGIN) ===================== */
+        /* ===================== THEME VARIABLES (SAMA PERSIS LOGIN) ===================== */
         :root{
           --bg-body:#050b1f;
           --text-main:#e5e7eb;
@@ -26,7 +21,31 @@
 
           --market-bg:radial-gradient(circle at top left,#1f3b8a 0,#020617 52%,#020617 100%);
 
+          --sidebar-bg:rgba(15,23,42,0.96);
+          --sidebar-border:rgba(59,130,246,0.65);
+          --sidebar-scroll-thumb:#4b5563;
+          
+          --sidebar-divider:rgba(55,65,81,0.85);
+          --sidebar-select-bg:#020617;
+          --sidebar-select-border:#3b82f6;
+          --sidebar-text:#e5e7eb;
+
+          --search-bg:#020617;
+          --search-border:#1d4ed8;
+          --search-text:#e5e7eb;
+          --search-placeholder:#9ca3af;
+
+          --icon-border:rgba(59,130,246,0.7);
+          --icon-bg:rgba(15,23,42,0.9);
+          --icon-color:#e5e7eb;
+
           --page-title-color:#f9fafb;
+          --breadcrumb-color:#9ca3af;
+
+          --reset-btn-bg:#020617;
+          --reset-btn-border:#1f2937;
+
+          --toast-bg:#020617;
         }
 
         body.theme-light{
@@ -45,7 +64,31 @@
               #d5ddff 100%
           );
 
+          --sidebar-bg:#ffffff;
+          --sidebar-border:#cfd6f5;
+          --sidebar-scroll-thumb:#97a3d5;
+          --sidebar-divider:#d6dcfa;
+
+          --sidebar-select-bg:#f2f4ff;
+          --sidebar-select-border:#b9c4ef;
+          --sidebar-text:#1f2b60;
+
+          --search-bg:#ffffff;
+          --search-border:#c4ccf2;
+          --search-text:#1a1f3f;
+          --search-placeholder:#9aa6d6;
+
+          --icon-border:#c4ccf2;
+          --icon-bg:#ffffff;
+          --icon-color:#1b234a;
+
           --page-title-color:#1a2450;
+          --breadcrumb-color:#6b76a5;
+
+          --reset-btn-bg:#e3e6ff;
+          --reset-btn-border:#c5cdf5;
+
+          --toast-bg:#1b2652;
         }
 
         /* ===================== GLOBAL BODY ===================== */
@@ -162,7 +205,7 @@
         }
         .slider:before{
             position:absolute;
-            content:"☀";
+            content:"☀️";
             height:28px;
             width:28px;
             left:4px;
@@ -567,12 +610,7 @@
         }
 
         @media(max-width:900px){
-            .nav{padding:14px 18px;}
-            .nav-left{gap:18px;}
-            .nav-menu{
-                gap:18px;
-                font-size:13px;
-            }
+            .nav{padding:14px 20px;}
             .auth-bg{padding:110px 18px 40px;}
             .auth-shell{
                 max-width:520px;
@@ -597,9 +635,8 @@
         </a>
         <div class="nav-menu">
             <a href="{{ route('home') }}">Home</a>
-            <a href="{{ route('home') }}#features">Features</a>
-            <a href="{{ route('products.index') }}">Market</a>
             <a href="{{ route('home') }}#about">About</a>
+            <a href="{{ route('products.index') }}">Market</a>
             <a href="{{ route('home') }}#contact">Contact</a>
         </div>
     </div>

@@ -1,6 +1,4 @@
-@php
-    $title = 'Dashboard Admin | kampuStore';
-@endphp
+@php($title = 'Dashboard Admin | kampuStore')
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,530 +7,390 @@
     <title>{{ $title }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    
     <style>
-        :root {
-            --bg-main: radial-gradient(circle at top left,#1f3b8a 0,#020617 52%,#020617 100%);
-            --nav-bg: rgba(2,6,23,0.95);
-            --card-bg: rgba(15,23,42,0.96);
-            --card-border: rgba(148,163,184,0.2);
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --sidebar-bg: rgba(15,23,42,0.96);
-            --sidebar-border: rgba(148,163,184,0.2);
-            --accent: #f97316;
-            --accent-hover: #fb923c;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
-        body.theme-light {
-            --bg-main: linear-gradient(135deg, #ffffff 0%, #e3e8ff 40%, #d5ddff 100%);
-            --nav-bg: rgba(255,255,255,0.95);
-            --card-bg: rgba(255,255,255,0.96);
-            --card-border: #e5e7eb;
-            --text-main: #111827;
-            --text-muted: #6b7280;
-            --sidebar-bg: rgba(255,255,255,0.96);
-            --sidebar-border: #e5e7eb;
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-        * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; box-sizing: border-box; }
-        body { margin:0; background: var(--bg-main); min-height:100vh; color: var(--text-main); }
-
-        .nav {
-            position:fixed;top:0;left:0;right:0;z-index:100;
-            background:var(--nav-bg);backdrop-filter:blur(20px);
-            border-bottom:1px solid rgba(249,115,22,0.3);
-            padding:12px 32px;display:flex;align-items:center;justify-content:space-between;
+        
+        .card-hover {
+            transition: all 0.3s ease;
         }
-        .nav-left { display:flex;align-items:center;gap:32px; }
-        .nav-logo { display:flex;align-items:center;gap:10px;text-decoration:none; }
-        .nav-logo img { height:38px;width:38px; }
-        .nav-logo span { font-size:22px;font-weight:700;color:var(--text-main); }
-        .nav-menu { display:flex;gap:24px; }
-        .nav-menu a { color:var(--text-muted);font-size:14px;font-weight:500;text-decoration:none;transition:color .2s; }
-        .nav-menu a:hover, .nav-menu a.active { color:var(--accent); }
-        .nav-actions { display:flex;align-items:center;gap:16px; }
-
-        .theme-toggle-wrapper{display:flex;justify-content:center;align-items:center;}
-        .toggle-switch{position:relative;display:inline-block;width:74px;height:36px;transform:scale(.95);transition:transform .2s;}
-        .toggle-switch:hover{transform:scale(1);}
-        .toggle-switch input{opacity:0;width:0;height:0;}
-        .slider{position:absolute;cursor:pointer;inset:0;background:linear-gradient(145deg,#fbbf24,#f97316);transition:.4s;border-radius:34px;box-shadow:0 0 12px rgba(249,115,22,0.5);overflow:hidden;}
-        .slider:before{position:absolute;content:"☀";height:28px;width:28px;left:4px;bottom:4px;background:white;transition:.4s;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 10px rgba(0,0,0,.15);z-index:2;}
-        .clouds{position:absolute;width:100%;height:100%;overflow:hidden;pointer-events:none;}
-        .cloud{position:absolute;width:24px;height:24px;fill:rgba(255,255,255,0.9);filter:drop-shadow(0 2px 3px rgba(0,0,0,0.08));}
-        .cloud1{top:6px;left:10px;animation:floatCloud1 8s infinite linear;}
-        .cloud2{top:10px;left:38px;transform:scale(.85);animation:floatCloud2 12s infinite linear;}
-        @keyframes floatCloud1{0%{transform:translateX(-20px);opacity:0;}20%{opacity:1;}80%{opacity:1;}100%{transform:translateX(80px);opacity:0;}}
-        @keyframes floatCloud2{0%{transform:translateX(-20px) scale(.85);opacity:0;}20%{opacity:.7;}80%{opacity:.7;}100%{transform:translateX(80px) scale(.85);opacity:0;}}
-        input.js-theme-toggle:checked + .slider{background:linear-gradient(145deg,#1f2937,#020617);box-shadow:0 0 14px rgba(15,23,42,0.8);}
-        input.js-theme-toggle:checked + .slider:before{transform:translateX(38px);content:"🌙";}
-        input.js-theme-toggle:checked + .slider .cloud{opacity:0;transform:translateY(-18px);}
-
-        .btn-logout {
-            border:none;background:rgba(239,68,68,0.1);color:#ef4444;cursor:pointer;
-            padding:8px 16px;border-radius:50px;font-size:13px;font-weight:600;transition:all .3s;
-            display:flex;align-items:center;gap:6px;
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        .btn-logout:hover{background:#ef4444;color:white;}
-
-        .main-container { max-width:1400px;margin:0 auto;padding:90px 24px 40px;display:grid;grid-template-columns:260px 1fr;gap:28px; }
-        @media(max-width:900px) { .main-container { grid-template-columns:1fr;padding-top:80px; } }
-
-        .sidebar {
-            background:var(--sidebar-bg);border-radius:16px;padding:24px;
-            border:1px solid var(--sidebar-border);box-shadow:0 10px 40px rgba(0,0,0,0.2);
-            position:sticky;top:90px;max-height:calc(100vh - 110px);overflow-y:auto;
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .sidebar-section { margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--sidebar-border); }
-        .sidebar-section:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
-        .sidebar-title { font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px; }
-        .sidebar-menu { display:flex;flex-direction:column;gap:6px; }
-        .sidebar-link {
-            display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;
-            font-size:14px;font-weight:500;color:var(--text-main);text-decoration:none;transition:all .2s;
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
         }
-        .sidebar-link:hover { background:rgba(249,115,22,0.1);color:var(--accent); }
-        .sidebar-link.active { background:rgba(249,115,22,0.15);color:var(--accent);font-weight:600; }
-        .sidebar-link i { font-size:20px;width:24px;text-align:center; }
-
-        .admin-badge {
-            background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);
-            border-radius:12px;padding:16px;text-align:center;
-        }
-        .admin-name { font-size:16px;font-weight:700;color:var(--text-main);margin-bottom:4px; }
-        .admin-role { display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:50px;font-size:12px;font-weight:600;background:rgba(249,115,22,0.2);color:var(--accent); }
-
-        .content { min-width:0; }
-        .page-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px; }
-        .page-title { font-size:28px;font-weight:800;color:var(--text-main);margin:0; }
-        .page-subtitle { font-size:14px;color:var(--text-muted);margin-top:4px; }
-        .header-stats { text-align:right; }
-        .header-date { font-size:13px;color:var(--text-muted); }
-        .header-total { font-size:28px;font-weight:800;color:var(--accent); }
-        .header-label { font-size:12px;color:var(--text-muted); }
-
-        .stats-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:28px; }
-        .stat-card {
-            background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;
-            padding:24px;transition:all .3s;border-left:4px solid transparent;
-        }
-        .stat-card:hover { transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.2); }
-        .stat-card.yellow { border-left-color:#eab308; }
-        .stat-card.green { border-left-color:#22c55e; }
-        .stat-card.red { border-left-color:#ef4444; }
-        .stat-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px; }
-        .stat-icon { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px; }
-        .stat-icon.yellow { background:rgba(234,179,8,0.2);color:#eab308; }
-        .stat-icon.green { background:rgba(34,197,94,0.2);color:#22c55e; }
-        .stat-icon.red { background:rgba(239,68,68,0.2);color:#ef4444; }
-        .stat-pct { padding:4px 10px;border-radius:50px;font-size:11px;font-weight:600; }
-        .stat-pct.yellow { background:rgba(234,179,8,0.2);color:#eab308; }
-        .stat-pct.green { background:rgba(34,197,94,0.2);color:#22c55e; }
-        .stat-pct.red { background:rgba(239,68,68,0.2);color:#ef4444; }
-        .stat-label { font-size:13px;color:var(--text-muted);margin-bottom:4px; }
-        .stat-value { font-size:32px;font-weight:800;color:var(--text-main); }
-        .stat-desc { font-size:12px;color:var(--text-muted);margin-top:4px; }
-
-        .charts-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:24px;margin-bottom:28px; }
-        @media(max-width:900px) { .charts-grid { grid-template-columns:1fr; } }
-        .chart-card { background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px; }
-        .chart-title { font-size:18px;font-weight:700;color:var(--text-main);margin-bottom:4px; }
-        .chart-subtitle { font-size:13px;color:var(--text-muted);margin-bottom:24px; }
-
-        .bar-chart { display:flex;align-items:flex-end;justify-content:space-around;height:200px;border-left:1px solid var(--card-border);border-bottom:1px solid var(--card-border);padding:20px 10px 0; }
-        .bar-item { display:flex;flex-direction:column;align-items:center;width:80px; }
-        .bar { width:100%;border-radius:8px 8px 0 0;position:relative;min-height:20px; }
-        .bar.yellow { background:linear-gradient(to top,#eab308,#fbbf24); }
-        .bar.green { background:linear-gradient(to top,#22c55e,#4ade80); }
-        .bar.red { background:linear-gradient(to top,#ef4444,#f87171); }
-        .bar-value { position:absolute;top:-28px;left:50%;transform:translateX(-50%);padding:4px 8px;border-radius:6px;font-size:12px;font-weight:700;color:white; }
-        .bar-value.yellow { background:#eab308; }
-        .bar-value.green { background:#22c55e; }
-        .bar-value.red { background:#ef4444; }
-        .bar-label { font-size:12px;color:var(--text-muted);margin-top:8px;font-weight:500; }
-
-        .progress-list { display:flex;flex-direction:column;gap:20px; }
-        .progress-item {}
-        .progress-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px; }
-        .progress-label { display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--text-main); }
-        .progress-dot { width:10px;height:10px;border-radius:50%; }
-        .progress-dot.yellow { background:#eab308; }
-        .progress-dot.green { background:#22c55e; }
-        .progress-dot.red { background:#ef4444; }
-        .progress-value { font-size:14px;font-weight:700;color:var(--text-main); }
-        .progress-bar { height:8px;background:rgba(148,163,184,0.2);border-radius:50px;overflow:hidden; }
-        .progress-fill { height:100%;border-radius:50px; }
-        .progress-fill.yellow { background:linear-gradient(to right,#eab308,#fbbf24); }
-        .progress-fill.green { background:linear-gradient(to right,#22c55e,#4ade80); }
-        .progress-fill.red { background:linear-gradient(to right,#ef4444,#f87171); }
-        .progress-total { margin-top:24px;padding-top:20px;border-top:1px solid var(--card-border);display:flex;align-items:center;justify-content:space-between; }
-        .progress-total-label { font-size:14px;font-weight:500;color:var(--text-main); }
-        .progress-total-value { font-size:28px;font-weight:800;color:var(--accent); }
-
-        .quick-actions { background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px; }
-        .quick-title { font-size:18px;font-weight:700;color:var(--text-main);margin-bottom:20px; }
-        .quick-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px; }
-        .quick-link {
-            display:flex;align-items:center;gap:16px;padding:16px;border:2px solid var(--card-border);
-            border-radius:12px;text-decoration:none;transition:all .2s;
-        }
-        .quick-link:hover { border-color:var(--accent);background:rgba(249,115,22,0.05); }
-        .quick-icon { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px; }
-        .quick-icon.purple { background:rgba(168,85,247,0.2);color:#a855f7; }
-        .quick-icon.blue { background:rgba(59,130,246,0.2);color:#3b82f6; }
-        .quick-icon.orange { background:rgba(249,115,22,0.2);color:#f97316; }
-        .quick-text-main { font-size:14px;font-weight:600;color:var(--text-main); }
-        .quick-text-sub { font-size:12px;color:var(--text-muted); }
-
-        .footer { background:var(--nav-bg);border-top:1px solid var(--card-border);padding:20px 32px;text-align:center;margin-top:auto; }
-        .footer p { font-size:13px;color:var(--text-muted); }
-        .footer span { color:var(--accent);font-weight:600; }
-
-        @media(max-width:900px) {
-            .nav { padding:12px 16px; }
-            .nav-menu { display:none; }
-            .sidebar { position:relative;top:0;max-height:none; }
-            .main-container { padding:80px 16px 32px; }
-            .page-header { flex-direction:column;align-items:flex-start; }
-            .header-stats { text-align:left; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
     </style>
 </head>
-<body class="theme-dark">
+<body class="bg-gradient-to-br from-purple-50 to-indigo-100">
 
-<nav class="nav">
-    <div class="nav-left">
-        <a href="{{ route('home') }}" class="nav-logo">
-            <img src="{{ asset('images/logo.png') }}" alt="kampuStore">
-            <span>kampuStore</span>
-        </a>
-        <div class="nav-menu">
-            <a href="{{ route('home') }}">Home</a>
-            <a href="{{ route('home') }}#features">Features</a>
-            <a href="{{ route('products.index') }}">Market</a>
-            <a href="{{ route('home') }}#about">About</a>
-            <a href="{{ route('home') }}#contact">Contact</a>
-        </div>
-    </div>
-    <div class="nav-actions">
-        <div class="theme-toggle-wrapper">
-            <label class="toggle-switch">
-                <input type="checkbox" class="js-theme-toggle" />
-                <span class="slider">
-                    <div class="clouds">
-                        <svg viewBox="0 0 100 100" class="cloud cloud1"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
-                        <svg viewBox="0 0 100 100" class="cloud cloud2"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
-                    </div>
-                </span>
-            </label>
-        </div>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="btn-logout">
-                <i class="uil uil-sign-out-alt"></i> Logout
-            </button>
-        </form>
-    </div>
-</nav>
-
-<div class="main-container">
-    <aside class="sidebar">
-        <div class="sidebar-section">
-            <div class="admin-badge">
-                <div class="admin-name">{{ auth()->user()->name }}</div>
-                <span class="admin-role"><i class="uil uil-shield-check"></i> Admin</span>
-            </div>
-        </div>
-
-        <div class="sidebar-section">
-            <div class="sidebar-title">Menu</div>
-            <div class="sidebar-menu">
-                <a href="{{ route('admin.dashboard') }}" class="sidebar-link active">
-                    <i class="uil uil-dashboard"></i> Dashboard
-                </a>
-                <a href="{{ route('admin.sellers.index') }}" class="sidebar-link">
-                    <i class="uil uil-store"></i> Pengajuan Toko
-                </a>
-            </div>
-        </div>
-
-        <div class="sidebar-section">
-            <div class="sidebar-title">Laporan</div>
-            <div class="sidebar-menu">
-                <a href="{{ route('admin.reports.sellers') }}" class="sidebar-link">
-                    <i class="uil uil-users-alt"></i> Daftar Penjual
-                </a>
-                <a href="{{ route('admin.reports.sellers-location') }}" class="sidebar-link">
-                    <i class="uil uil-map-marker"></i> Penjual per Lokasi
-                </a>
-                <a href="{{ route('admin.reports.product-ranking') }}" class="sidebar-link">
-                    <i class="uil uil-trophy"></i> Peringkat Produk
-                </a>
-            </div>
-        </div>
-    </aside>
-
-    <div class="content">
-        <div class="page-header">
-            <div>
-                <h1 class="page-title">Dashboard Admin</h1>
-                <p class="page-subtitle">Kelola pengajuan toko dan pantau aktivitas marketplace</p>
-            </div>
-            <div class="header-stats">
-                <div class="header-date">{{ now()->format('d F Y') }}</div>
-                <div class="header-total">{{ $total }}</div>
-                <div class="header-label">Total Pengajuan</div>
-            </div>
-        </div>
-
-        {{-- SRS-07: Statistik Utama --}}
-        <div class="stats-grid">
-            <div class="stat-card yellow">
-                <div class="stat-header">
-                    <div class="stat-icon yellow"><i class="uil uil-clock"></i></div>
-                    <span class="stat-pct yellow">{{ $pPct }}%</span>
-                </div>
-                <div class="stat-label">Pending</div>
-                <div class="stat-value">{{ $pending }}</div>
-                <div class="stat-desc">Menunggu verifikasi</div>
-            </div>
-            <div class="stat-card green">
-                <div class="stat-header">
-                    <div class="stat-icon green"><i class="uil uil-check-circle"></i></div>
-                    <span class="stat-pct green">{{ $aPct }}%</span>
-                </div>
-                <div class="stat-label">Penjual Aktif</div>
-                <div class="stat-value">{{ $approved }}</div>
-                <div class="stat-desc">Toko aktif</div>
-            </div>
-            <div class="stat-card red">
-                <div class="stat-header">
-                    <div class="stat-icon red"><i class="uil uil-times-circle"></i></div>
-                    <span class="stat-pct red">{{ $rPct }}%</span>
-                </div>
-                <div class="stat-label">Penjual Tidak Aktif</div>
-                <div class="stat-value">{{ $rejected }}</div>
-                <div class="stat-desc">Pengajuan ditolak</div>
-            </div>
-            {{-- SRS-07: Total Produk --}}
-            <div class="stat-card" style="border-left-color:#3b82f6;">
-                <div class="stat-header">
-                    <div class="stat-icon" style="background:rgba(59,130,246,0.2);color:#3b82f6;"><i class="uil uil-box"></i></div>
-                </div>
-                <div class="stat-label">Total Produk</div>
-                <div class="stat-value">{{ $totalProducts }}</div>
-                <div class="stat-desc">Produk di marketplace</div>
-            </div>
-            {{-- SRS-07: Total Review --}}
-            <div class="stat-card" style="border-left-color:#a855f7;">
-                <div class="stat-header">
-                    <div class="stat-icon" style="background:rgba(168,85,247,0.2);color:#a855f7;"><i class="uil uil-comment-alt-lines"></i></div>
-                </div>
-                <div class="stat-label">Total Ulasan</div>
-                <div class="stat-value">{{ $totalReviews }}</div>
-                <div class="stat-desc">Komentar & rating</div>
-            </div>
-            {{-- SRS-07: Jumlah Pengunjung yang Memberikan Review --}}
-            <div class="stat-card" style="border-left-color:#06b6d4;">
-                <div class="stat-header">
-                    <div class="stat-icon" style="background:rgba(6,182,212,0.2);color:#06b6d4;"><i class="uil uil-users-alt"></i></div>
-                </div>
-                <div class="stat-label">Pengunjung Reviewer</div>
-                <div class="stat-value">{{ $uniqueReviewers }}</div>
-                <div class="stat-desc">Guest: {{ $guestReviewers }} | User: {{ $userReviewers }}</div>
-            </div>
-        </div>
-
-        <div class="charts-grid">
-            <div class="chart-card">
-                <div class="chart-title">Statistik Pengajuan</div>
-                <div class="chart-subtitle">Distribusi status pengajuan toko</div>
-                <div class="bar-chart">
-                    <div class="bar-item">
-                        <div class="bar yellow" style="height:{{ max(20, $pPct) }}%;">
-                            <span class="bar-value yellow">{{ $pending }}</span>
-                        </div>
-                        <span class="bar-label">Pending</span>
-                    </div>
-                    <div class="bar-item">
-                        <div class="bar green" style="height:{{ max(20, $aPct) }}%;">
-                            <span class="bar-value green">{{ $approved }}</span>
-                        </div>
-                        <span class="bar-label">Approved</span>
-                    </div>
-                    <div class="bar-item">
-                        <div class="bar red" style="height:{{ max(20, $rPct) }}%;">
-                            <span class="bar-value red">{{ $rejected }}</span>
-                        </div>
-                        <span class="bar-label">Rejected</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chart-card">
-                <div class="chart-title">Ringkasan Status</div>
-                <div class="chart-subtitle">Detail persentase setiap status</div>
-                <div class="progress-list">
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span class="progress-label"><span class="progress-dot yellow"></span> Pending</span>
-                            <span class="progress-value">{{ $pending }} ({{ $pPct }}%)</span>
-                        </div>
-                        <div class="progress-bar"><div class="progress-fill yellow" style="width:{{ $pPct }}%;"></div></div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span class="progress-label"><span class="progress-dot green"></span> Disetujui</span>
-                            <span class="progress-value">{{ $approved }} ({{ $aPct }}%)</span>
-                        </div>
-                        <div class="progress-bar"><div class="progress-fill green" style="width:{{ $aPct }}%;"></div></div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span class="progress-label"><span class="progress-dot red"></span> Ditolak</span>
-                            <span class="progress-value">{{ $rejected }} ({{ $rPct }}%)</span>
-                        </div>
-                        <div class="progress-bar"><div class="progress-fill red" style="width:{{ $rPct }}%;"></div></div>
-                    </div>
-                </div>
-                <div class="progress-total">
-                    <span class="progress-total-label">Total Pengajuan</span>
-                    <span class="progress-total-value">{{ $total }}</span>
-                </div>
-            </div>
-        </div>
-
-        {{-- SRS-07: Chart Produk per Kategori dan Toko per Provinsi --}}
-        <div class="charts-grid">
-            {{-- Sebaran Produk per Kategori --}}
-            <div class="chart-card">
-                <div class="chart-title"><i class="uil uil-box"></i> Sebaran Produk per Kategori</div>
-                <div class="chart-subtitle">Distribusi jumlah produk berdasarkan kategori</div>
-                @if($productsByCategory->count() > 0)
-                    @php
-                        $maxProductCat = $productsByCategory->max('total') ?: 1;
-                        $catColors = ['#3b82f6', '#22c55e', '#f97316', '#a855f7', '#06b6d4', '#ef4444'];
-                    @endphp
-                    <div class="bar-chart" style="height:220px;">
-                        @foreach($productsByCategory as $idx => $cat)
-                            @php $pct = ($cat['total'] / $maxProductCat) * 100; @endphp
-                            <div class="bar-item">
-                                <div class="bar" style="height:{{ max(15, $pct) }}%; background:linear-gradient(to top, {{ $catColors[$idx % count($catColors)] }}, {{ $catColors[$idx % count($catColors)] }}99);">
-                                    <span class="bar-value" style="background:{{ $catColors[$idx % count($catColors)] }};">{{ $cat['total'] }}</span>
-                                </div>
-                                <span class="bar-label" style="font-size:10px;text-align:center;">{{ Str::limit($cat['category'], 12) }}</span>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div style="text-align:center;padding:40px;color:var(--text-muted);">
-                        <i class="uil uil-info-circle" style="font-size:40px;"></i>
-                        <p>Belum ada data produk</p>
-                    </div>
-                @endif
-            </div>
-
-            {{-- Sebaran Toko per Provinsi --}}
-            <div class="chart-card">
-                <div class="chart-title"><i class="uil uil-map-marker"></i> Sebaran Toko per Provinsi</div>
-                <div class="chart-subtitle">Distribusi jumlah toko berdasarkan lokasi provinsi</div>
-                @if($sellersByProvince->count() > 0)
-                    <div class="progress-list" style="max-height:240px;overflow-y:auto;">
-                        @php $maxSellerProv = $sellersByProvince->max('total') ?: 1; @endphp
-                        @foreach($sellersByProvince as $idx => $prov)
-                            @php 
-                                $provPct = ($prov->total / $maxSellerProv) * 100;
-                                $provColors = ['#3b82f6', '#22c55e', '#f97316', '#a855f7', '#06b6d4', '#ef4444'];
-                                $color = $provColors[$idx % count($provColors)];
-                            @endphp
-                            <div class="progress-item">
-                                <div class="progress-header">
-                                    <span class="progress-label">
-                                        <span class="progress-dot" style="background:{{ $color }};"></span> 
-                                        {{ $prov->provinsi }}
-                                    </span>
-                                    <span class="progress-value">{{ $prov->total }} toko</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width:{{ $provPct }}%;background:linear-gradient(to right, {{ $color }}, {{ $color }}99);"></div>
+    {{-- Navbar --}}
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-50 top-0 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3">
+                        <img src="{{ asset('images/logo.png') }}" alt="kampuStore" class="h-10 w-10">
+                        <span class="text-2xl font-bold gradient-text">kampuStore</span>
+                    </a>
+                    
+                    <div class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="{{ route('admin.dashboard') }}" class="border-purple-600 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            <i class="uil uil-estate mr-2"></i>Dashboard
+                        </a>
+                        <a href="{{ route('admin.sellers.index') }}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            <i class="uil uil-store mr-2"></i>Pengajuan Toko
+                        </a>
+                        <div class="relative" x-data="{ openReports: false }">
+                            <button @click="openReports = !openReports" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                <i class="uil uil-chart-line mr-2"></i>Laporan
+                                <i class="uil uil-angle-down ml-1"></i>
+                            </button>
+                            <div x-show="openReports" @click.away="openReports = false" 
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 class="absolute left-0 mt-2 w-64 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                                 style="display: none;">
+                                <div class="py-2">
+                                    <a href="{{ route('admin.reports.sellers') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50">
+                                        <i class="uil uil-users-alt mr-2"></i>Daftar Akun Penjual
+                                    </a>
+                                    <a href="{{ route('admin.reports.sellers-location') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50">
+                                        <i class="uil uil-map-marker mr-2"></i>Penjual per Lokasi
+                                    </a>
+                                    <a href="{{ route('admin.reports.product-ranking') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-50">
+                                        <i class="uil uil-trophy mr-2"></i>Peringkat Produk
+                                    </a>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
                     </div>
-                @else
-                    <div style="text-align:center;padding:40px;color:var(--text-muted);">
-                        <i class="uil uil-info-circle" style="font-size:40px;"></i>
-                        <p>Belum ada data toko per provinsi</p>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    @auth
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center space-x-3 focus:outline-none">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            </div>
+                        </button>
+                        
+                        <div x-show="open" @click.away="open = false" 
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                             style="display: none;">
+                            <div class="p-4 border-b border-gray-100">
+                                <p class="font-semibold text-gray-900">{{ auth()->user()->name }}</p>
+                                <p class="text-sm text-gray-500">Admin</p>
+                            </div>
+                            <div class="py-2">
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="uil uil-estate mr-2"></i>Dashboard
+                                </a>
+                                <a href="{{ route('products.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="uil uil-shopping-bag mr-2"></i>Market
+                                </a>
+                            </div>
+                            <div class="border-t border-gray-100 p-2">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded">
+                                        <i class="uil uil-sign-out-alt mr-2"></i>Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                @endif
+                    @endauth
+                </div>
             </div>
         </div>
+    </nav>
 
-        <div class="quick-actions">
-            <div class="quick-title">Aksi Cepat</div>
-            <div class="quick-grid">
-                <a href="{{ route('admin.sellers.index') }}" class="quick-link">
-                    <div class="quick-icon purple"><i class="uil uil-folder-open"></i></div>
+    {{-- Main Content --}}
+    <main class="pt-20 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            
+            {{-- Header --}}
+            <div class="mb-8 fade-in">
+                <div class="flex items-center justify-between">
                     <div>
-                        <div class="quick-text-main">Lihat Semua Pengajuan</div>
-                        <div class="quick-text-sub">Kelola pengajuan toko</div>
+                        <h1 class="text-4xl font-bold text-gray-900 mb-2">
+                            Dashboard Admin
+                        </h1>
+                        <p class="text-gray-600">
+                            Kelola pengajuan toko dan pantau aktivitas marketplace
+                        </p>
                     </div>
-                </a>
-                <a href="{{ route('products.index') }}" class="quick-link">
-                    <div class="quick-icon blue"><i class="uil uil-shopping-cart"></i></div>
-                    <div>
-                        <div class="quick-text-main">Ke Market</div>
-                        <div class="quick-text-sub">Lihat produk marketplace</div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">{{ now()->format('d F Y') }}</p>
+                        <p class="text-2xl font-bold text-purple-600">{{ $total }}</p>
+                        <p class="text-xs text-gray-500">Total Pengajuan</p>
                     </div>
-                </a>
-                <a href="{{ route('home') }}" class="quick-link">
-                    <div class="quick-icon orange"><i class="uil uil-home"></i></div>
-                    <div>
-                        <div class="quick-text-main">Beranda</div>
-                        <div class="quick-text-sub">Kembali ke homepage</div>
-                    </div>
-                </a>
+                </div>
             </div>
+
+            {{-- Stats Cards --}}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 fade-in">
+                
+                {{-- Pending Card --}}
+                <div class="card-hover bg-white rounded-2xl shadow-md p-6 border-l-4 border-yellow-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                            <i class="uil uil-clock text-yellow-600 text-2xl"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-semibold">
+                            {{ $pPct }}%
+                        </span>
+                    </div>
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Pending</h3>
+                    <p class="text-3xl font-bold text-gray-900">{{ $pending }}</p>
+                    <p class="text-xs text-gray-500 mt-2">Menunggu verifikasi</p>
+                </div>
+
+                {{-- Approved Card --}}
+                <div class="card-hover bg-white rounded-2xl shadow-md p-6 border-l-4 border-green-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="uil uil-check-circle text-green-600 text-2xl"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">
+                            {{ $aPct }}%
+                        </span>
+                    </div>
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Disetujui</h3>
+                    <p class="text-3xl font-bold text-gray-900">{{ $approved }}</p>
+                    <p class="text-xs text-gray-500 mt-2">Toko aktif</p>
+                </div>
+
+                {{-- Rejected Card --}}
+                <div class="card-hover bg-white rounded-2xl shadow-md p-6 border-l-4 border-red-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                            <i class="uil uil-times-circle text-red-600 text-2xl"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-semibold">
+                            {{ $rPct }}%
+                        </span>
+                    </div>
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Ditolak</h3>
+                    <p class="text-3xl font-bold text-gray-900">{{ $rejected }}</p>
+                    <p class="text-xs text-gray-500 mt-2">Pengajuan ditolak</p>
+                </div>
+
+            </div>
+
+            {{-- Charts Section --}}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 fade-in">
+                
+                {{-- Chart 1: Bar Chart --}}
+                <div class="bg-white rounded-2xl shadow-md p-6 card-hover">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-gray-900">Statistik Pengajuan</h3>
+                        <p class="text-sm text-gray-500">Distribusi status pengajuan toko</p>
+                    </div>
+                    
+                    <div class="flex items-end justify-around h-64 border-b border-l border-gray-200">
+                        {{-- Pending Bar --}}
+                        <div class="flex flex-col items-center w-1/4">
+                            <div class="w-full bg-gradient-to-t from-yellow-500 to-yellow-400 rounded-t-lg relative" 
+                                 style="height: {{ max(20, $pPct) }}%;">
+                                <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                    {{ $pending }}
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-2 font-medium">Pending</p>
+                        </div>
+                        
+                        {{-- Approved Bar --}}
+                        <div class="flex flex-col items-center w-1/4">
+                            <div class="w-full bg-gradient-to-t from-green-500 to-green-400 rounded-t-lg relative" 
+                                 style="height: {{ max(20, $aPct) }}%;">
+                                <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                    {{ $approved }}
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-2 font-medium">Approved</p>
+                        </div>
+                        
+                        {{-- Rejected Bar --}}
+                        <div class="flex flex-col items-center w-1/4">
+                            <div class="w-full bg-gradient-to-t from-red-500 to-red-400 rounded-t-lg relative" 
+                                 style="height: {{ max(20, $rPct) }}%;">
+                                <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                    {{ $rejected }}
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-2 font-medium">Rejected</p>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Chart 2: Summary --}}
+                <div class="bg-white rounded-2xl shadow-md p-6 card-hover">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-gray-900">Ringkasan Status</h3>
+                        <p class="text-sm text-gray-500">Detail persentase setiap status</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        {{-- Pending --}}
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                                    <span class="text-sm font-medium text-gray-700">Pending</span>
+                                </div>
+                                <span class="text-sm font-bold text-gray-900">{{ $pending }} ({{ $pPct }}%)</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 h-2 rounded-full" style="width: {{ $pPct }}%"></div>
+                            </div>
+                        </div>
+                        
+                        {{-- Approved --}}
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                                    <span class="text-sm font-medium text-gray-700">Disetujui</span>
+                                </div>
+                                <span class="text-sm font-bold text-gray-900">{{ $approved }} ({{ $aPct }}%)</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-green-400 to-green-500 h-2 rounded-full" style="width: {{ $aPct }}%"></div>
+                            </div>
+                        </div>
+                        
+                        {{-- Rejected --}}
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                                    <span class="text-sm font-medium text-gray-700">Ditolak</span>
+                                </div>
+                                <span class="text-sm font-bold text-gray-900">{{ $rejected }} ({{ $rPct }}%)</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-red-400 to-red-500 h-2 rounded-full" style="width: {{ $rPct }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-700">Total Pengajuan</span>
+                            <span class="text-2xl font-bold text-purple-600">{{ $total }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {{-- Quick Actions --}}
+            <div class="mt-8 bg-white rounded-2xl shadow-md p-6 fade-in">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Aksi Cepat</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="{{ route('admin.sellers.index') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-all">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="uil uil-folder-open text-purple-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Lihat Semua Pengajuan</p>
+                            <p class="text-xs text-gray-500">Kelola pengajuan toko</p>
+                        </div>
+                    </a>
+                    
+                    <a href="{{ route('products.index') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-xl hover:border-indigo-500 hover:bg-indigo-50 transition-all">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="uil uil-shopping-cart text-indigo-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Ke Market</p>
+                            <p class="text-xs text-gray-500">Lihat produk marketplace</p>
+                        </div>
+                    </a>
+                    
+                    <a href="{{ route('home') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition-all">
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="uil uil-home text-orange-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Beranda</p>
+                            <p class="text-xs text-gray-500">Kembali ke homepage</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
         </div>
-    </div>
-</div>
+    </main>
 
-<footer class="footer">
-    <p>© 2025 <span>kampuStore</span>. All rights reserved.</p>
-</footer>
+    {{-- Alpine.js for dropdown --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    {{-- SweetAlert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if(session('success') || session('error'))
+        <script>
+            @if(session('success'))
+            Swal.fire({
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonColor: '#7c3aed',
+                confirmButtonText: 'OK'
+            });
+            @endif
 
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            @if(session('error'))
+            Swal.fire({
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+                icon: 'error',
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: 'OK'
+            });
+            @endif
+        </script>
+    @endif
 
-@if(session('success'))
-<script>
-    Swal.fire({ icon: 'success', title: 'Berhasil!', text: '{{ session('success') }}', confirmButtonColor: '#f97316' });
-</script>
-@endif
-@if(session('error'))
-<script>
-    Swal.fire({ icon: 'error', title: 'Gagal!', text: '{{ session('error') }}', confirmButtonColor: '#f97316' });
-</script>
-@endif
-
-<script>
-(function(){
-    const KEY = 'kampuStoreTheme';
-    const body = document.body;
-    const toggle = document.querySelector('.js-theme-toggle');
-    function apply(mode){
-        if(mode === 'light'){ body.classList.add('theme-light'); body.classList.remove('theme-dark'); }
-        else{ body.classList.remove('theme-light'); body.classList.add('theme-dark'); }
-    }
-    const saved = localStorage.getItem(KEY) || 'dark';
-    apply(saved);
-    if(toggle){
-        toggle.checked = (saved !== 'light');
-        toggle.addEventListener('change', () => {
-            const mode = toggle.checked ? 'dark' : 'light';
-            apply(mode);
-            localStorage.setItem(KEY, mode);
-        });
-    }
-})();
-</script>
 </body>
 </html>
