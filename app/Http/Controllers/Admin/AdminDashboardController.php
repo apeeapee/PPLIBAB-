@@ -66,6 +66,50 @@ class AdminDashboardController extends Controller
         // Total produk
         $totalProducts = Product::count();
 
+        // SRS-MartPlace-08: Sebaran pemberi rating berdasarkan lokasi provinsi
+        $ratingsByProvince = Review::select('guest_province', DB::raw('count(*) as total'), DB::raw('avg(rating) as avg_rating'))
+            ->whereNotNull('guest_province')
+            ->groupBy('guest_province')
+            ->orderBy('total', 'desc')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'province' => $item->guest_province,
+                    'total' => $item->total,
+                    'avg_rating' => round($item->avg_rating, 1),
+                ];
+            });
+
+        // SRS-MartPlace-08: Sebaran nilai rating (1-5 bintang)
+        $ratingDistribution = Review::select('rating', DB::raw('count(*) as total'))
+            ->groupBy('rating')
+            ->orderBy('rating', 'asc')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'rating' => $item->rating,
+                    'total' => $item->total,
+                ];
+            });
+
+        // Top rated products
+        $topRatedProducts = Product::select(
+                'products.id',
+                'products.name',
+                'products.seller_name',
+                'products.price',
+                'products.image_url',
+                DB::raw('AVG(reviews.rating) as avg_rating'),
+                DB::raw('COUNT(reviews.id) as review_count')
+            )
+            ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+            ->groupBy('products.id', 'products.name', 'products.seller_name', 'products.price', 'products.image_url')
+            ->having('review_count', '>', 0)
+            ->orderBy('avg_rating', 'desc')
+            ->orderBy('review_count', 'desc')
+            ->limit(5)
+            ->get();
+
         return view('admin.dashboard', compact(
             'pending', 'approved', 'rejected',
             'total', 'pPct', 'aPct', 'rPct',
@@ -75,7 +119,10 @@ class AdminDashboardController extends Controller
             'uniqueReviewers',
             'guestReviewers',
             'userReviewers',
-            'totalProducts'
+            'totalProducts',
+            'ratingsByProvince',
+            'ratingDistribution',
+            'topRatedProducts'
         ));
     }
 }

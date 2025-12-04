@@ -479,7 +479,7 @@
             color:#9ca3af;
             margin-bottom:4px;
         }
-        body.theme-light .auth-eyebrow{color:#6b7280;}
+        body.theme-light .auth-eyebrow{color:#374151;}
         .auth-title{
             font-size:26px;
             font-weight:800;
@@ -491,7 +491,7 @@
             color:#9ca3af;
             margin-bottom:18px;
         }
-        body.theme-light .auth-subtitle{color:#6b7280;}
+        body.theme-light .auth-subtitle{color:#4b5563;}
 
         .field-group{margin-bottom:18px;width:100%;}
 
@@ -531,7 +531,7 @@
             top:10px;
             transition:.2s ease all;
         }
-        body.theme-light .group label{color:#6b7280;}
+        body.theme-light .group label{color:#374151;}
 
         .group .auth-input:focus ~ label,
         .group .auth-input:not(:placeholder-shown) ~ label,
@@ -623,7 +623,7 @@
             color:#9ca3af;
             margin-top:4px;
         }
-        body.theme-light .file-help{color:#6b7280;}
+        body.theme-light .file-help{color:#4b5563;}
 
         /* SECTION TITLE DI DALAM FORM */
         .section-label {
@@ -635,7 +635,7 @@
             margin-bottom: 20px;
             text-transform: uppercase;
         }
-        body.theme-light .section-label{color:#6b7280;}
+        body.theme-light .section-label{color:#1f2937;}
 
         /* STEP NAV / MULTI STEP */
         .step-nav{

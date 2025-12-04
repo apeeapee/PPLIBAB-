@@ -250,6 +250,171 @@
     <!-- Divider -->
     <div class="my-6 sm:my-8"><div class="h-1 bg-gradient-to-r from-orange-200 via-orange-500 to-orange-200 dark:from-orange-900 dark:via-orange-600 dark:to-orange-900 rounded-full shadow-md"></div></div>
 
+    <!-- Rating Analytics (SRS-MartPlace-08) -->
+    <div class="mb-6 sm:mb-8">
+        <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Analisis Rating & Review</h2>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+            <!-- Rating Distribution -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Sebaran Nilai Rating</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Distribusi rating 1-5 bintang</p>
+                    </div>
+                    <div class="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <i class="uil uil-star text-white text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    @foreach(range(5, 1) as $star)
+                        <?php
+                        $ratingData = $ratingDistribution->firstWhere('rating', $star);
+                        $count = $ratingData ? $ratingData['total'] : 0;
+                        $percentage = $totalReviews > 0 ? (($count / $totalReviews) * 100) : 0;
+                        ?>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1 w-20">
+                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ $star }}</span>
+                                <i class="uil uil-star text-yellow-500 text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
+                                    <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 h-6 rounded-full flex items-center px-2 transition-all duration-500" style="width: {{ $percentage }}%">
+                                        <?php if($count > 0): ?>
+                                        <span class="text-xs font-semibold text-white">{{ $count }}</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-16 text-right">
+                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ number_format($percentage, 1) }}%</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600 dark:text-gray-400">Total Review</span>
+                        <span class="text-lg font-bold text-gray-900 dark:text-white">{{ $totalReviews }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rating by Province -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Review Berdasarkan Provinsi</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Sebaran pemberi rating per lokasi</p>
+                    </div>
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <i class="uil uil-map-marker text-white text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-3 max-h-80 overflow-y-auto">
+                    @forelse($ratingsByProvince as $index => $item)
+                        <?php
+                            $maxReviews = $ratingsByProvince->max('total');
+                            $percentage = $maxReviews > 0 ? ($item['total'] / $maxReviews) * 100 : 0;
+                            $colors = ['from-blue-500 to-blue-600', 'from-green-500 to-green-600', 'from-purple-500 to-purple-600', 'from-pink-500 to-pink-600', 'from-indigo-500 to-indigo-600'];
+                            $color = $colors[$index % count($colors)];
+                        ?>
+                        <div class="flex items-center gap-3">
+                            <div class="w-32 flex-shrink-0">
+                                <div class="text-sm font-semibold text-gray-700 dark:text-gray-300 truncate">{{ $item['province'] }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                                    <i class="uil uil-star text-yellow-500"></i>
+                                    {{ $item['avg_rating'] }}
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
+                                    <div class="bg-gradient-to-r {{ $color }} h-6 rounded-full flex items-center justify-between px-2 transition-all duration-500" 
+                                         style="width: {{ $percentage }}%">
+                                        <span class="text-xs font-semibold text-white">{{ $item['total'] }} review</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-8">
+                            <i class="uil uil-map-marker text-gray-300 dark:text-gray-600 text-4xl mb-2"></i>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Belum ada data review berdasarkan provinsi</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Rated Products -->
+    <div class="mb-6 sm:mb-8">
+        <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Produk dengan Rating Tertinggi</h2>
+        
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Rank</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Produk</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Rating</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Review</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        @forelse($topRatedProducts as $index => $product)
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center justify-center w-8 h-8 rounded-full {{ $index === 0 ? 'bg-yellow-500' : ($index === 1 ? 'bg-gray-400' : ($index === 2 ? 'bg-orange-600' : 'bg-gray-300')) }} text-white font-bold text-sm">
+                                        {{ $index + 1 }}
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" 
+                                             class="w-12 h-12 rounded-lg object-cover">
+                                        <div>
+                                            <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ Str::limit($product->name, 50) }}</div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ $product->seller_name }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center gap-1">
+                                        <i class="uil uil-star text-yellow-500"></i>
+                                        <span class="text-sm font-bold text-gray-900 dark:text-white">{{ number_format($product->avg_rating, 1) }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-700 dark:text-gray-300">{{ $product->review_count }} review</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-orange-600 dark:text-orange-400">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-4 py-8 text-center">
+                                    <i class="uil uil-star text-gray-300 dark:text-gray-600 text-4xl mb-2"></i>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Belum ada produk dengan rating</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="my-6 sm:my-8"><div class="h-1 bg-gradient-to-r from-orange-200 via-orange-500 to-orange-200 dark:from-orange-900 dark:via-orange-600 dark:to-orange-900 rounded-full shadow-md"></div></div>
+
     <!-- Quick Actions -->
     <div class="mb-6 sm:mb-8">
         <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Aksi Cepat</h2>

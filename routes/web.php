@@ -129,6 +129,22 @@ Route::middleware('auth')->get('/market/dashboard', [\App\Http\Controllers\Selle
 
 /*
 |--------------------------------------------------------------------------
+| Seller Notifications (SRS-MartPlace-02: Email Verifikasi)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->prefix('seller')->name('seller.')->group(function () {
+    Route::get('/notifications', [\App\Http\Controllers\Seller\NotificationController::class, 'index'])
+        ->name('notifications.index');
+    Route::get('/notifications/{notification}', [\App\Http\Controllers\Seller\NotificationController::class, 'show'])
+        ->name('notifications.show');
+    Route::post('/notifications/{notification}/mark-read', [\App\Http\Controllers\Seller\NotificationController::class, 'markAsRead'])
+        ->name('notifications.mark-read');
+    Route::post('/notifications/mark-all-read', [\App\Http\Controllers\Seller\NotificationController::class, 'markAllAsRead'])
+        ->name('notifications.mark-all-read');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Seller Registration
 |--------------------------------------------------------------------------
 */

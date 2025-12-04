@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\SellerApproved;
 use App\Mail\SellerRejected;
+use App\Models\Notification;
 use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -71,9 +72,24 @@ class SellerVerificationController extends Controller
     {
         $seller->update(['status' => 'approved']);
 
+        // Kirim email (akan masuk queue)
         Mail::to($seller->email_pic)->send(new SellerApproved($seller));
 
-        return back()->with('success', 'Seller disetujui dan email notifikasi telah dikirim.');
+        // Simpan notifikasi ke database (internal inbox)
+        $htmlContent = view('emails.seller-approved', [
+            'seller' => $seller,
+            'activationUrl' => route('seller.dashboard')
+        ])->render();
+
+        Notification::create([
+            'seller_id' => $seller->id,
+            'type' => 'approval',
+            'subject' => 'Pendaftaran Toko Anda Telah Disetujui - KampuStore',
+            'message' => "Selamat! Pendaftaran toko {$seller->nama_toko} Anda telah disetujui oleh admin KampuStore.",
+            'html_content' => $htmlContent,
+        ]);
+
+        return back()->with('success', 'Seller disetujui dan notifikasi telah dikirim.');
     }
 
     /**
@@ -90,8 +106,23 @@ class SellerVerificationController extends Controller
             'rejection_reason' => $validated['rejection_reason'],
         ]);
 
+        // Kirim email (akan masuk queue)
         Mail::to($seller->email_pic)->send(new SellerRejected($seller, $validated['rejection_reason']));
 
-        return back()->with('success', 'Seller ditolak dan email notifikasi telah dikirim.');
+        // Simpan notifikasi ke database (internal inbox)
+        $htmlContent = view('emails.seller-rejected', [
+            'seller' => $seller,
+            'rejectionReason' => $validated['rejection_reason']
+        ])->render();
+
+        Notification::create([
+            'seller_id' => $seller->id,
+            'type' => 'rejection',
+            'subject' => 'Pendaftaran Toko Anda Ditolak - KampuStore',
+            'message' => "Mohon maaf, pendaftaran toko {$seller->nama_toko} Anda belum dapat disetujui. Alasan: {$validated['rejection_reason']}",
+            'html_content' => $htmlContent,
+        ]);
+
+        return back()->with('success', 'Seller ditolak dan notifikasi telah dikirim.');
     }
 }

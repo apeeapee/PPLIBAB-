@@ -37,15 +37,48 @@
             position:fixed;top:0;left:0;right:0;z-index:100;
             background:var(--nav-bg);backdrop-filter:blur(20px);
             border-bottom:1px solid rgba(249,115,22,0.3);
-            padding:12px 32px;display:flex;align-items:center;justify-content:space-between;
+            padding:12px 48px;display:flex;align-items:center;justify-content:space-between;
+            min-height:65px;
         }
-        .nav-left { display:flex;align-items:center;gap:32px; }
+        .nav-left { display:flex;align-items:center;gap:32px;flex:1; }
         .nav-logo { display:flex;align-items:center;gap:10px;text-decoration:none; }
-        .nav-logo img { height:38px;width:38px; }
-        .nav-logo span { font-size:22px;font-weight:700;color:var(--text-main); }
-        .nav-menu { display:flex;gap:24px; }
-        .nav-menu a { color:var(--text-muted);font-size:14px;font-weight:500;text-decoration:none;transition:color .2s; }
-        .nav-menu a:hover, .nav-menu a.active { color:var(--accent); }
+        .nav-logo img { height:36px;width:36px; }
+        .nav-logo span { font-size:20px;font-weight:700;color:var(--text-main); }
+        .nav-menu { display:flex;gap:4px;align-items:center;flex:1; }
+        .nav-item { position:relative; }
+        .nav-link { 
+            display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:14px;font-weight:500;
+            text-decoration:none;transition:all .2s;padding:8px 14px;border-radius:8px;white-space:nowrap;
+        }
+        .nav-link:hover, .nav-link.active { color:var(--accent);background:rgba(249,115,22,0.1); }
+        .nav-link i { font-size:16px; }
+        .dropdown { position:relative; }
+        .dropdown-toggle::after { content:'▾';margin-left:4px;font-size:12px; }
+        .dropdown-menu {
+            position:absolute;top:100%;left:0;margin-top:8px;
+            background:var(--card-bg);border:1px solid var(--card-border);
+            border-radius:12px;padding:8px;min-width:200px;
+            box-shadow:0 10px 40px rgba(0,0,0,0.3);
+            opacity:0;visibility:hidden;transform:translateY(-10px);
+            transition:all .2s;
+        }
+        .dropdown:hover .dropdown-menu { opacity:1;visibility:visible;transform:translateY(0); }
+        .dropdown-item {
+            display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+            color:var(--text-main);text-decoration:none;font-size:13px;transition:all .2s;
+        }
+        .dropdown-item:hover { background:rgba(249,115,22,0.1);color:var(--accent); }
+        .dropdown-item i { font-size:16px;width:20px;text-align:center; }
+        .nav-center { display:flex;align-items:center;gap:20px; }
+        .shop-badge {
+            display:flex;align-items:center;gap:10px;padding:6px 16px;border-radius:50px;
+            background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);
+        }
+        .shop-badge-name { font-size:14px;font-weight:600;color:var(--text-main); }
+        .shop-badge-status { display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:50px; }
+        .shop-badge-status.approved { background:rgba(34,197,94,0.2);color:#22c55e; }
+        .shop-badge-status.pending { background:rgba(234,179,8,0.2);color:#eab308; }
+        .shop-badge-status.rejected { background:rgba(239,68,68,0.2);color:#ef4444; }
         .nav-actions { display:flex;align-items:center;gap:16px; }
 
         /* Toggle */
@@ -72,46 +105,10 @@
         }
         .btn-logout:hover{background:#ef4444;color:white;}
 
-        /* LAYOUT */
-        .main-container { max-width:1400px;margin:0 auto;padding:90px 24px 40px;display:grid;grid-template-columns:260px 1fr;gap:28px; }
-        @media(max-width:900px) { .main-container { grid-template-columns:1fr;padding-top:80px; } }
-
-        /* SIDEBAR */
-        .sidebar {
-            background:var(--sidebar-bg);border-radius:16px;padding:24px;
-            border:1px solid var(--sidebar-border);box-shadow:0 10px 40px rgba(0,0,0,0.2);
-            position:sticky;top:90px;max-height:calc(100vh - 110px);overflow-y:auto;
-        }
-        .sidebar-section { margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--sidebar-border); }
-        .sidebar-section:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
-        .sidebar-title { font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px; }
-        .sidebar-menu { display:flex;flex-direction:column;gap:6px; }
-        .sidebar-link {
-            display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;
-            font-size:14px;font-weight:500;color:var(--text-main);text-decoration:none;transition:all .2s;
-        }
-        .sidebar-link:hover { background:rgba(249,115,22,0.1);color:var(--accent); }
-        .sidebar-link.active { background:rgba(249,115,22,0.15);color:var(--accent);font-weight:600; }
-        .sidebar-link i { font-size:20px;width:24px;text-align:center; }
-        .sidebar-submenu { margin-left:36px;display:flex;flex-direction:column;gap:4px;margin-top:6px; }
-        .sidebar-submenu a {
-            display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;
-            font-size:13px;color:var(--text-muted);text-decoration:none;transition:all .2s;
-        }
-        .sidebar-submenu a:hover { background:rgba(249,115,22,0.08);color:var(--accent); }
-
-        .shop-info-box {
-            background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);
-            border-radius:12px;padding:16px;text-align:center;
-        }
-        .shop-name { font-size:16px;font-weight:700;color:var(--text-main);margin-bottom:4px; }
-        .shop-status { display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:50px;font-size:12px;font-weight:600; }
-        .shop-status.approved { background:rgba(34,197,94,0.2);color:#22c55e; }
-        .shop-status.pending { background:rgba(234,179,8,0.2);color:#eab308; }
-        .shop-status.rejected { background:rgba(239,68,68,0.2);color:#ef4444; }
-
+        /* LAYOUT - FULL WIDTH */
+        .main-container { max-width:1600px;margin:0 auto;padding:85px 48px 40px; }
+        @media(max-width:900px) { .main-container { padding:85px 20px 32px; } }
         /* CONTENT */
-        .content { min-width:0; }
         .page-header { margin-bottom:24px; }
         .page-title { font-size:28px;font-weight:800;color:var(--text-main);margin-bottom:6px; }
         .page-subtitle { font-size:14px;color:var(--text-muted); }
@@ -154,8 +151,9 @@
         .badge-blue { background:rgba(59,130,246,0.2);color:#3b82f6; }
         .badge-green { background:rgba(34,197,94,0.2);color:#22c55e; }
         .badge-orange { background:rgba(249,115,22,0.2);color:#f97316; }
-        .action-btn { padding:8px;border-radius:8px;color:var(--text-muted);transition:all .2s;background:none;border:none;cursor:pointer; }
+        .action-btn { display:inline-flex;align-items:center;justify-content:center;padding:8px;border-radius:8px;color:var(--text-muted);transition:all .2s;background:none;border:none;cursor:pointer;text-decoration:none; }
         .action-btn:hover { background:rgba(249,115,22,0.1);color:var(--accent); }
+        .action-btn i { font-size:18px; }
 
         /* ALERT */
         .alert { padding:16px 20px;border-radius:12px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px; }
@@ -190,11 +188,26 @@
         .footer p { font-size:13px;color:var(--text-muted); }
         .footer span { color:var(--accent);font-weight:600; }
 
+        @media(max-width:1200px) {
+            .nav { padding:10px 24px; }
+            .nav-left { gap:16px; }
+            .nav-menu { gap:2px;flex-wrap:nowrap;overflow-x:auto; }
+            .nav-link { padding:6px 10px;font-size:13px;white-space:nowrap; }
+            .nav-link i { font-size:14px; }
+            .shop-badge { padding:4px 12px; }
+            .shop-badge-name { font-size:12px; }
+        }
         @media(max-width:900px) {
-            .nav { padding:12px 16px; }
-            .nav-menu { display:none; }
-            .sidebar { position:relative;top:0;max-height:none; }
-            .main-container { padding:80px 16px 32px; }
+            .nav { flex-wrap:wrap;padding:10px 20px; }
+            .nav-center { order:3;width:100%;margin-top:10px;justify-content:center; }
+            .shop-badge { width:100%;justify-content:center; }
+            .dropdown-menu { right:0;left:auto; }
+        }
+        @media(max-width:600px) {
+            .nav-logo span { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { padding:6px 8px; }
+            .btn-logout span { display:none; }
         }
     </style>
 </head>
@@ -208,9 +221,62 @@
             <span>kampuStore Seller</span>
         </a>
         <div class="nav-menu">
-            <a href="{{ route('seller.dashboard') }}" class="active">Dashboard</a>
-            <a href="{{ route('seller.products.index') }}">Produk Saya</a>
-            <a href="{{ route('seller.reports.stock') }}">Laporan</a>
+            <div class="nav-item">
+                <a href="{{ route('seller.dashboard') }}" class="nav-link active">
+                    <i class="uil uil-dashboard"></i> Dashboard
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="{{ route('seller.products.index') }}" class="nav-link">
+                    <i class="uil uil-box"></i> Produk
+                </a>
+            </div>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle">
+                    <i class="uil uil-chart-bar"></i> Laporan
+                </a>
+                <div class="dropdown-menu">
+                    <a href="{{ route('seller.reports.stock') }}" class="dropdown-item">
+                        <i class="uil uil-layers"></i> Laporan Stok
+                    </a>
+                    <a href="{{ route('seller.reports.rating') }}" class="dropdown-item">
+                        <i class="uil uil-star"></i> Laporan Rating
+                    </a>
+                    <a href="{{ route('seller.reports.restock') }}" class="dropdown-item">
+                        <i class="uil uil-exclamation-triangle"></i> Restock Alert
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ route('seller.notifications.index') }}" class="nav-link">
+                    <i class="uil uil-envelope"></i> Notifikasi
+                    @php
+                        $unreadCount = auth()->user()->seller?->notifications()->where('is_read', false)->count() ?? 0;
+                    @endphp
+                    @if($unreadCount > 0)
+                        <span style="background:#ef4444;color:white;font-size:10px;padding:2px 6px;border-radius:50px;margin-left:4px;">{{ $unreadCount }}</span>
+                    @endif
+                </a>
+            </div>
+            @if($seller->status === 'approved')
+            <div class="nav-item">
+                <a href="{{ route('seller.products.create') }}" class="nav-link" style="background:var(--accent);color:#111827;font-weight:600;padding:6px 14px;">
+                    <i class="uil uil-plus" style="font-size:14px;"></i> <span>Tambah Produk</span>
+                </a>
+            </div>
+            @endif
+        </div>
+    </div>
+    <div class="nav-center">
+        <div class="shop-badge">
+            <span class="shop-badge-name">{{ $seller->nama_toko }}</span>
+            @if($seller->status === 'approved')
+                <span class="shop-badge-status approved"><i class="uil uil-check-circle"></i> Verified</span>
+            @elseif($seller->status === 'pending')
+                <span class="shop-badge-status pending"><i class="uil uil-clock"></i> Pending</span>
+            @else
+                <span class="shop-badge-status rejected"><i class="uil uil-times-circle"></i> Rejected</span>
+            @endif
         </div>
     </div>
     <div class="nav-actions">
@@ -225,7 +291,7 @@
                 </span>
             </label>
         </div>
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ route('logout') }}" style="margin:0;">
             @csrf
             <button type="submit" class="btn-logout">
                 <i class="uil uil-sign-out-alt"></i> Logout
@@ -235,63 +301,6 @@
 </nav>
 
 <div class="main-container">
-    {{-- SIDEBAR --}}
-    <aside class="sidebar">
-        {{-- Shop Info --}}
-        <div class="sidebar-section">
-            <div class="shop-info-box">
-                <div class="shop-name">{{ $seller->nama_toko }}</div>
-                @if($seller->status === 'approved')
-                    <span class="shop-status approved"><i class="uil uil-check-circle"></i> Terverifikasi</span>
-                @elseif($seller->status === 'pending')
-                    <span class="shop-status pending"><i class="uil uil-clock"></i> Pending</span>
-                @else
-                    <span class="shop-status rejected"><i class="uil uil-times-circle"></i> Ditolak</span>
-                @endif
-            </div>
-        </div>
-
-        {{-- Menu --}}
-        <div class="sidebar-section">
-            <div class="sidebar-title">Menu</div>
-            <div class="sidebar-menu">
-                <a href="{{ route('seller.dashboard') }}" class="sidebar-link active">
-                    <i class="uil uil-dashboard"></i> Dashboard
-                </a>
-                <a href="{{ route('seller.products.index') }}" class="sidebar-link">
-                    <i class="uil uil-box"></i> Produk Saya
-                </a>
-            </div>
-        </div>
-
-        {{-- Laporan --}}
-        <div class="sidebar-section">
-            <div class="sidebar-title">Laporan</div>
-            <div class="sidebar-menu">
-                <a href="{{ route('seller.reports.stock') }}" class="sidebar-link">
-                    <i class="uil uil-chart-bar"></i> Laporan Stok
-                </a>
-                <a href="{{ route('seller.reports.rating') }}" class="sidebar-link">
-                    <i class="uil uil-star"></i> Laporan Rating
-                </a>
-                <a href="{{ route('seller.reports.restock') }}" class="sidebar-link">
-                    <i class="uil uil-exclamation-triangle"></i> Restock Alert
-                </a>
-            </div>
-        </div>
-
-        {{-- Quick Action --}}
-        @if($seller->status === 'approved')
-        <div class="sidebar-section">
-            <a href="{{ route('seller.products.create') }}" class="btn-add" style="width:100%;justify-content:center;">
-                <i class="uil uil-plus"></i> Tambah Produk
-            </a>
-        </div>
-        @endif
-    </aside>
-
-    {{-- CONTENT --}}
-    <div class="content">
         <div class="page-header">
             <h1 class="page-title">Dashboard</h1>
             <p class="page-subtitle">Selamat datang kembali, {{ $seller->nama_pic }}!</p>
@@ -422,6 +431,41 @@
                     <div style="text-align:center;padding:30px;color:var(--text-muted);">
                         <i class="uil uil-info-circle" style="font-size:32px;"></i>
                         <p style="font-size:13px;">Belum ada data rating</p>
+                    </div>
+                @endif
+            </div>
+
+            {{-- SRS-08: Sebaran Pemberi Rating Berdasarkan Provinsi --}}
+            <div class="chart-card">
+                <div class="chart-title"><i class="uil uil-map-marker"></i> Review Berdasarkan Provinsi</div>
+                <div class="chart-subtitle">Asal pemberi rating untuk produk Anda</div>
+                @if($reviewersByProvince->count() > 0)
+                    <div class="progress-list">
+                        @php $maxReviews = $reviewersByProvince->max('total') ?: 1; @endphp
+                        @foreach($reviewersByProvince as $idx => $item)
+                            @php 
+                                $provincePct = ($item->total / $maxReviews) * 100;
+                                $colors = ['#3b82f6', '#22c55e', '#f97316', '#a855f7', '#06b6d4', '#ef4444', '#eab308', '#ec4899'];
+                                $color = $colors[$idx % count($colors)];
+                            @endphp
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">
+                                        <span class="progress-dot" style="background:{{ $color }};"></span>
+                                        {{ $item->guest_province }}
+                                    </span>
+                                    <span class="progress-value">{{ $item->total }} review</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width:{{ $provincePct }}%; background:linear-gradient(to right, {{ $color }}, {{ $color }}99);"></div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="uil uil-map-marker" style="font-size:32px;"></i>
+                        <p style="font-size:13px;">Belum ada review dengan data provinsi</p>
                     </div>
                 @endif
             </div>

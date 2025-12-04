@@ -10,12 +10,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SellerRejected extends Mailable
+class SellerRejected extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $seller;
     public $rejectionReason;
+    public $tries = 3;
+    public $timeout = 30;
 
     /**
      * Create a new message instance.

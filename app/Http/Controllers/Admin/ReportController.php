@@ -82,8 +82,8 @@ class ReportController extends Controller
      */
     public function sellersByLocation(Request $request)
     {
-        // SRS-10: Default group by provinsi sesuai SRS
-        $groupBy = $request->get('group_by', 'provinsi');
+        // SRS-10: Hardcode group by provinsi
+        $groupBy = 'provinsi';
 
         $sellersByLocation = Seller::select($groupBy, DB::raw('count(*) as total'))
             ->where('status', 'approved')
@@ -250,7 +250,8 @@ class ReportController extends Controller
 
     public function exportSellersByLocationPDF(Request $request)
     {
-        $groupBy = $request->get('group_by', 'provinsi');
+        // Hardcode group by provinsi
+        $groupBy = 'provinsi';
 
         $sellersByLocation = Seller::select($groupBy, DB::raw('count(*) as total'))
             ->where('status', 'approved')

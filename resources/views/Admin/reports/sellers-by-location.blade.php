@@ -23,15 +23,7 @@
     <!-- Filter Card -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-700 mb-6 sm:mb-8">
         <form method="GET" action="{{ route('admin.reports.sellers-location') }}">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Kelompokkan Berdasarkan</label>
-                    <select name="group_by" class="w-full px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                        <option value="provinsi" {{ request('group_by', 'provinsi') == 'provinsi' ? 'selected' : '' }}>Provinsi</option>
-                        <option value="kota" {{ request('group_by') == 'kota' ? 'selected' : '' }}>Kota</option>
-                        <option value="kecamatan" {{ request('group_by') == 'kecamatan' ? 'selected' : '' }}>Kecamatan</option>
-                    </select>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filter Lokasi</label>
@@ -60,7 +52,70 @@
                     </a>
                 </div>
             </div>
-        </form>
+        </form> Symfony Exception
+ Symfony Docs
+Error
+HTTP 500 Internal Server Error
+Call to a member function render() on null
+Error
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php (line 879)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php -> renderExceptionContent (line 860)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php -> convertExceptionToResponse (line 839)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php -> prepareResponse (line 738)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php -> renderExceptionResponse (line 626)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php -> render (line 51)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handleException (line 182)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authorize.php -> {closure:Illuminate\Pipeline\Pipeline::prepareDestination():178} (line 59)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 50)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 63)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 87)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 48)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 120)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php -> handleStatefulRequest (line 63)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 36)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 74)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 137)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Routing/Router.php -> then (line 821)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Routing/Router.php -> runRouteWithinStack (line 800)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Routing/Router.php -> runRoute (line 764)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Routing/Router.php -> dispatchToRoute (line 753)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php -> dispatch (line 200)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> {closure:Illuminate\Foundation\Http\Kernel::dispatchToRouter():197} (line 180)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php -> {closure:Illuminate\Pipeline\Pipeline::prepareDestination():178} (line 21)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php -> handle (line 31)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 21)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php -> handle (line 51)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 27)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 109)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 48)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 58)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 22)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 26)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> handle (line 219)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php -> {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} (line 137)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php -> then (line 175)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php -> sendRequestThroughRouter (line 144)
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/Application.php -> handle (line 1220)
+Application->handleRequest(object(Request))
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/public/index.php (line 20)
+// Bootstrap Laravel and handle the request.../** @var Application $app */$app = require_once __DIR__.'/../bootstrap/app.php';$app->handleRequest(Request::capture());
+in /Users/adrianobawan/Study/Iyan/Semester 5/Proyek Perangkat Lunak/UAS/KampuStore/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php require_once (line 23)
+
     </div>
 
     <div class="my-6 sm:my-8">
@@ -98,6 +153,7 @@
     </div>
 
     <!-- Location Distribution -->
+    @if(!$selectedLocation)
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden mb-6 sm:mb-8">
         <div class="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Distribusi Toko per {{ ucfirst($groupBy) }}</h2>
@@ -154,13 +210,19 @@
             </table>
         </div>
     </div>
+    @endif
 
     <!-- Detail Location (if selected) -->
     @if($selectedLocation && $sellersDetail)
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-        <div class="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Detail Toko di {{ $selectedLocation }}</h2>
-            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Daftar toko yang terdaftar</p>
+        <div class="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Detail Toko di {{ $selectedLocation }}</h2>
+                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Daftar toko yang terdaftar</p>
+            </div>
+            <a href="{{ route('admin.reports.sellers-location') }}" class="px-4 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all shadow-md font-medium flex items-center gap-2 text-sm">
+                <i class="uil uil-arrow-left"></i> Kembali
+            </a>
         </div>
 
         <div class="overflow-x-auto">

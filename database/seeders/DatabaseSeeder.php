@@ -16,6 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Generate product images first
+        $this->call([
+            GenerateProductImages::class,
+        ]);
+        
         // Seed Admin terlebih dahulu
         $this->call([
             AdminSeeder::class,

@@ -25,12 +25,32 @@ class ReportController extends Controller
 
         // SRS-12: Diurutkan berdasarkan stock secara MENURUN (desc)
         $products = Product::select(
-                'products.*',
+                'products.id',
+                'products.seller_id',
+                'products.name',
+                'products.description',
+                'products.price',
+                'products.stock',
+                'products.category_slug',
+                'products.image_url',
+                'products.created_at',
+                'products.updated_at',
                 DB::raw('COALESCE(AVG(reviews.rating), 0) as avg_rating')
             )
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->where('products.seller_id', $seller->id)
-            ->groupBy('products.id')
+            ->groupBy(
+                'products.id',
+                'products.seller_id',
+                'products.name',
+                'products.description',
+                'products.price',
+                'products.stock',
+                'products.category_slug',
+                'products.image_url',
+                'products.created_at',
+                'products.updated_at'
+            )
             ->orderBy('products.stock', 'desc')
             ->get();
 
@@ -50,13 +70,33 @@ class ReportController extends Controller
         }
 
         $products = Product::select(
-                'products.*',
+                'products.id',
+                'products.seller_id',
+                'products.name',
+                'products.description',
+                'products.price',
+                'products.stock',
+                'products.category_slug',
+                'products.image_url',
+                'products.created_at',
+                'products.updated_at',
                 DB::raw('COALESCE(AVG(reviews.rating), 0) as avg_rating'),
                 DB::raw('COUNT(reviews.id) as review_count')
             )
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->where('products.seller_id', $seller->id)
-            ->groupBy('products.id')
+            ->groupBy(
+                'products.id',
+                'products.seller_id',
+                'products.name',
+                'products.description',
+                'products.price',
+                'products.stock',
+                'products.category_slug',
+                'products.image_url',
+                'products.created_at',
+                'products.updated_at'
+            )
             ->orderBy('avg_rating', 'desc')
             ->get();
 
@@ -105,12 +145,32 @@ class ReportController extends Controller
 
         // SRS-12: Diurutkan berdasarkan stock secara MENURUN (desc)
         $products = Product::select(
-                'products.*',
+                'products.id',
+                'products.seller_id',
+                'products.name',
+                'products.description',
+                'products.price',
+                'products.stock',
+                'products.category_slug',
+                'products.image_url',
+                'products.created_at',
+                'products.updated_at',
                 DB::raw('COALESCE(AVG(reviews.rating), 0) as avg_rating')
             )
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->where('products.seller_id', $seller->id)
-            ->groupBy('products.id')
+            ->groupBy(
+                'products.id',
+                'products.seller_id',
+                'products.name',
+                'products.description',
+                'products.price',
+                'products.stock',
+                'products.category_slug',
+                'products.image_url',
+                'products.created_at',
+                'products.updated_at'
+            )
             ->orderBy('products.stock', 'desc')
             ->get();
 
@@ -135,13 +195,33 @@ class ReportController extends Controller
 
         // SRS-13: Diurutkan berdasarkan rating secara MENURUN
         $products = Product::select(
-                'products.*',
+                'products.id',
+                'products.seller_id',
+                'products.name',
+                'products.description',
+                'products.price',
+                'products.stock',
+                'products.category_slug',
+                'products.image_url',
+                'products.created_at',
+                'products.updated_at',
                 DB::raw('COALESCE(AVG(reviews.rating), 0) as avg_rating'),
                 DB::raw('COUNT(reviews.id) as review_count')
             )
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->where('products.seller_id', $seller->id)
-            ->groupBy('products.id')
+            ->groupBy(
+                'products.id',
+                'products.seller_id',
+                'products.name',
+                'products.description',
+                'products.price',
+                'products.stock',
+                'products.category_slug',
+                'products.image_url',
+                'products.created_at',
+                'products.updated_at'
+            )
             ->orderBy('avg_rating', 'desc')
             ->get();
 

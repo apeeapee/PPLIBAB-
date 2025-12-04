@@ -10,12 +10,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SellerApproved extends Mailable
+class SellerApproved extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $seller;
     public $activationUrl;
+    public $tries = 3;
+    public $timeout = 30;
 
     /**
      * Create a new message instance.

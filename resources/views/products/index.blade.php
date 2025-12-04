@@ -806,6 +806,79 @@
         .chat-send-btn:hover{transform:scale(1.05);}
         .chat-send-btn i{font-size:18px;color:#fff;}
 
+        /* ===================== PAGINATION ===================== */
+        nav[role="navigation"]{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-top:40px;
+            padding:20px 0;
+        }
+        nav[role="navigation"] .pagination{
+            display:inline-flex;
+            gap:8px;
+            list-style:none;
+            padding:8px 12px;
+            margin:0;
+            background:var(--card-bg);
+            border:1px solid var(--card-border);
+            border-radius:16px;
+            box-shadow:0 8px 24px rgba(0,0,0,0.15);
+        }
+        nav[role="navigation"] .page-item{display:block;}
+        nav[role="navigation"] .page-link{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            min-width:42px;
+            height:42px;
+            padding:0 12px;
+            background:transparent;
+            border:none;
+            border-radius:10px;
+            color:var(--section-text);
+            font-size:15px;
+            font-weight:600;
+            text-decoration:none;
+            transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position:relative;
+        }
+        nav[role="navigation"] .page-link:hover{
+            background:rgba(249,115,22,0.1);
+            color:#f97316;
+            transform:translateY(-2px);
+        }
+        nav[role="navigation"] .page-item.active .page-link{
+            background:linear-gradient(135deg,#f97316,#fb923c);
+            color:white;
+            box-shadow:0 4px 16px rgba(249,115,22,0.35),
+                       inset 0 1px 0 rgba(255,255,255,0.2);
+            transform:scale(1.05);
+        }
+        nav[role="navigation"] .page-item.active .page-link:hover{
+            transform:scale(1.05) translateY(-1px);
+        }
+        nav[role="navigation"] .page-item.disabled .page-link{
+            opacity:0.3;
+            cursor:not-allowed;
+            background:transparent;
+            color:var(--section-text);
+        }
+        nav[role="navigation"] .page-item.disabled .page-link:hover{
+            transform:none;
+            background:transparent;
+        }
+        /* Pagination arrows */
+        nav[role="navigation"] .page-link svg{
+            width:14px;
+            height:14px;
+        }
+        /* Dots styling */
+        nav[role="navigation"] .page-link:has(span:contains('...')){
+            pointer-events:none;
+            min-width:32px;
+        }
+
         /* ===================== RESPONSIVE ===================== */
         @media(max-width:1024px){
             .market-container{padding:140px 16px 40px;}
@@ -823,6 +896,7 @@
         @media(max-width:640px){
             .product-grid{grid-template-columns:repeat(2, 1fr);}
             .nav-menu{display:none;}
+            nav[role="navigation"] .page-link{min-width:32px;height:32px;padding:4px 8px;font-size:13px;}
         }
     </style>
 </head>
@@ -863,9 +937,15 @@
                     <i class="uil uil-angle-down"></i>
                 </div>
                 <div class="dropdown-menu">
+                    @can('verify-sellers')
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                            <i class="uil uil-shield-check"></i> Admin Dashboard
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @endcan
                     @if(auth()->user()->seller)
                         <a href="{{ route('seller.dashboard') }}" class="dropdown-item">
-                            <i class="uil uil-dashboard"></i> Dashboard
+                            <i class="uil uil-dashboard"></i> Seller Dashboard
                         </a>
                         <div class="dropdown-divider"></div>
                     @endif
@@ -997,7 +1077,7 @@
                     </label>
                 </div>
                 
-                {{-- Filter Lokasi Penjual (Cascading Dropdown) --}}
+                {{-- Filter Lokasi Penjual --}}
                 <div class="filter-section">
                     <div class="filter-title">
                         <i class="uil uil-map-marker"></i> Lokasi Penjual
@@ -1005,31 +1085,9 @@
                     
                     <div class="location-filter-group">
                         <select name="provinsi" id="filterProvinsi" class="filter-select">
-                            <option value="">Pilih Provinsi</option>
+                            <option value="">Semua Provinsi</option>
                         </select>
                     </div>
-                    
-                    <div class="location-filter-group">
-                        <select name="kota" id="filterKota" class="filter-select" disabled>
-                            <option value="">Pilih Kota/Kabupaten</option>
-                        </select>
-                    </div>
-                    
-                    <div class="location-filter-group">
-                        <select name="kecamatan" id="filterKecamatan" class="filter-select" disabled>
-                            <option value="">Pilih Kecamatan</option>
-                        </select>
-                    </div>
-                    
-                    <div class="location-filter-group">
-                        <select name="kelurahan" id="filterKelurahan" class="filter-select" disabled>
-                            <option value="">Pilih Kelurahan</option>
-                        </select>
-                    </div>
-                    
-                    <button type="submit" class="btn-filter" style="margin-top:10px;">
-                        <i class="uil uil-filter"></i> Terapkan Lokasi
-                    </button>
                 </div>
                 
                 {{-- Reset --}}
@@ -1123,7 +1181,7 @@
                 
                 {{-- Pagination --}}
                 <div style="margin-top:40px;display:flex;justify-content:center;">
-                    {{ $products->withQueryString()->links() }}
+                    {{ $products->withQueryString()->links('pagination::custom') }}
                 </div>
             @endif
         </main>
@@ -1319,22 +1377,13 @@
     const API_BASE = 'https://www.emsifa.com/api-wilayah-indonesia/api';
     
     const locationCache = {
-        provinces: null,
-        regencies: {},
-        districts: {},
-        villages: {}
+        provinces: null
     };
 
     const filterProvinsi = document.getElementById('filterProvinsi');
-    const filterKota = document.getElementById('filterKota');
-    const filterKecamatan = document.getElementById('filterKecamatan');
-    const filterKelurahan = document.getElementById('filterKelurahan');
 
-    // Data dari server (filter yang sedang aktif & lokasi seller)
+    // Data dari server (filter yang sedang aktif)
     const currentProvinsi = "{{ $selProvinsi ?? '' }}";
-    const currentKota = "{{ $selKota ?? '' }}";
-    const currentKecamatan = "{{ $selKecamatan ?? '' }}";
-    const currentKelurahan = "{{ $selKelurahan ?? '' }}";
     
     // Lokasi default seller jika login
     const sellerLocation = @json($sellerLocation ?? null);
@@ -1383,151 +1432,13 @@
         });
     }
 
-    filterProvinsi.addEventListener('change', async function() {
-        const selectedId = this.options[this.selectedIndex]?.dataset?.id;
-        
-        // Reset child dropdowns
-        filterKota.innerHTML = '<option value="">Semua Kota/Kabupaten</option>';
-        filterKota.disabled = true;
-        filterKecamatan.innerHTML = '<option value="">Semua Kecamatan</option>';
-        filterKecamatan.disabled = true;
-        filterKelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
-        filterKelurahan.disabled = true;
-
-        if (!selectedId) return;
-
-        if (locationCache.regencies[selectedId]) {
-            populateKota(locationCache.regencies[selectedId]);
-            return;
-        }
-
-        setSelectLoading(filterKota, true);
-        const regencies = await fetchLocationData(`${API_BASE}/regencies/${selectedId}.json`);
-        locationCache.regencies[selectedId] = regencies;
-        populateKota(regencies);
-    });
-
-    function populateKota(regencies) {
-        filterKota.innerHTML = '<option value="">Semua Kota/Kabupaten</option>';
-        regencies.forEach(reg => {
-            const option = document.createElement('option');
-            option.value = reg.name;
-            option.textContent = reg.name;
-            option.dataset.id = reg.id;
-            filterKota.appendChild(option);
-        });
-        filterKota.disabled = false;
-    }
-
-    filterKota.addEventListener('change', async function() {
-        const selectedId = this.options[this.selectedIndex]?.dataset?.id;
-        
-        filterKecamatan.innerHTML = '<option value="">Semua Kecamatan</option>';
-        filterKecamatan.disabled = true;
-        filterKelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
-        filterKelurahan.disabled = true;
-
-        if (!selectedId) return;
-
-        if (locationCache.districts[selectedId]) {
-            populateKecamatan(locationCache.districts[selectedId]);
-            return;
-        }
-
-        setSelectLoading(filterKecamatan, true);
-        const districts = await fetchLocationData(`${API_BASE}/districts/${selectedId}.json`);
-        locationCache.districts[selectedId] = districts;
-        populateKecamatan(districts);
-    });
-
-    function populateKecamatan(districts) {
-        filterKecamatan.innerHTML = '<option value="">Semua Kecamatan</option>';
-        districts.forEach(dist => {
-            const option = document.createElement('option');
-            option.value = dist.name;
-            option.textContent = dist.name;
-            option.dataset.id = dist.id;
-            filterKecamatan.appendChild(option);
-        });
-        filterKecamatan.disabled = false;
-    }
-
-    filterKecamatan.addEventListener('change', async function() {
-        const selectedId = this.options[this.selectedIndex]?.dataset?.id;
-        
-        filterKelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
-        filterKelurahan.disabled = true;
-
-        if (!selectedId) return;
-
-        if (locationCache.villages[selectedId]) {
-            populateKelurahan(locationCache.villages[selectedId]);
-            return;
-        }
-
-        setSelectLoading(filterKelurahan, true);
-        const villages = await fetchLocationData(`${API_BASE}/villages/${selectedId}.json`);
-        locationCache.villages[selectedId] = villages;
-        populateKelurahan(villages);
-    });
-
-    function populateKelurahan(villages) {
-        filterKelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
-        villages.forEach(vill => {
-            const option = document.createElement('option');
-            option.value = vill.name;
-            option.textContent = vill.name;
-            filterKelurahan.appendChild(option);
-        });
-        filterKelurahan.disabled = false;
-    }
-
     // Initialize location filter
     window.addEventListener('DOMContentLoaded', async function() {
         await loadProvinces();
 
-        // Determine default values: use current filter values, or seller location if no filter active
-        let defaultProvinsi = currentProvinsi;
-        let defaultKota = currentKota;
-        let defaultKecamatan = currentKecamatan;
-        let defaultKelurahan = currentKelurahan;
-
-        // If no filter active and seller is logged in, use seller's location as default
-        const noFilterActive = !currentProvinsi && !currentKota && !currentKecamatan && !currentKelurahan;
-        const isFirstLoad = !new URLSearchParams(window.location.search).has('provinsi');
-        
-        if (noFilterActive && isFirstLoad && sellerLocation) {
-            defaultProvinsi = sellerLocation.provinsi || '';
-            defaultKota = sellerLocation.kota || '';
-            defaultKecamatan = sellerLocation.kecamatan || '';
-            defaultKelurahan = sellerLocation.kelurahan || '';
-        }
-
-        // Set provinsi value and trigger cascade
-        if (defaultProvinsi) {
-            filterProvinsi.value = defaultProvinsi;
-            await filterProvinsi.dispatchEvent(new Event('change'));
-
-            // Wait for kota to load
-            await new Promise(resolve => setTimeout(resolve, 500));
-            
-            if (defaultKota) {
-                filterKota.value = defaultKota;
-                await filterKota.dispatchEvent(new Event('change'));
-
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
-                if (defaultKecamatan) {
-                    filterKecamatan.value = defaultKecamatan;
-                    await filterKecamatan.dispatchEvent(new Event('change'));
-
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    
-                    if (defaultKelurahan) {
-                        filterKelurahan.value = defaultKelurahan;
-                    }
-                }
-            }
+        // Set provinsi value from current filter
+        if (currentProvinsi) {
+            filterProvinsi.value = currentProvinsi;
         }
     });
 </script>

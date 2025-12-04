@@ -17,9 +17,19 @@ class ProductManagementController extends Controller
     {
         $seller = Auth::user()->seller;
         
-        if (!$seller || $seller->status !== 'approved') {
-            return redirect()->route('products.index')
-                ->with('error', 'Anda harus memiliki toko yang sudah diverifikasi untuk mengelola produk.');
+        if (!$seller) {
+            return redirect()->route('seller.register')
+                ->with('error', 'Anda belum mendaftar sebagai seller. Silakan daftar terlebih dahulu.');
+        }
+        
+        if ($seller->status === 'pending') {
+            return redirect()->route('seller.dashboard')
+                ->with('info', 'Toko Anda masih menunggu verifikasi dari admin. Anda belum bisa mengelola produk.');
+        }
+        
+        if ($seller->status === 'rejected') {
+            return redirect()->route('seller.dashboard')
+                ->with('error', 'Pendaftaran toko Anda ditolak. Silakan hubungi admin untuk informasi lebih lanjut.');
         }
 
         $products = $seller->products()->with('images')->latest()->paginate(10);
@@ -31,9 +41,14 @@ class ProductManagementController extends Controller
     {
         $seller = Auth::user()->seller;
         
-        if (!$seller || $seller->status !== 'approved') {
-            return redirect()->route('products.index')
-                ->with('error', 'Anda harus memiliki toko yang sudah diverifikasi untuk mengunggah produk.');
+        if (!$seller) {
+            return redirect()->route('seller.register')
+                ->with('error', 'Anda belum mendaftar sebagai seller. Silakan daftar terlebih dahulu.');
+        }
+        
+        if ($seller->status !== 'approved') {
+            return redirect()->route('seller.dashboard')
+                ->with('error', 'Toko Anda harus diverifikasi terlebih dahulu sebelum bisa menambah produk.');
         }
 
         $categories = [
