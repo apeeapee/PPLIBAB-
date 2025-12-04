@@ -236,13 +236,13 @@
                 <i class="uil uil-user-circle"></i>
                 <span>{{ auth()->user()->name }}</span>
             </div>
-@can('verify-sellers')
+            @can('verify-sellers')
                 <a href="{{ route('admin.dashboard') }}" class="btn-auth btn-register" style="background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); border-color: #f97316; color: white;">
                     <i class="uil uil-shield-check"></i> Dashboard Admin
                 </a>
             @endcan
             @can('manage-products')
-                <a href="{{ route('seller.dashboard') }}" class="btn-auth btn-register" style="background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); border-color: #3b82f6; color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);">
+                <a href="{{ route('seller.dashboard') }}" class="btn-auth btn-register" style="background: #3b82f6; border-color: #3b82f6; color: white; font-weight: 600;">
                     <i class="uil uil-store"></i> Dashboard Seller
                 </a>
             @endcan

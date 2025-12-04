@@ -226,7 +226,7 @@
         @endif
     </div>
     <div class="nav-actions">
-        <a href="{{ route('home') }}" class="btn-market" target="_blank" title="Lihat Marketplace">
+        <a href="{{ route('home') }}" class="btn-market" title="Lihat Marketplace">
             <i class="uil uil-store"></i> <span>Market</span>
         </a>
         <div class="theme-toggle-wrapper">
