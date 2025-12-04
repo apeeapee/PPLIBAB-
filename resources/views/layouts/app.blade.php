@@ -175,6 +175,32 @@
             transition:all .3s;
         }
         .btn-logout:hover{background:#ef4444;color:white;}
+        
+        .btn-logout-home{
+            border:none;background:rgba(239,68,68,0.1);
+            color:#ef4444;cursor:pointer;
+            padding:10px 20px;border-radius:50px;
+            font-size:14px;font-weight:600;
+            transition:all .3s;display:inline-flex;align-items:center;gap:6px;
+        }
+        .btn-logout-home:hover{background:#ef4444;color:white;transform:scale(1.05);}
+
+        .btn-dashboard{
+            padding:10px 20px;border-radius:50px;
+            font-size:14px;font-weight:600;
+            display:inline-flex;align-items:center;gap:6px;
+            transition:all .3s;text-decoration:none;
+        }
+        .btn-dashboard.admin{
+            background:linear-gradient(135deg,#f97316,#fb923c);
+            color:white;border:2px solid #f97316;
+        }
+        .btn-dashboard.admin:hover{transform:scale(1.05);box-shadow:0 4px 12px rgba(249,115,22,0.4);}
+        .btn-dashboard.seller{
+            background:linear-gradient(135deg,#3b82f6,#60a5fa);
+            color:white;border:2px solid #3b82f6;
+        }
+        .btn-dashboard.seller:hover{transform:scale(1.05);box-shadow:0 4px 12px rgba(59,130,246,0.4);}
 
         .user-badge{
             display:flex;align-items:center;gap:8px;
@@ -238,11 +264,17 @@
             </div>
             
             @if(auth()->user()->is_admin)
-                <a href="{{ route('admin.dashboard') }}" class="btn-auth btn-register" style="background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); border-color: #f97316; color: white;">
+                <a href="{{ route('admin.dashboard') }}" class="btn-dashboard admin">
                     <i class="uil uil-shield-check"></i> Dashboard Admin
                 </a>
-            @else
-                <a href="{{ route('seller.dashboard') }}" class="btn-auth btn-register" style="background: #3b82f6; border-color: #3b82f6; color: white; font-weight: 600;">
+            @endif
+            
+            @php
+                $hasSeller = \App\Models\Seller::where('user_id', auth()->id())->exists();
+            @endphp
+            
+            @if($hasSeller && !auth()->user()->is_admin)
+                <a href="{{ route('seller.dashboard') }}" class="btn-dashboard seller">
                     <i class="uil uil-store"></i> Dashboard Seller
                 </a>
             @endif
@@ -265,7 +297,7 @@
             
             <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                 @csrf
-                <button type="submit" class="btn-logout">
+                <button type="submit" class="btn-logout-home">
                     <i class="uil uil-sign-out-alt"></i> Logout
                 </button>
             </form>

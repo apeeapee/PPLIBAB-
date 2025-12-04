@@ -36,14 +36,16 @@
         .nav {
             position:fixed;top:0;left:0;right:0;z-index:100;
             background:var(--nav-bg);backdrop-filter:blur(20px);
-            border-bottom:1px solid rgba(249,115,22,0.3);
-            padding:12px 48px;display:flex;align-items:center;justify-content:space-between;
-            min-height:65px;
+            border-bottom:1px solid rgba(59,130,246,0.3);
+            padding:12px 48px;
         }
-        .nav-left { display:flex;align-items:center;gap:32px;flex:1; }
-        .nav-logo { display:flex;align-items:center;gap:10px;text-decoration:none; }
+        .nav-container { display:flex;align-items:center;justify-content:space-between;min-height:64px;max-width:1600px;margin:0 auto; }
+        .nav-left { display:flex;align-items:center;gap:32px; }
+        .nav-logo { display:flex;align-items:center;gap:12px;text-decoration:none;group:hover transform:scale(1.05);transition:all .3s; }
+        .nav-logo-icon { width:40px;height:40px;background:linear-gradient(135deg,#3b82f6,#60a5fa);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(59,130,246,0.3); }
+        .nav-logo-icon i { color:white;font-size:20px; }
         .nav-logo img { height:36px;width:36px; }
-        .nav-logo span { font-size:20px;font-weight:700;color:var(--text-main); }
+        .nav-logo-text { font-size:20px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
         .nav-menu { display:flex;gap:4px;align-items:center;flex:1; }
         .nav-item { position:relative; }
         .nav-link { 
@@ -165,17 +167,20 @@
 
 {{-- NAVBAR --}}
 <nav class="nav">
-    <div class="nav-left">
-        <a href="{{ route('seller.dashboard') }}" class="nav-logo">
-            <img src="{{ asset('images/logo.png') }}" alt="kampuStore">
-            <span>kampuStore Seller</span>
-        </a>
-        <div class="nav-menu">
-            <div class="nav-item">
-                <a href="{{ route('seller.dashboard') }}" class="nav-link {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">
-                    <i class="uil uil-dashboard"></i> <span>Dashboard</span>
-                </a>
-            </div>
+    <div class="nav-container">
+        <div class="nav-left">
+            <a href="{{ route('seller.dashboard') }}" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <i class="uil uil-store"></i>
+                </div>
+                <span class="nav-logo-text">kampuStore Seller</span>
+            </a>
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <a href="{{ route('seller.dashboard') }}" class="nav-link {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">
+                        <i class="uil uil-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </div>
             <div class="nav-item">
                 <a href="{{ route('seller.products.index') }}" class="nav-link {{ request()->routeIs('seller.products.*') ? 'active' : '' }}">
                     <i class="uil uil-box"></i> <span>Produk</span>
@@ -208,44 +213,48 @@
                     @endif
                 </a>
             </div>
-
+                <span style="color:rgba(148,163,184,0.3);margin:0 8px;">|</span>
+                <div class="nav-item">
+                    <a href="{{ route('home') }}" class="nav-link">
+                        <i class="uil uil-home"></i> <span>Beranda</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="nav-center">
-        @if(auth()->user()->seller)
-        <div class="shop-badge">
-            <span class="shop-badge-name">{{ auth()->user()->seller->nama_toko }}</span>
-            @if(auth()->user()->seller->status === 'approved')
-                <span class="shop-badge-status approved"><i class="uil uil-check-circle"></i> Verified</span>
-            @elseif(auth()->user()->seller->status === 'pending')
-                <span class="shop-badge-status pending"><i class="uil uil-clock"></i> Pending</span>
-            @else
-                <span class="shop-badge-status rejected"><i class="uil uil-times-circle"></i> Rejected</span>
+        
+        <div class="nav-actions">
+            @if(auth()->user()->seller)
+            <div class="shop-badge">
+                <span class="shop-badge-name">{{ auth()->user()->seller->nama_toko }}</span>
+                @if(auth()->user()->seller->status === 'approved')
+                    <span class="shop-badge-status approved"><i class="uil uil-check-circle"></i> Verified</span>
+                @elseif(auth()->user()->seller->status === 'pending')
+                    <span class="shop-badge-status pending"><i class="uil uil-clock"></i> Pending</span>
+                @else
+                    <span class="shop-badge-status rejected"><i class="uil uil-times-circle"></i> Rejected</span>
+                @endif
+            </div>
             @endif
+            
+            <div class="theme-toggle-wrapper">
+                <label class="toggle-switch">
+                    <input type="checkbox" class="js-theme-toggle" />
+                    <span class="slider">
+                        <div class="clouds">
+                            <svg viewBox="0 0 100 100" class="cloud cloud1"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
+                            <svg viewBox="0 0 100 100" class="cloud cloud2"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
+                        </div>
+                    </span>
+                </label>
+            </div>
+            
+            <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                @csrf
+                <button type="submit" class="btn-logout">
+                    <i class="uil uil-sign-out-alt"></i> <span>Logout</span>
+                </button>
+            </form>
         </div>
-        @endif
-    </div>
-    <div class="nav-actions">
-        <a href="{{ route('home') }}" class="btn-market" title="Lihat Marketplace">
-            <i class="uil uil-store"></i> <span>Market</span>
-        </a>
-        <div class="theme-toggle-wrapper">
-            <label class="toggle-switch">
-                <input type="checkbox" class="js-theme-toggle" />
-                <span class="slider">
-                    <div class="clouds">
-                        <svg viewBox="0 0 100 100" class="cloud cloud1"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
-                        <svg viewBox="0 0 100 100" class="cloud cloud2"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
-                    </div>
-                </span>
-            </label>
-        </div>
-        <form method="POST" action="{{ route('logout') }}" style="margin:0;">
-            @csrf
-            <button type="submit" class="btn-logout">
-                <i class="uil uil-sign-out-alt"></i> <span>Logout</span>
-            </button>
-        </form>
     </div>
 </nav>
 
