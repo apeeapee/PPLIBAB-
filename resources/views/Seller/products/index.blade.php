@@ -5,6 +5,7 @@
 @push('styles')
 <style>
     .page-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px; }
+    .page-header .btn-add { padding:8px 14px;font-size:13px;gap:6px; }
     .page-title { font-size:28px;font-weight:700;color:var(--text-main);margin:0; }
     .page-subtitle { color:var(--text-muted);margin:4px 0 0 0; }
 
@@ -139,11 +140,6 @@
     <i class="uil uil-box"></i>
     <h3>Belum Ada Produk</h3>
     <p>Mulai berjualan dengan menambahkan produk pertama Anda.</p>
-    @if($seller->status === 'approved')
-    <a href="{{ route('seller.products.create') }}" class="btn-add">
-        <i class="uil uil-plus"></i> Tambah Produk Pertama
-    </a>
-    @endif
 </div>
 @endif
 @endsection

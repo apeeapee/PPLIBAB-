@@ -69,7 +69,7 @@
         }
         .dropdown-item:hover { background:rgba(249,115,22,0.1);color:var(--accent); }
         .dropdown-item i { font-size:16px;width:20px;text-align:center; }
-        .nav-center { display:flex;align-items:center;gap:20px; }
+        .nav-center { display:flex;align-items:center;gap:20px;margin-right:24px; }
         .shop-badge {
             display:flex;align-items:center;gap:10px;padding:6px 16px;border-radius:50px;
             background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);
@@ -124,11 +124,11 @@
         .main-container { max-width:1400px;margin:0 auto;padding:85px 48px 40px; }
         
         .btn-add {
-            display:inline-flex;align-items:center;gap:8px;padding:10px 20px;
-            background:var(--accent);color:#111827;border-radius:10px;font-size:14px;font-weight:600;
+            display:inline-flex;align-items:center;gap:6px;padding:8px 16px;
+            background:var(--accent);color:#111827;border-radius:8px;font-size:13px;font-weight:600;
             text-decoration:none;transition:all .3s;border:none;cursor:pointer;
         }
-        .btn-add:hover { background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 8px 20px rgba(249,115,22,0.3); }
+        .btn-add:hover { background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 12px rgba(249,115,22,0.25); }
 
         /* FOOTER */
         .footer { background:var(--nav-bg);border-top:1px solid var(--card-border);padding:20px 32px;text-align:center;margin-top:auto; }
@@ -208,13 +208,7 @@
                     @endif
                 </a>
             </div>
-            @if(auth()->user()->seller && auth()->user()->seller->status === 'approved')
-            <div class="nav-item">
-                <a href="{{ route('seller.products.create') }}" class="nav-link" style="background:var(--accent);color:#111827;font-weight:600;padding:6px 14px;">
-                    <i class="uil uil-plus" style="font-size:14px;"></i> <span>Tambah Produk</span>
-                </a>
-            </div>
-            @endif
+
         </div>
     </div>
     <div class="nav-center">
