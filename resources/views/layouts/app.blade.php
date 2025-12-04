@@ -242,10 +242,27 @@
                     <i class="uil uil-shield-check"></i> Dashboard Admin
                 </a>
             @elseif(auth()->user()->seller)
-                <a href="{{ route('seller.dashboard') }}" class="btn-auth btn-register" style="background: #3b82f6; border-color: #3b82f6; color: white; font-weight: 600;">
+                <a href="{{ route('seller.dashboard') }}" class="btn-auth btn-register" style="background: #3b82f6; border-color: #3b82f6; color: white; font-weight: 600; display: inline-flex;">
                     <i class="uil uil-store"></i> Dashboard Seller
                 </a>
             @endif
+            
+            <div class="theme-toggle-wrapper">
+                <label class="toggle-switch">
+                    <input type="checkbox" class="js-theme-toggle" />
+                    <span class="slider">
+                        <div class="clouds">
+                            <svg viewBox="0 0 100 100" class="cloud cloud1">
+                                <path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path>
+                            </svg>
+                            <svg viewBox="0 0 100 100" class="cloud cloud2">
+                                <path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path>
+                            </svg>
+                        </div>
+                    </span>
+                </label>
+            </div>
+            
             <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                 @csrf
                 <button type="submit" class="btn-logout">
@@ -259,8 +276,7 @@
             <a href="{{ route('register') }}" class="btn-auth btn-register">
                 <i class="uil uil-store-alt"></i> Daftar Penjual
             </a>
-        @endauth
-        <div class="theme-toggle-wrapper">
+            <div class="theme-toggle-wrapper">
             <label class="toggle-switch">
                 <input type="checkbox" class="js-theme-toggle" />
                 <span class="slider">
