@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\StockExport;
+use App\Exports\StockByRatingExport;
+use App\Exports\RestockExport;
 
 class ReportController extends Controller
 {
@@ -174,14 +178,8 @@ class ReportController extends Controller
             ->orderBy('products.stock', 'desc')
             ->get();
 
-        $pdf = Pdf::loadView('pdf.seller-stock', [
-            'title' => 'Laporan Daftar Stock Produk',
-            'products' => $products,
-            'seller' => $seller,
-        ]);
-
-        $filename = 'Laporan_Stok_Produk_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.pdf';
-        return $pdf->download($filename);
+        $filename = 'Laporan_Stok_Produk_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.xlsx';
+        return Excel::download(new StockExport($request), $filename);
     }
 
     public function exportRating(Request $request)
@@ -225,14 +223,8 @@ class ReportController extends Controller
             ->orderBy('avg_rating', 'desc')
             ->get();
 
-        $pdf = Pdf::loadView('pdf.seller-rating', [
-            'title' => 'Laporan Produk Berdasarkan Rating',
-            'products' => $products,
-            'seller' => $seller,
-        ]);
-
-        $filename = 'Laporan_Rating_Produk_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.pdf';
-        return $pdf->download($filename);
+        $filename = 'Laporan_Rating_Produk_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.xlsx';
+        return Excel::download(new StockByRatingExport(), $filename);
     }
 
     public function exportRestock(Request $request)
@@ -260,7 +252,7 @@ class ReportController extends Controller
             'threshold' => $threshold,
         ]);
 
-        $filename = 'Laporan_Restock_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.pdf';
-        return $pdf->download($filename);
+        $filename = 'Laporan_Restock_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.xlsx';
+        return Excel::download(new RestockExport(), $filename);
     }
 }
