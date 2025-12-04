@@ -241,8 +241,8 @@
                 <a href="{{ route('admin.dashboard') }}" class="btn-auth btn-register" style="background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); border-color: #f97316; color: white;">
                     <i class="uil uil-shield-check"></i> Dashboard Admin
                 </a>
-            @elseif(auth()->user()->seller)
-                <a href="{{ route('seller.dashboard') }}" class="btn-auth btn-register" style="background: #3b82f6; border-color: #3b82f6; color: white; font-weight: 600; display: inline-flex;">
+            @else
+                <a href="{{ route('seller.dashboard') }}" class="btn-auth btn-register" style="background: #3b82f6; border-color: #3b82f6; color: white; font-weight: 600;">
                     <i class="uil uil-store"></i> Dashboard Seller
                 </a>
             @endif
