@@ -79,33 +79,6 @@
         .empty-state i { font-size:64px;color:var(--text-muted);margin-bottom:16px; }
         .empty-state p { color:var(--text-muted);margin-bottom:20px; }
         .empty-state .btn-add { padding:8px 14px;font-size:13px; }
-
-        /* FOOTER */
-        .footer { background:var(--nav-bg);border-top:1px solid var(--card-border);padding:20px 32px;text-align:center;margin-top:auto; }
-        .footer p { font-size:13px;color:var(--text-muted); }
-        .footer span { color:var(--accent);font-weight:600; }
-
-        @media(max-width:1200px) {
-            .nav { padding:10px 24px; }
-            .nav-left { gap:16px; }
-            .nav-menu { gap:2px;flex-wrap:nowrap;overflow-x:auto; }
-            .nav-link { padding:6px 10px;font-size:13px;white-space:nowrap; }
-            .nav-link i { font-size:14px; }
-            .shop-badge { padding:4px 12px; }
-            .shop-badge-name { font-size:12px; }
-        }
-        @media(max-width:900px) {
-            .nav { flex-wrap:wrap;padding:10px 20px; }
-            .nav-center { order:3;width:100%;margin-top:10px;justify-content:center; }
-            .shop-badge { width:100%;justify-content:center; }
-            .dropdown-menu { right:0;left:auto; }
-        }
-        @media(max-width:600px) {
-            .nav-logo span { display:none; }
-            .nav-link span { display:none; }
-            .nav-link { padding:6px 8px; }
-            .btn-logout span { display:none; }
-        }
     </style>
 @endpush
 
