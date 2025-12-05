@@ -48,6 +48,10 @@ class AdminDashboardController extends Controller
             ->orderBy('total', 'desc')
             ->get();
 
+        // Seller aktif vs tidak aktif (approved vs pending/rejected)
+        $sellerActive = Seller::where('status', 'approved')->count();
+        $sellerInactive = Seller::whereIn('status', ['pending', 'rejected'])->count();
+
         // SRS-07: Jumlah pengunjung yang memberikan komentar/rating
         $totalReviews = Review::count();
         $uniqueReviewers = Review::distinct()
@@ -67,6 +71,8 @@ class AdminDashboardController extends Controller
             'total', 'pPct', 'aPct', 'rPct',
             'productsByCategory',
             'sellersByProvince',
+            'sellerActive',
+            'sellerInactive',
             'totalReviews',
             'uniqueReviewers',
             'guestReviewers',
