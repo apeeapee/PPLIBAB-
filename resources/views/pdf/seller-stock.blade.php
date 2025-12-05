@@ -1,24 +1,15 @@
 @extends('pdf.layout')
 
 @section('content')
-{{-- SRS-12: Laporan Daftar Stock Produk (Diurutkan Menurun) --}}
-
-<div class="info-box">
-    <p><strong>Jenis Laporan:</strong> Daftar Stock Produk (SRS-MartPlace-12)</p>
-    <p><strong>Nama Toko:</strong> {{ $seller->nama_toko }}</p>
-    <p><strong>Total Produk:</strong> {{ $products->count() }}</p>
-    <p><strong>Total Stock:</strong> {{ $products->sum('stock') }} unit</p>
-    <p><strong>Urutan:</strong> Stock tertinggi ke terendah</p>
-</div>
-
+<h3 style="margin-bottom: 20px; color: #f97316;">Laporan Stok Produk</h3>
 <table>
     <thead>
         <tr>
             <th style="width:5%">No</th>
-            <th style="width:35%">Nama Produk</th>
-            <th style="width:15%">Kategori</th>
-            <th style="width:20%">Harga</th>
-            <th style="width:15%">Stock</th>
+            <th style="width:40%">Nama Produk</th>
+            <th style="width:18%">Kategori</th>
+            <th style="width:17%">Harga</th>
+            <th style="width:10%">Stok</th>
             <th style="width:10%">Rating</th>
         </tr>
     </thead>
@@ -29,15 +20,7 @@
             <td>{{ $product->name }}</td>
             <td>{{ ucfirst(str_replace('-', ' ', $product->category_slug)) }}</td>
             <td class="text-right">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-            <td class="text-center">
-                @if($product->stock < 2)
-                    <span class="badge badge-danger">{{ $product->stock }}</span>
-                @elseif($product->stock < 10)
-                    <span class="badge badge-warning">{{ $product->stock }}</span>
-                @else
-                    <span class="badge badge-success">{{ $product->stock }}</span>
-                @endif
-            </td>
+            <td class="text-center">{{ $product->stock }}</td>
             <td class="text-center">
                 @if($product->avg_rating > 0)
                     {{ number_format($product->avg_rating, 1) }} ★
@@ -48,9 +31,15 @@
         </tr>
         @empty
         <tr>
-            <td colspan="6" class="text-center">Tidak ada data</td>
+            <td colspan="6" class="no-data">Tidak ada data produk tersedia</td>
         </tr>
         @endforelse
     </tbody>
 </table>
+
+@if($products->count() > 0)
+<p style="margin-top: 20px; font-size: 12px; color: #6b7280;">
+    Total: {{ $products->count() }} produk | Total Stok: {{ $products->sum('stock') }} unit
+</p>
+@endif
 @endsection

@@ -461,42 +461,53 @@
 
         /* ===================== USER DROPDOWN ===================== */
         .user-dropdown{position:relative;}
-        .dropdown-trigger{
-            display:flex;align-items:center;gap:8px;
-            padding:8px 16px;background:rgba(249,115,22,0.1);
+        .user-dropdown-toggle{
+            display:flex;align-items:center;gap:10px;
+            padding:8px 16px;border-radius:50px;cursor:pointer;
+            background:rgba(249,115,22,0.1);
             border:1px solid rgba(249,115,22,0.3);
-            border-radius:50px;font-size:14px;
-            font-weight:500;color:var(--text-main);
-            cursor:pointer;transition:all .3s;
+            transition:all .2s;
         }
-        .dropdown-trigger:hover{background:rgba(249,115,22,0.2);}
-        .dropdown-trigger i.uil-angle-down{transition:transform .3s;}
-        .user-dropdown.open .dropdown-trigger i.uil-angle-down{transform:rotate(180deg);}
-        .dropdown-menu{
+        .user-dropdown-toggle:hover{background:rgba(249,115,22,0.2);}
+        .user-avatar{
+            width:32px;height:32px;border-radius:50%;
+            background:linear-gradient(135deg,#f97316,#ea580c);
+            display:flex;align-items:center;justify-content:center;
+            color:white;font-weight:700;font-size:14px;
+        }
+        .user-info{display:flex;flex-direction:column;align-items:flex-start;}
+        .user-name{font-size:13px;font-weight:600;color:var(--text-main);}
+        .user-role{font-size:11px;color:#f97316;}
+        .dropdown-arrow{font-size:12px;color:var(--text-main);transition:transform .2s;}
+        .user-dropdown.open .dropdown-arrow{transform:rotate(180deg);}
+        .user-dropdown-menu{
             position:absolute;top:calc(100% + 8px);right:0;
+            min-width:220px;padding:8px;
             background:var(--card-bg);border:1px solid var(--card-border);
-            border-radius:12px;min-width:180px;
-            box-shadow:0 10px 40px rgba(0,0,0,0.3);
-            opacity:0;visibility:hidden;
-            transform:translateY(-10px);
-            transition:all .3s;z-index:100;
-            overflow:hidden;
+            border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.3);
+            opacity:0;visibility:hidden;transform:translateY(-10px);
+            transition:all .2s;z-index:100;
         }
-        .user-dropdown.open .dropdown-menu{
+        .user-dropdown.open .user-dropdown-menu{
             opacity:1;visibility:visible;transform:translateY(0);
         }
+        .dropdown-header{
+            padding:12px;margin-bottom:8px;
+            border-bottom:1px solid var(--card-border);
+        }
+        .dropdown-header-name{font-size:14px;font-weight:600;color:var(--page-title-color);}
+        .dropdown-header-email{font-size:12px;color:var(--section-text);margin-top:2px;}
         .dropdown-item{
             display:flex;align-items:center;gap:10px;
-            padding:12px 16px;font-size:14px;
-            color:var(--text-main);text-decoration:none;
-            transition:background .2s;
+            padding:10px 12px;border-radius:8px;
+            color:var(--page-title-color);font-size:13px;
+            transition:all .2s;cursor:pointer;
         }
-        .dropdown-item:hover{background:rgba(249,115,22,0.1);}
-        .dropdown-item i{font-size:18px;color:#f97316;}
-        .dropdown-divider{height:1px;background:var(--card-border);margin:0;}
+        .dropdown-item:hover{background:rgba(249,115,22,0.1);color:#f97316;}
+        .dropdown-item i{font-size:16px;width:20px;text-align:center;}
+        .dropdown-divider{height:1px;background:var(--card-border);margin:8px 0;}
         .dropdown-item.logout{color:#ef4444;}
-        .dropdown-item.logout i{color:#ef4444;}
-        .dropdown-item.logout:hover{background:rgba(239,68,68,0.1);}
+        .dropdown-item.logout:hover{background:rgba(239,68,68,0.1);color:#ef4444;}
 
         /* ===================== FOOTER ===================== */
         .footer{
@@ -806,6 +817,79 @@
         .chat-send-btn:hover{transform:scale(1.05);}
         .chat-send-btn i{font-size:18px;color:#fff;}
 
+        /* ===================== PAGINATION ===================== */
+        nav[role="navigation"]{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-top:40px;
+            padding:20px 0;
+        }
+        nav[role="navigation"] .pagination{
+            display:inline-flex;
+            gap:8px;
+            list-style:none;
+            padding:8px 12px;
+            margin:0;
+            background:var(--card-bg);
+            border:1px solid var(--card-border);
+            border-radius:16px;
+            box-shadow:0 8px 24px rgba(0,0,0,0.15);
+        }
+        nav[role="navigation"] .page-item{display:block;}
+        nav[role="navigation"] .page-link{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            min-width:42px;
+            height:42px;
+            padding:0 12px;
+            background:transparent;
+            border:none;
+            border-radius:10px;
+            color:var(--section-text);
+            font-size:15px;
+            font-weight:600;
+            text-decoration:none;
+            transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position:relative;
+        }
+        nav[role="navigation"] .page-link:hover{
+            background:rgba(249,115,22,0.1);
+            color:#f97316;
+            transform:translateY(-2px);
+        }
+        nav[role="navigation"] .page-item.active .page-link{
+            background:linear-gradient(135deg,#f97316,#fb923c);
+            color:white;
+            box-shadow:0 4px 16px rgba(249,115,22,0.35),
+                       inset 0 1px 0 rgba(255,255,255,0.2);
+            transform:scale(1.05);
+        }
+        nav[role="navigation"] .page-item.active .page-link:hover{
+            transform:scale(1.05) translateY(-1px);
+        }
+        nav[role="navigation"] .page-item.disabled .page-link{
+            opacity:0.3;
+            cursor:not-allowed;
+            background:transparent;
+            color:var(--section-text);
+        }
+        nav[role="navigation"] .page-item.disabled .page-link:hover{
+            transform:none;
+            background:transparent;
+        }
+        /* Pagination arrows */
+        nav[role="navigation"] .page-link svg{
+            width:14px;
+            height:14px;
+        }
+        /* Dots styling */
+        nav[role="navigation"] .page-link:has(span:contains('...')){
+            pointer-events:none;
+            min-width:32px;
+        }
+
         /* ===================== RESPONSIVE ===================== */
         @media(max-width:1024px){
             .market-container{padding:140px 16px 40px;}
@@ -823,6 +907,7 @@
         @media(max-width:640px){
             .product-grid{grid-template-columns:repeat(2, 1fr);}
             .nav-menu{display:none;}
+            nav[role="navigation"] .page-link{min-width:32px;height:32px;padding:4px 8px;font-size:13px;}
         }
     </style>
 </head>
@@ -855,36 +940,6 @@
     </div>
     
     <div class="nav-actions">
-        @auth
-            <div class="user-dropdown" id="userDropdown">
-                <div class="dropdown-trigger" onclick="toggleDropdown()">
-                    <i class="uil uil-user-circle"></i>
-                    <span>{{ auth()->user()->name }}</span>
-                    <i class="uil uil-angle-down"></i>
-                </div>
-                <div class="dropdown-menu">
-                    @if(auth()->user()->seller)
-                        <a href="{{ route('seller.dashboard') }}" class="dropdown-item">
-                            <i class="uil uil-dashboard"></i> Dashboard
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    @endif
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="dropdown-item logout" style="width:100%;border:none;background:none;cursor:pointer;">
-                            <i class="uil uil-sign-out-alt"></i> Logout
-                        </button>
-                    </form>
-                </div>
-            </div>
-        @else
-            <a href="{{ route('login') }}" class="btn-auth btn-login">
-                <i class="uil uil-shop"></i> Login
-            </a>
-            <a href="{{ route('register') }}" class="btn-auth btn-register">
-                <i class="uil uil-store-alt"></i> Daftar Penjual
-            </a>
-        @endauth
         <div class="theme-toggle-wrapper">
             <label class="toggle-switch">
                 <input type="checkbox" class="js-theme-toggle" />
@@ -900,6 +955,98 @@
                 </span>
             </label>
         </div>
+
+        @auth
+            @php
+                $hasSeller = \App\Models\Seller::where('user_id', auth()->id())->exists();
+            @endphp
+            @if(auth()->user()->is_admin)
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-toggle" onclick="toggleUserDropdown()">
+                        <div class="user-avatar">
+                            <i class="uil uil-shield-check"></i>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">{{ auth()->user()->name }}</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                        <i class="uil uil-angle-down dropdown-arrow"></i>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <div class="dropdown-header">
+                            <div class="dropdown-header-name">{{ auth()->user()->name }}</div>
+                            <div class="dropdown-header-email">{{ auth()->user()->email }}</div>
+                        </div>
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                            <i class="uil uil-dashboard"></i> Dashboard
+                        </a>
+                        <a href="{{ route('admin.sellers.index') }}" class="dropdown-item">
+                            <i class="uil uil-folder-open"></i> Pengajuan Toko
+                        </a>
+                        <a href="{{ route('admin.reports.index') }}" class="dropdown-item">
+                            <i class="uil uil-chart-bar"></i> Laporan
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('home') }}" class="dropdown-item">
+                            <i class="uil uil-home"></i> Home
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                            @csrf
+                            <button type="submit" class="dropdown-item logout" style="width:100%;border:none;background:none;">
+                                <i class="uil uil-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @elseif($hasSeller)
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-toggle" onclick="toggleUserDropdown()" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);">
+                        <div class="user-avatar" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);">
+                            <i class="uil uil-store"></i>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">{{ auth()->user()->name }}</span>
+                            <span class="user-role" style="color:#3b82f6;">Penjual</span>
+                        </div>
+                        <i class="uil uil-angle-down dropdown-arrow"></i>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <div class="dropdown-header">
+                            <div class="dropdown-header-name">{{ auth()->user()->name }}</div>
+                            <div class="dropdown-header-email">{{ auth()->user()->email }}</div>
+                        </div>
+                        <a href="{{ route('seller.dashboard') }}" class="dropdown-item">
+                            <i class="uil uil-dashboard"></i> Dashboard
+                        </a>
+                        <a href="{{ route('seller.products.index') }}" class="dropdown-item">
+                            <i class="uil uil-box"></i> Produk Saya
+                        </a>
+                        <a href="{{ route('seller.reports.stock') }}" class="dropdown-item">
+                            <i class="uil uil-chart-bar"></i> Laporan
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('home') }}" class="dropdown-item">
+                            <i class="uil uil-home"></i> Home
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                            @csrf
+                            <button type="submit" class="dropdown-item logout" style="width:100%;border:none;background:none;">
+                                <i class="uil uil-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endif
+        @else
+            <a href="{{ route('login') }}" class="btn-auth btn-login">
+                <i class="uil uil-shop"></i> Login
+            </a>
+            <a href="{{ route('register') }}" class="btn-auth btn-register">
+                <i class="uil uil-store-alt"></i> Daftar Penjual
+            </a>
+        @endauth
     </div>
 </nav>
 
@@ -997,7 +1144,7 @@
                     </label>
                 </div>
                 
-                {{-- Filter Lokasi Penjual (Cascading Dropdown) --}}
+                {{-- Filter Lokasi Penjual --}}
                 <div class="filter-section">
                     <div class="filter-title">
                         <i class="uil uil-map-marker"></i> Lokasi Penjual
@@ -1005,31 +1152,9 @@
                     
                     <div class="location-filter-group">
                         <select name="provinsi" id="filterProvinsi" class="filter-select">
-                            <option value="">Pilih Provinsi</option>
+                            <option value="">Semua Provinsi</option>
                         </select>
                     </div>
-                    
-                    <div class="location-filter-group">
-                        <select name="kota" id="filterKota" class="filter-select" disabled>
-                            <option value="">Pilih Kota/Kabupaten</option>
-                        </select>
-                    </div>
-                    
-                    <div class="location-filter-group">
-                        <select name="kecamatan" id="filterKecamatan" class="filter-select" disabled>
-                            <option value="">Pilih Kecamatan</option>
-                        </select>
-                    </div>
-                    
-                    <div class="location-filter-group">
-                        <select name="kelurahan" id="filterKelurahan" class="filter-select" disabled>
-                            <option value="">Pilih Kelurahan</option>
-                        </select>
-                    </div>
-                    
-                    <button type="submit" class="btn-filter" style="margin-top:10px;">
-                        <i class="uil uil-filter"></i> Terapkan Lokasi
-                    </button>
                 </div>
                 
                 {{-- Reset --}}
@@ -1123,7 +1248,7 @@
                 
                 {{-- Pagination --}}
                 <div style="margin-top:40px;display:flex;justify-content:center;">
-                    {{ $products->withQueryString()->links() }}
+                    {{ $products->withQueryString()->links('pagination::custom') }}
                 </div>
             @endif
         </main>
@@ -1206,8 +1331,8 @@
         }
     })();
 
-    // Dropdown toggle
-    function toggleDropdown(){
+    // User Dropdown toggle
+    function toggleUserDropdown(){
         const dd = document.getElementById('userDropdown');
         if(dd) dd.classList.toggle('open');
     }
@@ -1319,22 +1444,13 @@
     const API_BASE = 'https://www.emsifa.com/api-wilayah-indonesia/api';
     
     const locationCache = {
-        provinces: null,
-        regencies: {},
-        districts: {},
-        villages: {}
+        provinces: null
     };
 
     const filterProvinsi = document.getElementById('filterProvinsi');
-    const filterKota = document.getElementById('filterKota');
-    const filterKecamatan = document.getElementById('filterKecamatan');
-    const filterKelurahan = document.getElementById('filterKelurahan');
 
-    // Data dari server (filter yang sedang aktif & lokasi seller)
+    // Data dari server (filter yang sedang aktif)
     const currentProvinsi = "{{ $selProvinsi ?? '' }}";
-    const currentKota = "{{ $selKota ?? '' }}";
-    const currentKecamatan = "{{ $selKecamatan ?? '' }}";
-    const currentKelurahan = "{{ $selKelurahan ?? '' }}";
     
     // Lokasi default seller jika login
     const sellerLocation = @json($sellerLocation ?? null);
@@ -1383,151 +1499,13 @@
         });
     }
 
-    filterProvinsi.addEventListener('change', async function() {
-        const selectedId = this.options[this.selectedIndex]?.dataset?.id;
-        
-        // Reset child dropdowns
-        filterKota.innerHTML = '<option value="">Semua Kota/Kabupaten</option>';
-        filterKota.disabled = true;
-        filterKecamatan.innerHTML = '<option value="">Semua Kecamatan</option>';
-        filterKecamatan.disabled = true;
-        filterKelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
-        filterKelurahan.disabled = true;
-
-        if (!selectedId) return;
-
-        if (locationCache.regencies[selectedId]) {
-            populateKota(locationCache.regencies[selectedId]);
-            return;
-        }
-
-        setSelectLoading(filterKota, true);
-        const regencies = await fetchLocationData(`${API_BASE}/regencies/${selectedId}.json`);
-        locationCache.regencies[selectedId] = regencies;
-        populateKota(regencies);
-    });
-
-    function populateKota(regencies) {
-        filterKota.innerHTML = '<option value="">Semua Kota/Kabupaten</option>';
-        regencies.forEach(reg => {
-            const option = document.createElement('option');
-            option.value = reg.name;
-            option.textContent = reg.name;
-            option.dataset.id = reg.id;
-            filterKota.appendChild(option);
-        });
-        filterKota.disabled = false;
-    }
-
-    filterKota.addEventListener('change', async function() {
-        const selectedId = this.options[this.selectedIndex]?.dataset?.id;
-        
-        filterKecamatan.innerHTML = '<option value="">Semua Kecamatan</option>';
-        filterKecamatan.disabled = true;
-        filterKelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
-        filterKelurahan.disabled = true;
-
-        if (!selectedId) return;
-
-        if (locationCache.districts[selectedId]) {
-            populateKecamatan(locationCache.districts[selectedId]);
-            return;
-        }
-
-        setSelectLoading(filterKecamatan, true);
-        const districts = await fetchLocationData(`${API_BASE}/districts/${selectedId}.json`);
-        locationCache.districts[selectedId] = districts;
-        populateKecamatan(districts);
-    });
-
-    function populateKecamatan(districts) {
-        filterKecamatan.innerHTML = '<option value="">Semua Kecamatan</option>';
-        districts.forEach(dist => {
-            const option = document.createElement('option');
-            option.value = dist.name;
-            option.textContent = dist.name;
-            option.dataset.id = dist.id;
-            filterKecamatan.appendChild(option);
-        });
-        filterKecamatan.disabled = false;
-    }
-
-    filterKecamatan.addEventListener('change', async function() {
-        const selectedId = this.options[this.selectedIndex]?.dataset?.id;
-        
-        filterKelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
-        filterKelurahan.disabled = true;
-
-        if (!selectedId) return;
-
-        if (locationCache.villages[selectedId]) {
-            populateKelurahan(locationCache.villages[selectedId]);
-            return;
-        }
-
-        setSelectLoading(filterKelurahan, true);
-        const villages = await fetchLocationData(`${API_BASE}/villages/${selectedId}.json`);
-        locationCache.villages[selectedId] = villages;
-        populateKelurahan(villages);
-    });
-
-    function populateKelurahan(villages) {
-        filterKelurahan.innerHTML = '<option value="">Semua Kelurahan</option>';
-        villages.forEach(vill => {
-            const option = document.createElement('option');
-            option.value = vill.name;
-            option.textContent = vill.name;
-            filterKelurahan.appendChild(option);
-        });
-        filterKelurahan.disabled = false;
-    }
-
     // Initialize location filter
     window.addEventListener('DOMContentLoaded', async function() {
         await loadProvinces();
 
-        // Determine default values: use current filter values, or seller location if no filter active
-        let defaultProvinsi = currentProvinsi;
-        let defaultKota = currentKota;
-        let defaultKecamatan = currentKecamatan;
-        let defaultKelurahan = currentKelurahan;
-
-        // If no filter active and seller is logged in, use seller's location as default
-        const noFilterActive = !currentProvinsi && !currentKota && !currentKecamatan && !currentKelurahan;
-        const isFirstLoad = !new URLSearchParams(window.location.search).has('provinsi');
-        
-        if (noFilterActive && isFirstLoad && sellerLocation) {
-            defaultProvinsi = sellerLocation.provinsi || '';
-            defaultKota = sellerLocation.kota || '';
-            defaultKecamatan = sellerLocation.kecamatan || '';
-            defaultKelurahan = sellerLocation.kelurahan || '';
-        }
-
-        // Set provinsi value and trigger cascade
-        if (defaultProvinsi) {
-            filterProvinsi.value = defaultProvinsi;
-            await filterProvinsi.dispatchEvent(new Event('change'));
-
-            // Wait for kota to load
-            await new Promise(resolve => setTimeout(resolve, 500));
-            
-            if (defaultKota) {
-                filterKota.value = defaultKota;
-                await filterKota.dispatchEvent(new Event('change'));
-
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
-                if (defaultKecamatan) {
-                    filterKecamatan.value = defaultKecamatan;
-                    await filterKecamatan.dispatchEvent(new Event('change'));
-
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    
-                    if (defaultKelurahan) {
-                        filterKelurahan.value = defaultKelurahan;
-                    }
-                }
-            }
+        // Set provinsi value from current filter
+        if (currentProvinsi) {
+            filterProvinsi.value = currentProvinsi;
         }
     });
 </script>

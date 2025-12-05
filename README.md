@@ -342,36 +342,6 @@ Form lengkap dengan API wilayah Indonesia.
 
 ---
 
-## 🐛 **Troubleshooting**
-
-### **Issue: "Class not found"**
-```bash
-composer dump-autoload
-php artisan optimize:clear
-```
-
-### **Issue: "Permission denied" (Storage)**
-```bash
-chmod -R 775 storage bootstrap/cache
-```
-
-### **Issue: "API Wilayah tidak load"**
-- Cek koneksi internet
-- Fallback data otomatis aktif untuk offline mode
-- Data minimal tersedia untuk Semarang, Jakarta, Jambi
-
-### **Issue: "Excel export error"**
-```bash
-# Pastikan extension PHP zip dan GD terinstall
-composer require maatwebsite/excel
-```
-
-### **Issue: "Alpine.js dropdown tidak bekerja"**
-- Hard refresh browser: `Ctrl+Shift+R` / `Cmd+Shift+R`
-- Clear browser cache
-- Pastikan Alpine.js CDN loaded (cek Console)
-
----
 
 ## 📝 **License**
 

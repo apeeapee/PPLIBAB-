@@ -15,32 +15,72 @@ class ProductRankingExport implements FromCollection, WithHeadings, WithMapping,
     protected $limit;
     protected $category;
 
-    public function __construct($limit = 50, $category = null)
+    protected $request;
+
+    public function __construct($request)
     {
-        $this->limit = $limit;
-        $this->category = $category;
+        $this->request = $request;
     }
 
     public function collection()
     {
+        $limit = $this->request->get('limit', 50);
+        $category = $this->request->get('category', null);
+        $search = $this->request->get('search', null);
+        $sort = $this->request->get('sort', 'rating_desc');
+        
         $query = Product::select(
-                'products.*',
+                'products.id',
+                'products.name',
+                'products.price',
+                'products.stock',
+                'products.image_url',
+                'products.category_slug',
+                'products.seller_id',
                 'sellers.nama_toko',
                 DB::raw('COALESCE(AVG(reviews.rating), 0) as avg_rating'),
                 DB::raw('COUNT(reviews.id) as review_count')
             )
             ->join('sellers', 'products.seller_id', '=', 'sellers.id')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
-            ->groupBy('products.id', 'sellers.nama_toko');
+            ->groupBy('products.id', 'products.name', 'products.price', 'products.stock', 'products.image_url', 'products.category_slug', 'products.seller_id', 'sellers.nama_toko');
 
-        if ($this->category) {
-            $query->where('products.category_slug', $this->category);
+        // Filter by category
+        if ($category) {
+            $query->where('products.category_slug', $category);
         }
 
-        return $query->orderBy('avg_rating', 'desc')
-            ->orderBy('review_count', 'desc')
-            ->limit($this->limit)
-            ->get();
+        // Filter by search
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('products.name', 'like', "%{$search}%")
+                  ->orWhere('sellers.nama_toko', 'like', "%{$search}%");
+            });
+        }
+
+        // Sorting
+        switch ($sort) {
+            case 'rating_asc':
+                $query->orderBy('avg_rating', 'asc')->orderBy('review_count', 'asc');
+                break;
+            case 'name_asc':
+                $query->orderBy('products.name', 'asc');
+                break;
+            case 'name_desc':
+                $query->orderBy('products.name', 'desc');
+                break;
+            case 'price_asc':
+                $query->orderBy('products.price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('products.price', 'desc');
+                break;
+            default: // rating_desc
+                $query->orderBy('avg_rating', 'desc')->orderBy('review_count', 'desc');
+                break;
+        }
+
+        return $query->limit($limit)->get();
     }
 
     public function headings(): array

@@ -40,4 +40,9 @@ class Seller extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

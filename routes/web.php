@@ -98,25 +98,50 @@ Route::middleware(['auth', 'can:verify-sellers'])
 
         // 🔹 Laporan Admin (SRS-09, 10, 11) - Platform Level Reports
         Route::prefix('laporan')->name('reports.')->group(function () {
+            Route::get('/', [ReportController::class, 'index'])
+                ->name('index'); // Report landing page
+            
             Route::get('/sellers', [ReportController::class, 'sellers'])
                 ->name('sellers'); // SRS-09
-            Route::get('/sellers/export', [ReportController::class, 'exportSellers'])
-                ->name('sellers.export'); // SRS-09 Export
+            Route::get('/sellers/export-excel', [ReportController::class, 'exportSellersExcel'])
+                ->name('sellers.export-excel'); // SRS-09 Excel Export
+            Route::get('/sellers/export-pdf', [ReportController::class, 'exportSellersPDF'])
+                ->name('sellers.export-pdf'); // SRS-09 PDF Export
             
             Route::get('/sellers-by-location', [ReportController::class, 'sellersByLocation'])
                 ->name('sellers-location'); // SRS-10
-            Route::get('/sellers-by-location/export', [ReportController::class, 'exportSellersByLocation'])
-                ->name('sellers-location.export'); // SRS-10 Export
+            Route::get('/sellers-by-location/export-excel', [ReportController::class, 'exportSellersByLocationExcel'])
+                ->name('sellers-location.export-excel'); // SRS-10 Excel Export
+            Route::get('/sellers-by-location/export-pdf', [ReportController::class, 'exportSellersByLocationPDF'])
+                ->name('sellers-location.export-pdf'); // SRS-10 PDF Export
             
             Route::get('/product-ranking', [ReportController::class, 'productRanking'])
                 ->name('product-ranking'); // SRS-11
-            Route::get('/product-ranking/export', [ReportController::class, 'exportProductRanking'])
-                ->name('product-ranking.export'); // SRS-11 Export
+            Route::get('/product-ranking/export-excel', [ReportController::class, 'exportProductRankingExcel'])
+                ->name('product-ranking.export-excel'); // SRS-11 Excel Export
+            Route::get('/product-ranking/export-pdf', [ReportController::class, 'exportProductRankingPDF'])
+                ->name('product-ranking.export-pdf'); // SRS-11 PDF Export
         });
     });
 
 Route::middleware('auth')->get('/market/dashboard', [\App\Http\Controllers\Seller\DashboardController::class, 'index'])
     ->name('seller.dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Seller Notifications (SRS-MartPlace-02: Email Verifikasi)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->prefix('seller')->name('seller.')->group(function () {
+    Route::get('/notifications', [\App\Http\Controllers\Seller\NotificationController::class, 'index'])
+        ->name('notifications.index');
+    Route::get('/notifications/{notification}', [\App\Http\Controllers\Seller\NotificationController::class, 'show'])
+        ->name('notifications.show');
+    Route::post('/notifications/{notification}/mark-read', [\App\Http\Controllers\Seller\NotificationController::class, 'markAsRead'])
+        ->name('notifications.mark-read');
+    Route::post('/notifications/mark-all-read', [\App\Http\Controllers\Seller\NotificationController::class, 'markAllAsRead'])
+        ->name('notifications.mark-all-read');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -158,3 +183,21 @@ Route::middleware('auth')->prefix('seller')->name('seller.')->group(function () 
     });
 });
 
+// Route test untuk debug auth
+Route::get('/test-auth', function () {
+    $user = auth()->user();
+    if (!$user) {
+        return response()->json([
+            'logged_in' => false,
+            'message' => 'NOT LOGGED IN',
+            'login_url' => url('/login')
+        ]);
+    }
+    return response()->json([
+        'logged_in' => true,
+        'user' => $user->only(['id', 'name', 'email', 'is_admin']),
+        'can_verify_sellers' => $user->can('verify-sellers'),
+        'is_admin' => (bool) $user->is_admin,
+        'message' => $user->can('verify-sellers') ? 'CAN access admin area ✅' : 'CANNOT access admin area ❌'
+    ]);
+});

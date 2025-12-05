@@ -15,6 +15,9 @@
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
             --accent: #f97316;
+            --input-bg: rgba(15,23,42,0.8);
+            --input-border: rgba(148,163,184,0.3);
+            --input-text: #f9fafb;
         }
         body.theme-light {
             --bg-main: linear-gradient(135deg, #ffffff 0%, #e3e8ff 40%, #d5ddff 100%);
@@ -23,16 +26,27 @@
             --card-border: #e5e7eb;
             --text-main: #111827;
             --text-muted: #6b7280;
+            --input-bg: rgba(255,255,255,0.9);
+            --input-border: #d1d5db;
+            --input-text: #111827;
         }
         body { background: var(--bg-main); }
         body.theme-light .bg-slate-900\/95 { background: var(--nav-bg) !important; }
-        body.theme-light .bg-slate-800\/50 { background: rgba(255,255,255,0.8) !important; }
-        body.theme-light .bg-slate-900\/50 { background: rgba(255,255,255,0.9) !important; }
+        body.theme-light .bg-slate-800\/50 { background: rgba(255,255,255,0.9) !important; }
+        body.theme-light .bg-slate-900\/50 { background: var(--input-bg) !important; color: var(--input-text) !important; }
         body.theme-light .border-blue-500\/30 { border-color: #e5e7eb !important; }
-        body.theme-light .border-slate-700 { border-color: #d1d5db !important; }
+        body.theme-light .border-slate-700 { border-color: var(--input-border) !important; }
         body.theme-light .text-white { color: var(--text-main) !important; }
         body.theme-light .text-gray-300 { color: var(--text-muted) !important; }
         body.theme-light .text-gray-400 { color: #6b7280 !important; }
+        body.theme-light .text-gray-500 { color: #9ca3af !important; }
+        body.theme-light h1, body.theme-light h2, body.theme-light h3, body.theme-light h4 { color: var(--text-main) !important; }
+        body.theme-light label, body.theme-light p, body.theme-light span, body.theme-light li { color: var(--text-main) !important; }
+        body.theme-light .text-sm, body.theme-light .text-xs { color: var(--text-muted) !important; }
+        body.theme-light .bg-gradient-to-r { color: #111827 !important; }
+        body.theme-light input::placeholder,
+        body.theme-light textarea::placeholder { color: #9ca3af !important; opacity: 1; }
+        body.theme-light select option { background: white; color: #111827; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -55,134 +69,206 @@
         input.js-theme-toggle:checked + .slider{background:linear-gradient(145deg,#1f2937,#020617);box-shadow:0 0 14px rgba(15,23,42,0.8);}
         input.js-theme-toggle:checked + .slider:before{transform:translateX(38px);content:"🌙";}
         input.js-theme-toggle:checked + .slider .cloud{opacity:0;transform:translateY(-18px);}
+
+        /* Sidebar Layout Styles */
+        .nav {
+            position:fixed;top:0;left:0;right:0;z-index:100;
+            background:var(--nav-bg);backdrop-filter:blur(20px);
+            border-bottom:1px solid rgba(249,115,22,0.3);
+            padding:12px 32px;display:flex;align-items:center;justify-content:space-between;
+        }
+        .nav-left { display:flex;align-items:center;gap:32px; }
+        .nav-logo { display:flex;align-items:center;gap:10px;text-decoration:none; }
+        .nav-logo img { height:38px;width:38px; }
+        .nav-logo span { font-size:22px;font-weight:700;color:var(--text-main); }
+        .nav-menu { display:flex;gap:24px; }
+        .nav-menu a { color:var(--text-muted);font-size:14px;font-weight:500;text-decoration:none;transition:color .2s; }
+        .nav-menu a:hover, .nav-menu a.active { color:var(--accent); }
+        .nav-actions { display:flex;align-items:center;gap:16px; }
+
+        .btn-logout {
+            border:none;background:rgba(239,68,68,0.1);color:#ef4444;cursor:pointer;
+            padding:8px 16px;border-radius:50px;font-size:13px;font-weight:600;transition:all .3s;
+            display:flex;align-items:center;gap:6px;
+        }
+        .btn-logout:hover{background:#ef4444;color:white;}
+
+        .main-container { max-width:1400px;margin:0 auto;padding:90px 24px 40px;display:grid;grid-template-columns:260px 1fr;gap:28px; }
+        @media(max-width:900px) { .main-container { grid-template-columns:1fr;padding-top:80px; } }
+
+        .sidebar {
+            background:var(--card-bg);border-radius:16px;padding:24px;
+            border:1px solid var(--card-border);box-shadow:0 10px 40px rgba(0,0,0,0.2);
+            position:sticky;top:90px;max-height:calc(100vh - 110px);overflow-y:auto;
+        }
+        .sidebar-section { margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--card-border); }
+        .sidebar-section:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
+        .sidebar-title { font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px; }
+        .sidebar-menu { display:flex;flex-direction:column;gap:6px; }
+        .sidebar-link {
+            display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;
+            font-size:14px;font-weight:500;color:var(--text-main);text-decoration:none;transition:all .2s;
+        }
+        .sidebar-link:hover { background:rgba(249,115,22,0.1);color:var(--accent); }
+        .sidebar-link.active { background:rgba(249,115,22,0.15);color:var(--accent);font-weight:600; }
+        .sidebar-link i { font-size:20px;width:24px;text-align:center; }
+
+        .shop-info-box {
+            background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);
+            border-radius:12px;padding:16px;text-align:center;
+        }
+        .shop-name { font-size:16px;font-weight:700;color:var(--text-main);margin-bottom:4px; }
+        .shop-status { display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:50px;font-size:12px;font-weight:600; }
+        .shop-status.approved { background:rgba(34,197,94,0.2);color:#22c55e; }
+
+        .content { min-width:0; }
+        .back-link { display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:14px;text-decoration:none;margin-bottom:16px; }
+        .back-link:hover { color:var(--accent-hover); }
+        .page-title { font-size:28px;font-weight:800;color:var(--text-main);margin-bottom:6px; }
+        .page-subtitle { font-size:14px;color:var(--text-muted);margin-bottom:24px; }
+
+        .form-card { background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px; }
+
+        .footer { background:var(--nav-bg);border-top:1px solid var(--card-border);padding:20px 32px;text-align:center;margin-top:auto; }
+        .footer p { font-size:13px;color:var(--text-muted); }
+        .footer span { color:var(--accent);font-weight:600; }
+
+        /* Form Styles */
+        .form-group { margin-bottom:24px; }
+        .form-label { display:block;font-size:14px;font-weight:600;color:var(--text-main);margin-bottom:8px; }
+        .form-label .required { color:#ef4444; }
+        .form-input, .form-select, .form-textarea {
+            width:100%;padding:12px 16px;background:var(--input-bg);border:1px solid var(--input-border);
+            border-radius:10px;color:var(--input-text);font-size:14px;transition:all .2s;
+        }
+        .form-input::placeholder, .form-textarea::placeholder { color:var(--text-muted); }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,115,22,0.15);
+        }
+        .form-textarea { resize:vertical;min-height:120px; }
+        .form-hint { font-size:12px;color:var(--text-muted);margin-top:6px; }
+        .form-error { font-size:12px;color:#ef4444;margin-top:6px; }
+        .form-actions { display:flex;gap:16px;margin-top:32px; }
+        .btn-submit {
+            flex:1;padding:14px 24px;background:var(--accent);color:#111827;border:none;border-radius:50px;
+            font-size:15px;font-weight:600;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-center;gap:8px;
+        }
+        .btn-submit:hover { background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 8px 20px rgba(249,115,22,0.3); }
+        .btn-cancel {
+            flex:1;padding:14px 24px;background:rgba(148,163,184,0.2);color:var(--text-main);border:none;border-radius:50px;
+            font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;text-align:center;display:flex;align-items:center;justify-center;gap:8px;
+        }
+        .btn-cancel:hover { background:rgba(148,163,184,0.3); }
+        .form-row { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
+        @media(max-width:600px) { .form-row { grid-template-columns:1fr; } }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 min-h-screen flex flex-col">
+<body class="theme-dark">
 
-{{-- NAVBAR --}}
-<nav class="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-xl border-b border-blue-500/30 shadow-lg">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            {{-- Logo --}}
-            <a href="{{ route('seller.dashboard') }}" class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                    <i class="uil uil-shop text-white text-lg"></i>
-                </div>
-                <span class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                    kampuStore
-                </span>
-            </a>
-            
-            {{-- Center Menu --}}
-            <div class="hidden md:flex items-center gap-6">
-                <a href="{{ route('seller.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-800/50 transition-all">
-                    <i class="uil uil-dashboard text-base"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="{{ route('seller.products.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-800/50 transition-all">
-                    <i class="uil uil-box text-base"></i>
-                    <span>Produk Saya</span>
-                </a>
-                <div class="relative" x-data="{ openReports: false }">
-                    <button @click="openReports = !openReports" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-800/50 transition-all">
-                        <i class="uil uil-chart-line text-base"></i>
-                        <span>Laporan</span>
-                        <i class="uil uil-angle-down ml-1"></i>
-                    </button>
-                    <div x-show="openReports" @click.away="openReports = false" 
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 scale-95"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         class="absolute left-0 mt-2 w-56 rounded-lg shadow-lg bg-slate-800 border border-blue-500/30"
-                         style="display: none;">
-                        <div class="py-2">
-                            <a href="{{ route('seller.reports.stock') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700">
-                                <i class="uil uil-box mr-2"></i>Laporan Stok
-                            </a>
-                            <a href="{{ route('seller.reports.rating') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700">
-                                <i class="uil uil-star mr-2"></i>Laporan Rating
-                            </a>
-                            <a href="{{ route('seller.reports.restock') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-700">
-                                <i class="uil uil-exclamation-triangle mr-2"></i>Restock Alert
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <a href="{{ route('products.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-800/50 transition-all">
-                    <i class="uil uil-store text-base"></i>
-                    <span>Market</span>
-                </a>
-            </div>
-
-            {{-- Right Menu --}}
-            <div class="flex items-center gap-3">
-                {{-- Theme Toggle --}}
-                <div class="theme-toggle-wrapper">
-                    <label class="toggle-switch">
-                        <input type="checkbox" class="js-theme-toggle" />
-                        <span class="slider">
-                            <div class="clouds">
-                                <svg viewBox="0 0 100 100" class="cloud cloud1"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
-                                <svg viewBox="0 0 100 100" class="cloud cloud2"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
-                            </div>
-                        </span>
-                    </label>
-                </div>
-
-                {{-- User Info --}}
-                <div class="hidden sm:flex items-center gap-2 px-3 py-2 bg-slate-800/50 rounded-lg border border-slate-700/50">
-                    <i class="uil uil-shop text-blue-400"></i>
-                    <span class="text-sm text-gray-300">{{ $seller->nama_toko }}</span>
-                </div>
-                
-                {{-- Logout --}}
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all">
-                        <i class="uil uil-sign-out-alt text-base"></i>
-                        <span class="hidden sm:inline">Logout</span>
-                    </button>
-                </form>
-            </div>
+<nav class="nav">
+    <div class="nav-left">
+        <a href="{{ route('seller.dashboard') }}" class="nav-logo">
+            <img src="{{ asset('images/logo.png') }}" alt="kampuStore">
+            <span>kampuStore Seller</span>
+        </a>
+        <div class="nav-menu">
+            <a href="{{ route('seller.dashboard') }}">Dashboard</a>
+            <a href="{{ route('seller.products.index') }}">Produk Saya</a>
+            <a href="{{ route('seller.reports.stock') }}">Laporan</a>
         </div>
+    </div>
+    <div class="nav-actions">
+        <div class="theme-toggle-wrapper">
+            <label class="toggle-switch">
+                <input type="checkbox" class="js-theme-toggle" />
+                <span class="slider">
+                    <div class="clouds">
+                        <svg viewBox="0 0 100 100" class="cloud cloud1"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
+                        <svg viewBox="0 0 100 100" class="cloud cloud2"><path d="M30,45 Q35,25 50,25 Q65,25 70,45 Q80,45 85,50 Q90,55 85,60 Q80,65 75,60 Q65,60 60,65 Q55,70 50,65 Q45,70 40,65 Q35,60 25,60 Q20,65 15,60 Q10,55 15,50 Q20,45 30,45"></path></svg>
+                    </div>
+                </span>
+            </label>
+        </div>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn-logout">
+                <i class="uil uil-sign-out-alt"></i> Logout
+            </button>
+        </form>
     </div>
 </nav>
 
-<main class="flex-1 pt-24 pb-12 px-4">
-    <div class="container mx-auto max-w-4xl">
-        
-        {{-- HEADER --}}
-        <div class="mb-6 fade-in-up">
-            <a href="{{ route('seller.products.index') }}" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors duration-200 mb-4">
-                <i class="uil uil-arrow-left"></i>
-                <span class="text-sm">Kembali ke Daftar Produk</span>
-            </a>
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">Edit Produk</h1>
-            <p class="text-gray-400 text-sm sm:text-base">Perbarui informasi produk {{ $product->name }}</p>
+<div class="main-container">
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="shop-info-box">
+                <div class="shop-name">{{ $seller->nama_toko }}</div>
+                <span class="shop-status approved"><i class="uil uil-check-circle"></i> Terverifikasi</span>
+            </div>
         </div>
 
-        {{-- FORM CARD --}}
-        <div class="bg-slate-800/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-blue-500/30 p-6 sm:p-8 fade-in-up">
-            
-            @if($errors->any())
-            <div class="bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/40 rounded-xl p-4 mb-6">
-                <div class="flex items-start gap-3">
-                    <i class="uil uil-exclamation-triangle text-2xl text-red-400"></i>
-                    <div>
-                        <h3 class="text-base font-semibold text-red-400 mb-2">Ada beberapa kesalahan:</h3>
-                        <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Menu</div>
+            <div class="sidebar-menu">
+                <a href="{{ route('seller.dashboard') }}" class="sidebar-link">
+                    <i class="uil uil-dashboard"></i> Dashboard
+                </a>
+                <a href="{{ route('seller.products.index') }}" class="sidebar-link active">
+                    <i class="uil uil-box"></i> Produk Saya
+                </a>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Laporan</div>
+            <div class="sidebar-menu">
+                <a href="{{ route('seller.reports.stock') }}" class="sidebar-link">
+                    <i class="uil uil-chart-bar"></i> Laporan Stok
+                </a>
+                <a href="{{ route('seller.reports.rating') }}" class="sidebar-link">
+                    <i class="uil uil-star"></i> Laporan Rating
+                </a>
+                <a href="{{ route('seller.reports.restock') }}" class="sidebar-link">
+                    <i class="uil uil-exclamation-triangle"></i> Restock Alert
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <div class="content">
+        <a href="{{ route('seller.products.index') }}" class="back-link">
+            <i class="uil uil-arrow-left"></i> Kembali ke Daftar Produk
+        </a>
+        <h1 class="page-title">Edit Produk</h1>
+        <p class="page-subtitle">Perbarui informasi produk {{ $product->name }}</p>
+
+        @if($errors->any())
+        <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:16px;margin-bottom:24px;">
+            <div style="display:flex;align-items:start;gap:12px;">
+                <i class="uil uil-exclamation-triangle" style="font-size:24px;color:#ef4444;margin-top:2px;"></i>
+                <div>
+                    <h3 style="font-size:14px;font-weight:700;color:#ef4444;margin-bottom:8px;">Ada beberapa kesalahan:</h3>
+                    <ul style="list-style:disc;padding-left:20px;font-size:13px;color:var(--text-main);">
+                        @foreach($errors->all() as $error)
+                            <li style="margin-bottom:4px;">{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
-            @endif
+        </div>
+        @endif
 
-            <form method="POST" action="{{ route('seller.products.update', $product) }}" enctype="multipart/form-data" class="space-y-6">
+        <div class="form-card">
+            <form method="POST" action="{{ route('seller.products.update', $product) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+                {{-- Form content starts here --}}
+                <div style="margin-bottom:32px;">
+                    <h3 style="font-size:16px;font-weight:700;color:var(--text-main);margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--card-border);">
+                        <i class="uil uil-info-circle"></i> Informasi Dasar Produk
+                    </h3>
+                    <div style="display:flex;flex-direction:column;gap:24px;">
 
                 {{-- Nama Produk --}}
                 <div>
@@ -327,11 +413,39 @@
                         <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
+                    </div>
+                </div>
+
+                {{-- Section: Foto Produk --}}
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4 pb-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <i class="uil uil-images text-blue-400"></i>
+                        Foto Produk ({{ $product->images->count() }}/5)
+                    </h3>
+
+                {{-- Image Upload Info Box --}}
+                <div class="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
+                    <div class="flex items-start gap-3">
+                        <i class="uil uil-info-circle text-2xl text-blue-400 mt-0.5"></i>
+                        <div>
+                            <h3 class="text-sm font-semibold text-white mb-2">📸 Upload Banyak Foto Produk</h3>
+                            <ul class="text-xs text-gray-300 space-y-1">
+                                <li>✓ Bisa upload hingga <strong>5 foto</strong> untuk 1 produk</li>
+                                <li>✓ Klik foto untuk <strong>pilih sebagai foto utama</strong></li>
+                                <li>✓ Centang icon 🗑️ untuk <strong>menandai foto yang akan dihapus</strong></li>
+                                <li>✓ Tambah foto baru dengan tombol "Tambah Foto Baru" di bawah</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
                 {{-- Current Images --}}
                 @if($product->images->count() > 0)
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Foto Saat Ini (Klik untuk pilih foto utama, centang untuk hapus)</label>
+                    <label class="block text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
+                        <i class="uil uil-image text-lg"></i>
+                        Foto Saat Ini ({{ $product->images->count() }}/5 foto)
+                    </label>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4" id="existingImagesGrid">
                         @foreach($product->images as $image)
                         <div class="relative group">
@@ -388,39 +502,23 @@
                     <label class="block text-sm font-medium text-gray-300 mb-2">Preview Foto Baru</label>
                     <div id="newPreviewGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4"></div>
                 </div>
+                </div>
 
-                {{-- Buttons --}}
-                <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                    <button 
-                        type="submit"
-                        class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
-                    >
-                        <i class="uil uil-check"></i>
-                        <span>Simpan Perubahan</span>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">
+                        <i class="uil uil-check"></i> Simpan Perubahan
                     </button>
-                    <a 
-                        href="{{ route('seller.products.index') }}"
-                        class="flex-1 px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                        <i class="uil uil-times"></i>
-                        <span>Batal</span>
+                    <a href="{{ route('seller.products.index') }}" class="btn-cancel">
+                        <i class="uil uil-times"></i> Batal
                     </a>
                 </div>
             </form>
         </div>
-
     </div>
-</main>
+</div>
 
-{{-- FOOTER --}}
-<footer class="bg-slate-900/80 border-t border-slate-800 py-6 mt-auto">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p class="text-gray-400 text-sm text-center sm:text-left">
-                © 2025 <span class="font-semibold text-blue-400">KampuStore</span>. All rights reserved.
-            </p>
-        </div>
-    </div>
+<footer class="footer">
+    <p>© 2025 <span>kampuStore</span>. All rights reserved.</p>
 </footer>
 
 <script>
@@ -541,7 +639,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script>
 (function(){
     const KEY = 'kampuStoreTheme';
