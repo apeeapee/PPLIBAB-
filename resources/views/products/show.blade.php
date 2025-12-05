@@ -704,6 +704,14 @@
           @error('guest_email')<p class="error-text">{{ $message }}</p>@enderror
         </div>
         
+        <div class="form-group">
+          <label class="form-label">Provinsi</label>
+          <select name="guest_province" id="guest_province" class="form-select" required>
+            <option value="">Pilih Provinsi...</option>
+          </select>
+          @error('guest_province')<p class="error-text">{{ $message }}</p>@enderror
+        </div>
+        
         @endguest
         
         <div class="form-group">
@@ -748,4 +756,50 @@
     }
   }
 </style>
+
+@guest
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const provinsiSelect = document.getElementById('guest_province');
+    if (!provinsiSelect) return;
+    
+    try {
+        const response = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+        const provinces = await response.json();
+        
+        provinces.forEach(prov => {
+            const option = document.createElement('option');
+            option.value = prov.name;
+            option.textContent = prov.name;
+            provinsiSelect.appendChild(option);
+        });
+        
+        // Restore old value if exists
+        const oldValue = "{{ old('guest_province') }}";
+        if (oldValue) {
+            provinsiSelect.value = oldValue;
+        }
+    } catch (error) {
+        console.error('Gagal memuat data provinsi:', error);
+        // Fallback: tambahkan beberapa provinsi manual
+        const fallbackProvinces = [
+            'Aceh', 'Sumatera Utara', 'Sumatera Barat', 'Riau', 'Jambi', 
+            'Sumatera Selatan', 'Bengkulu', 'Lampung', 'Kepulauan Bangka Belitung',
+            'Kepulauan Riau', 'DKI Jakarta', 'Jawa Barat', 'Jawa Tengah', 
+            'DI Yogyakarta', 'Jawa Timur', 'Banten', 'Bali', 'Nusa Tenggara Barat',
+            'Nusa Tenggara Timur', 'Kalimantan Barat', 'Kalimantan Tengah',
+            'Kalimantan Selatan', 'Kalimantan Timur', 'Kalimantan Utara',
+            'Sulawesi Utara', 'Sulawesi Tengah', 'Sulawesi Selatan', 'Sulawesi Tenggara',
+            'Gorontalo', 'Sulawesi Barat', 'Maluku', 'Maluku Utara', 'Papua Barat', 'Papua'
+        ];
+        fallbackProvinces.forEach(prov => {
+            const option = document.createElement('option');
+            option.value = prov;
+            option.textContent = prov;
+            provinsiSelect.appendChild(option);
+        });
+    }
+});
+</script>
+@endguest
 @endsection

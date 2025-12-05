@@ -89,83 +89,53 @@
         <div class="h-1 bg-gradient-to-r from-orange-200 via-orange-500 to-orange-200 dark:from-orange-900 dark:via-orange-600 dark:to-orange-900 rounded-full shadow-md"></div>
     </div>
 
-    <!-- Products Table -->
+    <!-- Products Table - SRS-11: Format: No | Produk | Kategori | Harga | Rating | Nama Toko | Propinsi -->
+    <!-- Propinsi diisi propinsi pemberi rating -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Peringkat Produk</h2>
-            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Urutan berdasarkan rating tertinggi | Total: {{ $products->count() }} produk</p>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Laporan Daftar Produk Berdasarkan Rating</h2>
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Tanggal dibuat: {{ now()->format('d-m-Y') }} oleh {{ auth()->user()->name ?? 'Admin' }}</p>
         </div>
 
         <div class="overflow-x-auto">
             <table class="min-w-full">
                 <thead class="bg-gray-50 dark:bg-gray-900">
                     <tr>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Rank</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">No</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Produk</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Toko</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Rating</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Review</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Stok</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kategori</th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Harga</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Rating</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nama Toko</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Propinsi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($products as $index => $product)
+                    @php
+                        // SRS-11: Propinsi diisi propinsi pemberi rating (reviewer)
+                        $reviewerProvince = \App\Models\Review::where('product_id', $product->id)
+                            ->whereNotNull('guest_province')
+                            ->orderBy('created_at', 'desc')
+                            ->value('guest_province') ?? '-';
+                    @endphp
                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <td class="px-6 py-4 text-center">
-                            @if($index < 3)
-                                <div class="inline-flex items-center justify-center w-10 h-10 rounded-full
-                                     @if($index == 0) bg-yellow-100 dark:bg-yellow-900/30 @elseif($index == 1) bg-gray-100 dark:bg-gray-700 @else bg-orange-100 dark:bg-orange-900/30 @endif">
-                                    {{ $index == 0 ? '🥇' : ($index == 1 ? '🥈' : '🥉') }}
-                                </div>
-                            @else
-                                <div class="text-sm font-semibold text-gray-900 dark:text-gray-200">{{ $index + 1 }}</div>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center">
-                                @if($product->image_url)
-                                    <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->name }}"
-                                         class="w-12 h-12 rounded-lg object-cover mr-3">
-                                @else
-                                    <div class="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center mr-3">
-                                        <i class="uil uil-image text-gray-400 dark:text-gray-500"></i>
-                                    </div>
-                                @endif
-                                <div>
-                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $product->name }}</div>
-                                    <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{{ ucfirst(str_replace('-', ' ', $product->category_slug)) }}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
-                            {{ $product->nama_toko ?? '-' }}
-                        </td>
+                        <td class="px-6 py-4 text-center text-sm text-gray-900 dark:text-gray-200">{{ $index + 1 }}</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{{ $product->name }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">{{ ucfirst(str_replace('-', ' ', $product->category_slug)) }}</td>
+                        <td class="px-6 py-4 text-right text-sm text-gray-900 dark:text-gray-200">Rp {{ number_format($product->price ?? 0, 0, ',', '.') }}</td>
                         <td class="px-6 py-4 text-center">
                             @if($product->avg_rating > 0)
-                                <div class="flex items-center justify-center gap-1">
+                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
                                     <i class="uil uil-star text-yellow-500"></i>
-                                    <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ number_format($product->avg_rating, 1) }}</span>
-                                </div>
-                            @else
-                                <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">-</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 text-center text-sm text-gray-900 dark:text-gray-200">
-                            {{ $product->review_count ?? 0 }}
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            @if(isset($product->stock))
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $product->stock > 10 ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' : ($product->stock > 0 ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300') }}">
-                                    {{ $product->stock }} unit
+                                    {{ number_format($product->avg_rating, 1) }}
                                 </span>
                             @else
                                 <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">-</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-right text-sm font-medium text-gray-900 dark:text-white">
-                            Rp {{ number_format($product->price ?? 0, 0, ',', '.') }}
-                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">{{ $product->nama_toko ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">{{ $reviewerProvince }}</td>
                     </tr>
                     @empty
                     <tr>
@@ -180,5 +150,12 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <!-- Keterangan -->
+    <div class="mt-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-700">
+        <p class="text-sm text-blue-700 dark:text-blue-300"><strong>Keterangan:</strong></p>
+        <p class="text-sm text-blue-700 dark:text-blue-300">***) Propinsi diisikan propinsi pemberi rating</p>
+        <p class="text-sm text-blue-700 dark:text-blue-300">***) Diurutkan berdasarkan rating secara menurun (descending)</p>
     </div>
 @endsection

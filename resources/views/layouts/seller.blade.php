@@ -111,16 +111,55 @@
         }
         .btn-market:hover{background:#3b82f6;color:white;transform:translateY(-2px);box-shadow:0 4px 12px rgba(59,130,246,0.4);border-color:#3b82f6;}
         
-        .btn-logout {
-            border:none;background:rgba(239,68,68,0.15);color:#ef4444;cursor:pointer;
-            padding:8px 16px;border-radius:50px;font-size:13px;font-weight:600;transition:all .3s;
-            display:flex;align-items:center;gap:6px;
-            border:1px solid rgba(239,68,68,0.3);
+        /* ===================== USER DROPDOWN ===================== */
+        .user-dropdown{position:relative;}
+        .user-dropdown-toggle{
+            display:flex;align-items:center;gap:10px;
+            padding:8px 16px;border-radius:50px;cursor:pointer;
+            background:rgba(59,130,246,0.1);
+            border:1px solid rgba(59,130,246,0.3);
+            transition:all .2s;
         }
-        body.theme-light .btn-logout {
-            background:rgba(239,68,68,0.1);color:#dc2626;border-color:rgba(220,38,38,0.3);
+        .user-dropdown-toggle:hover{background:rgba(59,130,246,0.2);}
+        .user-avatar{
+            width:32px;height:32px;border-radius:50%;
+            background:linear-gradient(135deg,#3b82f6,#60a5fa);
+            display:flex;align-items:center;justify-content:center;
+            color:white;font-weight:700;font-size:14px;
         }
-        .btn-logout:hover{background:#ef4444;color:white;border-color:#ef4444;}
+        .user-info{display:flex;flex-direction:column;align-items:flex-start;}
+        .user-name{font-size:13px;font-weight:600;color:var(--text-main);}
+        .user-role{font-size:11px;color:#3b82f6;}
+        .dropdown-arrow{font-size:12px;color:var(--text-muted);transition:transform .2s;}
+        .user-dropdown.open .dropdown-arrow{transform:rotate(180deg);}
+        .user-dropdown-menu{
+            position:absolute;top:calc(100% + 8px);right:0;
+            min-width:220px;padding:8px;
+            background:var(--card-bg);border:1px solid var(--card-border);
+            border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.3);
+            opacity:0;visibility:hidden;transform:translateY(-10px);
+            transition:all .2s;z-index:100;
+        }
+        .user-dropdown.open .user-dropdown-menu{
+            opacity:1;visibility:visible;transform:translateY(0);
+        }
+        .dropdown-header{
+            padding:12px;margin-bottom:8px;
+            border-bottom:1px solid var(--card-border);
+        }
+        .dropdown-header-name{font-size:14px;font-weight:600;color:var(--text-main);}
+        .dropdown-header-email{font-size:12px;color:var(--text-muted);margin-top:2px;}
+        .user-dropdown .dropdown-item{
+            display:flex;align-items:center;gap:10px;
+            padding:10px 12px;border-radius:8px;
+            color:var(--text-main);font-size:13px;
+            transition:all .2s;cursor:pointer;
+        }
+        .user-dropdown .dropdown-item:hover{background:rgba(59,130,246,0.1);color:#3b82f6;}
+        .user-dropdown .dropdown-item i{font-size:16px;width:20px;text-align:center;}
+        .dropdown-divider{height:1px;background:var(--card-border);margin:8px 0;}
+        .user-dropdown .dropdown-item.logout{color:#ef4444;}
+        .user-dropdown .dropdown-item.logout:hover{background:rgba(239,68,68,0.1);color:#ef4444;}
 
         /* LAYOUT - FULL WIDTH */
         .main-container { max-width:1400px;margin:0 auto;padding:85px 48px 40px; }
@@ -177,65 +216,39 @@
             </a>
             <div class="nav-menu">
                 <div class="nav-item">
-                    <a href="{{ route('seller.dashboard') }}" class="nav-link {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('seller.dashboard') }}" class="nav-link {{ request()->routeIs('seller.*') ? 'active' : '' }}" style="color:#3b82f6;font-weight:600">
                         <i class="uil uil-dashboard"></i> <span>Dashboard</span>
                     </a>
                 </div>
-            <div class="nav-item">
-                <a href="{{ route('seller.products.index') }}" class="nav-link {{ request()->routeIs('seller.products.*') ? 'active' : '' }}">
-                    <i class="uil uil-box"></i> <span>Produk</span>
-                </a>
-            </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle {{ request()->routeIs('seller.reports.*') ? 'active' : '' }}">
-                    <i class="uil uil-chart-bar"></i> <span>Laporan</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a href="{{ route('seller.reports.stock') }}" class="dropdown-item">
-                        <i class="uil uil-layers"></i> Laporan Stok
-                    </a>
-                    <a href="{{ route('seller.reports.rating') }}" class="dropdown-item">
-                        <i class="uil uil-star"></i> Laporan Rating
-                    </a>
-                    <a href="{{ route('seller.reports.restock') }}" class="dropdown-item">
-                        <i class="uil uil-exclamation-triangle"></i> Restock Alert
-                    </a>
-                </div>
-            </div>
-            <div class="nav-item">
-                <a href="{{ route('seller.notifications.index') }}" class="nav-link {{ request()->routeIs('seller.notifications.*') ? 'active' : '' }}">
-                    <i class="uil uil-envelope"></i> <span>Notifikasi</span>
-                    @php
-                        $unreadCount = auth()->user()->seller?->notifications()->where('is_read', false)->count() ?? 0;
-                    @endphp
-                    @if($unreadCount > 0)
-                        <span style="background:#ef4444;color:white;font-size:10px;padding:2px 6px;border-radius:50px;margin-left:4px;">{{ $unreadCount }}</span>
-                    @endif
-                </a>
-            </div>
-                <span style="color:rgba(148,163,184,0.3);margin:0 8px;">|</span>
                 <div class="nav-item">
                     <a href="{{ route('home') }}" class="nav-link">
-                        <i class="uil uil-home"></i> <span>Beranda</span>
+                        <span>Home</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{{ route('home') }}#features" class="nav-link">
+                        <span>Features</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{{ route('products.index') }}" class="nav-link">
+                        <span>Market</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{{ route('home') }}#about" class="nav-link">
+                        <span>About</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{{ route('home') }}#contact" class="nav-link">
+                        <span>Contact</span>
                     </a>
                 </div>
             </div>
         </div>
         
         <div class="nav-actions">
-            @if(auth()->user()->seller)
-            <div class="shop-badge">
-                <span class="shop-badge-name">{{ auth()->user()->seller->nama_toko }}</span>
-                @if(auth()->user()->seller->status === 'approved')
-                    <span class="shop-badge-status approved"><i class="uil uil-check-circle"></i> Verified</span>
-                @elseif(auth()->user()->seller->status === 'pending')
-                    <span class="shop-badge-status pending"><i class="uil uil-clock"></i> Pending</span>
-                @else
-                    <span class="shop-badge-status rejected"><i class="uil uil-times-circle"></i> Rejected</span>
-                @endif
-            </div>
-            @endif
-            
             <div class="theme-toggle-wrapper">
                 <label class="toggle-switch">
                     <input type="checkbox" class="js-theme-toggle" />
@@ -247,13 +260,48 @@
                     </span>
                 </label>
             </div>
-            
-            <form method="POST" action="{{ route('logout') }}" style="margin:0;">
-                @csrf
-                <button type="submit" class="btn-logout">
-                    <i class="uil uil-sign-out-alt"></i> <span>Logout</span>
-                </button>
-            </form>
+
+            <div class="user-dropdown" id="userDropdown">
+                <div class="user-dropdown-toggle" onclick="toggleUserDropdown()">
+                    <div class="user-avatar">
+                        <i class="uil uil-store"></i>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">{{ auth()->user()->name }}</span>
+                        <span class="user-role">Penjual</span>
+                    </div>
+                    <i class="uil uil-angle-down dropdown-arrow"></i>
+                </div>
+                <div class="user-dropdown-menu">
+                    <div class="dropdown-header">
+                        <div class="dropdown-header-name">{{ auth()->user()->name }}</div>
+                        <div class="dropdown-header-email">{{ auth()->user()->email }}</div>
+                    </div>
+                    <a href="{{ route('seller.dashboard') }}" class="dropdown-item">
+                        <i class="uil uil-dashboard"></i> Dashboard
+                    </a>
+                    <a href="{{ route('seller.products.index') }}" class="dropdown-item">
+                        <i class="uil uil-box"></i> Produk Saya
+                    </a>
+                    <a href="{{ route('seller.reports.stock') }}" class="dropdown-item">
+                        <i class="uil uil-chart-bar"></i> Laporan
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ route('home') }}" class="dropdown-item">
+                        <i class="uil uil-home"></i> Home
+                    </a>
+                    <a href="{{ route('products.index') }}" class="dropdown-item">
+                        <i class="uil uil-shopping-cart"></i> Market
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                        @csrf
+                        <button type="submit" class="dropdown-item logout" style="width:100%;border:none;background:none;">
+                            <i class="uil uil-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
@@ -306,6 +354,20 @@
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.dropdown')) {
             document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
+        }
+    });
+
+    // User Dropdown Toggle
+    function toggleUserDropdown() {
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.classList.toggle('open');
+    }
+
+    // Close user dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown && !dropdown.contains(e.target)) {
+            dropdown.classList.remove('open');
         }
     });
 </script>

@@ -44,7 +44,7 @@ class ReviewController extends Controller
                 'guest_name' => ['required','string','max:255'],
                 'guest_phone' => ['required','string','max:20'],
                 'guest_email' => ['required','email','max:255'],
-                'guest_province' => ['nullable','string','max:255'],
+                'guest_province' => ['required','string','max:255'],
                 'guest_city' => ['nullable','string','max:255'],
                 'rating' => ['required','integer','min:1','max:5'],
                 'body' => ['required','string','max:2000'],
