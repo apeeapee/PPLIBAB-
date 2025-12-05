@@ -52,6 +52,7 @@
 @endpush
 
 @section('content')
+<div class="main-container">
 <div class="page-header">
     <div>
         <h1 class="page-title">Laporan Stok Produk</h1>
@@ -151,5 +152,6 @@
             </tbody>
         </table>
     </div>
+</div>
 </div>
 @endsection

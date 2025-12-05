@@ -258,26 +258,25 @@
 
     <div class="nav-actions">
         @auth
+            @php
+                $hasSeller = \App\Models\Seller::where('user_id', auth()->id())->exists();
+            @endphp
+
             <div class="user-badge">
                 <i class="uil uil-user-circle"></i>
                 <span>{{ auth()->user()->name }}</span>
             </div>
-            
+
             @if(auth()->user()->is_admin)
                 <a href="{{ route('admin.dashboard') }}" class="btn-dashboard admin">
                     <i class="uil uil-shield-check"></i> Dashboard Admin
                 </a>
             @endif
-            
-            @php
-                $hasSeller = \App\Models\Seller::where('user_id', auth()->id())->exists();
-            @endphp
-            
-            @if($hasSeller && !auth()->user()->is_admin)
-                <a href="{{ route('seller.dashboard') }}" class="btn-dashboard seller">
-                    <i class="uil uil-arrow-left"></i> Dashboard Seller
-                </a>
-            @endif
+
+            <!-- Always show dashboard seller button for logged in users -->
+            <a href="{{ route('seller.dashboard') }}" class="btn-dashboard seller" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);border-color:#3b82f6;box-shadow:0 4px 12px rgba(59,130,246,0.4);">
+                <i class="uil uil-store"></i> Dashboard Seller
+            </a>
             
             <div class="theme-toggle-wrapper">
                 <label class="toggle-switch">

@@ -63,6 +63,7 @@
 @endpush
 
 @section('content')
+<div class="main-container">
 <div class="page-header">
     <div>
         <h1 class="page-title">Restock Alert</h1>
@@ -177,4 +178,5 @@
     </div>
 </div>
 @endif
+</div>
 @endsection

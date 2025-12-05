@@ -124,7 +124,7 @@ Route::middleware(['auth', 'can:verify-sellers'])
         });
     });
 
-Route::middleware('auth')->get('/market/dashboard', [\App\Http\Controllers\Seller\DashboardController::class, 'index'])
+Route::middleware('auth')->get('/seller/dashboard', [\App\Http\Controllers\Seller\DashboardController::class, 'index'])
     ->name('seller.dashboard');
 
 /*

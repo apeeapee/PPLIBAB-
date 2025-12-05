@@ -35,6 +35,17 @@
                     <i class="uil uil-shield-check text-orange-600 dark:text-orange-400"></i>
                     <span class="text-sm font-semibold text-orange-700 dark:text-orange-300">Admin</span>
                 </div>
+
+                <!-- Seller Dashboard Button -->
+                @php
+                    $hasSeller = \App\Models\Seller::where('user_id', auth()->id())->exists();
+                @endphp
+                @if($hasSeller)
+                    <a href="{{ route('seller.dashboard') }}" class="flex items-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg transition-all shadow-md hover:shadow-lg hover:scale-105">
+                        <i class="uil uil-store"></i>
+                        <span class="font-medium hidden sm:inline">Dashboard Seller</span>
+                    </a>
+                @endif
                 
                 <!-- Theme Toggle -->
                 <button id="theme-toggle" class="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all hover:scale-105 shadow-sm">

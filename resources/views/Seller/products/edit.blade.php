@@ -93,7 +93,7 @@
         }
         .btn-logout:hover{background:#ef4444;color:white;}
 
-        .main-container { max-width:1400px;margin:0 auto;padding:90px 24px 40px;display:grid;grid-template-columns:260px 1fr;gap:28px; }
+        .main-container { max-width:1400px;margin:0 auto;padding:70px 24px 40px;display:grid;grid-template-columns:260px 1fr;gap:28px; }
         @media(max-width:900px) { .main-container { grid-template-columns:1fr;padding-top:80px; } }
 
         .sidebar {

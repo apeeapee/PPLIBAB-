@@ -59,6 +59,7 @@
 @endpush
 
 @section('content')
+<div class="main-container">
 <div class="page-header">
     <div>
         <h1 class="page-title">Produk Saya</h1>
@@ -142,4 +143,5 @@
     <p>Mulai berjualan dengan menambahkan produk pertama Anda.</p>
 </div>
 @endif
+</div>
 @endsection

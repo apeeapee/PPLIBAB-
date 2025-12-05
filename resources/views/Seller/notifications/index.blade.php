@@ -46,6 +46,7 @@
 @endpush
 
 @section('content')
+<div class="main-container">
 <div class="notif-container">
     <div class="notif-header">
         <div class="notif-header-top">
@@ -129,5 +130,6 @@
         </div>
         @endforelse
     </div>
+</div>
 </div>
 @endsection

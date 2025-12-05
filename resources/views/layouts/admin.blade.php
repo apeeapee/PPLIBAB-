@@ -80,7 +80,7 @@
     @include('partials.admin-nav')
     
     <!-- Main Content -->
-    <div class="pt-20 pb-8 min-h-screen">
+    <div class="pt-24 pb-8 min-h-screen">
         <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
             @yield('content')
         </div>
