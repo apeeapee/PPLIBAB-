@@ -4,9 +4,7 @@
             <!-- Logo -->
             <div class="flex items-center space-x-8">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 group">
-                    <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                        <i class="uil uil-store text-white text-xl"></i>
-                    </div>
+                    <img src="{{ asset('images/logo.png') }}" alt="kampuStore logo" class="w-10 h-10 group-hover:scale-110 transition-transform">
                     <span class="text-xl font-bold bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent dark:from-orange-400 dark:to-orange-300">kampuStore Admin</span>
                 </a>
 

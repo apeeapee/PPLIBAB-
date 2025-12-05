@@ -42,7 +42,7 @@
         .nav-container { display:flex;align-items:center;justify-content:space-between;min-height:64px;max-width:1600px;margin:0 auto; }
         .nav-left { display:flex;align-items:center;gap:32px; }
         .nav-logo { display:flex;align-items:center;gap:12px;text-decoration:none;group:hover transform:scale(1.05);transition:all .3s; }
-        .nav-logo-icon { width:40px;height:40px;background:linear-gradient(135deg,#3b82f6,#60a5fa);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(59,130,246,0.3); }
+        .nav-logo-icon { width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center; }
         .nav-logo-icon i { color:white;font-size:20px; }
         .nav-logo img { height:36px;width:36px; }
         .nav-logo-text { font-size:20px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
@@ -170,9 +170,7 @@
     <div class="nav-container">
         <div class="nav-left">
             <a href="{{ route('seller.dashboard') }}" class="nav-logo">
-                <div class="nav-logo-icon">
-                    <i class="uil uil-store"></i>
-                </div>
+                <img src="{{ asset('images/logo.png') }}" alt="kampuStore logo" class="nav-logo-icon">
                 <span class="nav-logo-text">kampuStore Seller</span>
             </a>
             <div class="nav-menu">
