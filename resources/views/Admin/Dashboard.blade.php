@@ -1,12 +1,49 @@
 @extends('layouts.admin')
 
+@push('styles')
+@include('partials.admin-styles')
+<style>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 32px;
+    }
+    .stat-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        padding: 24px;
+        transition: all 0.3s;
+    }
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    .action-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        padding: 20px;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: block;
+    }
+    .action-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+</style>
+@endpush
+
 @section('content')
+<div class="content-wrapper">
     <!-- Header Section -->
-    <div class="mb-6 sm:mb-8">
+    <div class="page-header-with-actions">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold" style="color:var(--text-main)">Dashboard Admin</h1>
-                <p class="text-sm sm:text-base" style="color:var(--text-muted)">Kelola pengajuan toko dan pantau aktivitas marketplace</p>
+                <h1 class="page-title">Dashboard Admin</h1>
+                <p class="page-subtitle">Kelola pengajuan toko dan pantau aktivitas marketplace</p>
             </div>
             <div class="text-center sm:text-right px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-white" style="background:linear-gradient(135deg, var(--accent), #ea580c)">
                 <div class="text-xs sm:text-sm opacity-90 mb-1">{{ now()->format('d F Y') }}</div>
@@ -19,57 +56,46 @@
     <div class="divider"></div>
 
     <!-- Quick Actions -->
-    <div class="mb-6 sm:mb-8">
-        <h2 class="text-lg sm:text-xl font-bold mb-4" style="color:var(--text-main)">Aksi Cepat</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Aksi Cepat</h2>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <a href="{{ route('admin.sellers.index') }}" class="action-card card p-4 sm:p-6" style="transition:all 0.3s cubic-bezier(0.4,0,0.2,1);cursor:pointer;position:relative;overflow:hidden">
-                <div class="action-card-glow" style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(249,115,22,0.1),transparent);opacity:0;transition:opacity 0.3s"></div>
-                <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:1">
-                    <div class="stat-icon orange" style="width:56px;height:56px;font-size:24px;transition:transform 0.3s"><i class="uil uil-folder-open"></i></div>
+            <a href="{{ route('admin.sellers.index') }}" class="action-card">
+                <div style="display:flex;align-items:center;gap:16px">
+                    <div class="stat-icon orange" style="width:56px;height:56px;font-size:24px;"><i class="uil uil-folder-open"></i></div>
                     <div>
                         <h3 class="font-bold text-base sm:text-lg mb-1" style="color:var(--text-main)">Pengajuan Toko</h3>
                         <p class="text-xs sm:text-sm" style="color:var(--text-muted)">Kelola pengajuan pembukaan toko</p>
                     </div>
-                    <i class="uil uil-arrow-right" style="margin-left:auto;font-size:20px;color:var(--text-muted);transition:all 0.3s;opacity:0;transform:translateX(-10px)"></i>
                 </div>
             </a>
-            <a href="{{ route('admin.reports.index') }}" class="action-card card p-4 sm:p-6" style="transition:all 0.3s cubic-bezier(0.4,0,0.2,1);cursor:pointer;position:relative;overflow:hidden">
-                <div class="action-card-glow" style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,130,246,0.1),transparent);opacity:0;transition:opacity 0.3s"></div>
-                <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:1">
-                    <div class="stat-icon blue" style="width:56px;height:56px;font-size:24px;transition:transform 0.3s"><i class="uil uil-chart-bar"></i></div>
+            <a href="{{ route('admin.reports.index') }}" class="action-card">
+                <div style="display:flex;align-items:center;gap:16px">
+                    <div class="stat-icon blue" style="width:56px;height:56px;font-size:24px;"><i class="uil uil-chart-bar"></i></div>
                     <div>
                         <h3 class="font-bold text-base sm:text-lg mb-1" style="color:var(--text-main)">Laporan</h3>
                         <p class="text-xs sm:text-sm" style="color:var(--text-muted)">Lihat laporan dan statistik</p>
                     </div>
-                    <i class="uil uil-arrow-right" style="margin-left:auto;font-size:20px;color:var(--text-muted);transition:all 0.3s;opacity:0;transform:translateX(-10px)"></i>
                 </div>
             </a>
-            <a href="{{ route('products.index') }}" class="action-card card p-4 sm:p-6" style="transition:all 0.3s cubic-bezier(0.4,0,0.2,1);cursor:pointer;position:relative;overflow:hidden">
-                <div class="action-card-glow" style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(34,197,94,0.1),transparent);opacity:0;transition:opacity 0.3s"></div>
-                <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:1">
-                    <div class="stat-icon green" style="width:56px;height:56px;font-size:24px;transition:transform 0.3s"><i class="uil uil-shopping-cart"></i></div>
+            <a href="{{ route('products.index') }}" class="action-card">
+                <div style="display:flex;align-items:center;gap:16px">
+                    <div class="stat-icon green" style="width:56px;height:56px;font-size:24px;"><i class="uil uil-shopping-cart"></i></div>
                     <div>
                         <h3 class="font-bold text-base sm:text-lg mb-1" style="color:var(--text-main)">Marketplace</h3>
                         <p class="text-xs sm:text-sm" style="color:var(--text-muted)">Lihat produk di marketplace</p>
                     </div>
-                    <i class="uil uil-arrow-right" style="margin-left:auto;font-size:20px;color:var(--text-muted);transition:all 0.3s;opacity:0;transform:translateX(-10px)"></i>
                 </div>
             </a>
         </div>
     </div>
 
-    <style>
-        .action-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 20px 40px rgba(0,0,0,0.3)!important;border-color:var(--accent)!important}
-        .action-card:hover .action-card-glow{opacity:1}
-        .action-card:hover .stat-icon{transform:scale(1.1) rotate(5deg)}
-        .action-card:hover .uil-arrow-right{opacity:1;transform:translateX(0);color:var(--accent)}
-    </style>
-
-    <div class="divider"></div>
-
     <!-- Stats Overview -->
-    <div class="mb-6 sm:mb-8">
-        <h2 class="text-lg sm:text-xl font-bold mb-4" style="color:var(--text-main)">Statistik Pengajuan</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Statistik Pengajuan</h2>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <div class="stat-card">
                 <div class="flex items-center justify-between mb-3">
@@ -109,11 +135,11 @@
         </div>
     </div>
 
-    <div class="divider"></div>
-
     <!-- Charts Row 1 -->
-    <div class="mb-6 sm:mb-8">
-        <h2 class="text-lg sm:text-xl font-bold mb-4" style="color:var(--text-main)">Statistik Pengguna</h2>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Statistik Pengguna</h2>
+        </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <!-- Seller Statistics -->
             <div class="card p-4 sm:p-6">
