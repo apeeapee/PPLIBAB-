@@ -3,12 +3,10 @@
 @section('title', 'Tambah Produk')
 
 @push('styles')
+@include('partials.seller-styles')
 <style>
 .back-link { display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:14px;text-decoration:none;margin-bottom:16px;transition:color .2s; }
 .back-link:hover { color:var(--accent-hover); }
-
-.page-title { font-size:28px;font-weight:800;color:var(--text-main);margin-bottom:6px; }
-.page-subtitle { font-size:14px;color:var(--text-muted);margin-bottom:24px; }
 
 .form-card { background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;box-shadow:0 10px 40px rgba(0,0,0,0.1); }
 .form-group { margin-bottom:24px; }
@@ -87,11 +85,6 @@
 }
 .btn-cancel:hover { background:rgba(148,163,184,0.3); }
 
-.alert { padding:16px 20px;border-radius:12px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px; }
-.alert-error { background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3); }
-.alert-error i { color:#ef4444;font-size:20px;margin-top:2px; }
-.alert-error ul { margin:8px 0 0 0;padding-left:20px; }
-.alert-error li { font-size:13px;color:var(--text-main);margin-bottom:4px; }
 
 .section-divider {
     font-size:16px;font-weight:700;color:var(--text-main);margin:32px 0 16px 0;
@@ -108,19 +101,19 @@
 @endpush
 
 @section('content')
-<div style="max-width:900px;margin:0 auto;">
+<div class="content-wrapper" style="max-width:900px;margin:0 auto;">
     <a href="{{ route('seller.products.index') }}" class="back-link">
         <i class="uil uil-arrow-left"></i> Kembali ke Daftar Produk
     </a>
-    
+
     <h1 class="page-title">Tambah Produk Baru</h1>
     <p class="page-subtitle">Isi formulir di bawah untuk menambahkan produk ke toko {{ $seller->nama_toko }}</p>
 
     @if($errors->any())
     <div class="alert alert-error">
         <i class="uil uil-exclamation-triangle"></i>
-        <div>
-            <strong>Ada beberapa kesalahan:</strong>
+        <div class="alert-content">
+            <div class="alert-title">Terjadi Kesalahan</div>
             <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>

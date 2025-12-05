@@ -3,13 +3,11 @@
 @section('title', 'Notifikasi Email - KampuStore')
 
 @push('styles')
+@include('partials.seller-styles')
 <style>
     .notif-container { max-width:900px;margin:0 auto; }
     .notif-header { background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;margin-bottom:24px; }
     .notif-header-top { display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:16px; }
-    .notif-title { font-size:28px;font-weight:700;color:var(--text-main);margin:0;display:flex;align-items:center;gap:12px; }
-    .notif-title i { color:#3b82f6; }
-    .notif-subtitle { font-size:14px;color:var(--text-muted);margin:4px 0 0 0; }
     .btn-mark-all { padding:10px 20px;background:rgba(59,130,246,0.1);color:#3b82f6;font-size:14px;font-weight:600;border-radius:10px;border:none;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px; }
     .btn-mark-all:hover { background:rgba(59,130,246,0.2); }
     .notif-info { padding:16px 20px;background:rgba(59,130,246,0.1);border-left:4px solid #3b82f6;border-radius:8px;color:#3b82f6;font-size:14px; }
@@ -46,15 +44,16 @@
 @endpush
 
 @section('content')
+<div class="content-wrapper">
 <div class="notif-container">
     <div class="notif-header">
         <div class="notif-header-top">
             <div>
-                <h1 class="notif-title">
-                    <i class="uil uil-envelope"></i>
+                <h1 class="page-title">
+                    <i class="uil uil-envelope" style="color:#3b82f6;margin-right:12px;"></i>
                     Kotak Masuk Email
                 </h1>
-                <p class="notif-subtitle">Notifikasi verifikasi toko dari admin</p>
+                <p class="page-subtitle">Notifikasi verifikasi toko dari admin</p>
             </div>
             @if($unreadCount > 0)
             <form action="{{ route('seller.notifications.mark-all-read') }}" method="POST">
@@ -129,5 +128,6 @@
         </div>
         @endforelse
     </div>
+</div>
 </div>
 @endsection

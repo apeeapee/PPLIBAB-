@@ -3,12 +3,13 @@
 @section('title', 'Laporan Stok Produk - ' . $seller->nama_toko)
 
 @section('content')
+<div class="content-wrapper" style="padding-top: 30px;">
 {{-- Header --}}
 <div class="mb-6 sm:mb-8">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
             <h1 class="text-2xl sm:text-3xl font-bold" style="color:var(--text-main)">Laporan Daftar Produk Berdasarkan Stock</h1>
-            <p class="text-sm sm:text-base" style="color:var(--text-muted)">SRS-MartPlace-12: Diurutkan berdasarkan stock secara menurun</p>
+            <p class="text-sm sm:text-base" style="color:var(--text-muted)">Diurutkan berdasarkan stock secara menurun</p>
         </div>
         <div class="text-center sm:text-right px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-white" style="background:linear-gradient(135deg,var(--accent),#ea580c)">
             <div class="text-xs sm:text-sm opacity-90 mb-1">{{ now()->format('d F Y') }}</div>
@@ -138,5 +139,6 @@
 {{-- Info Box --}}
 <div class="mt-6 p-4 rounded-xl" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3)">
     <p class="text-sm" style="color:#3b82f6"><strong>Keterangan:</strong> Diurutkan berdasarkan stock secara menurun (descending)</p>
+</div>
 </div>
 @endsection

@@ -164,22 +164,25 @@ Route::middleware('auth')->prefix('seller')->name('seller.')->group(function () 
     Route::resource('products', \App\Http\Controllers\Seller\ProductManagementController::class)
         ->except(['show']);
     
-    // 🔹 Seller Reports (SRS-MartPlace-12, 13, 14)
+    // 🔹 Seller Reports
     Route::prefix('laporan')->name('reports.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Seller\ReportController::class, 'index'])
+            ->name('index');
+
         Route::get('/stock', [\App\Http\Controllers\Seller\ReportController::class, 'stock'])
-            ->name('stock'); // SRS-12
+            ->name('stock');
         Route::get('/stock/export', [\App\Http\Controllers\Seller\ReportController::class, 'exportStock'])
-            ->name('stock.export'); // SRS-12 Export
-        
+            ->name('stock.export');
+
         Route::get('/rating', [\App\Http\Controllers\Seller\ReportController::class, 'rating'])
-            ->name('rating'); // SRS-13
+            ->name('rating');
         Route::get('/rating/export', [\App\Http\Controllers\Seller\ReportController::class, 'exportRating'])
-            ->name('rating.export'); // SRS-13 Export
-        
+            ->name('rating.export');
+
         Route::get('/restock', [\App\Http\Controllers\Seller\ReportController::class, 'restock'])
-            ->name('restock'); // SRS-14
+            ->name('restock');
         Route::get('/restock/export', [\App\Http\Controllers\Seller\ReportController::class, 'exportRestock'])
-            ->name('restock.export'); // SRS-14 Export
+            ->name('restock.export');
     });
 });
 

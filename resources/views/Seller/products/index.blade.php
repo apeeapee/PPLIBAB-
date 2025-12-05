@@ -3,12 +3,8 @@
 @section('title', 'Produk Saya - ' . $seller->nama_toko)
 
 @push('styles')
+@include('partials.seller-styles')
 <style>
-    .page-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px; }
-    .page-header .btn-add { padding:8px 14px;font-size:13px;gap:6px; }
-    .page-title { font-size:28px;font-weight:700;color:var(--text-main);margin:0; }
-    .page-subtitle { color:var(--text-muted);margin:4px 0 0 0; }
-
     .products-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-bottom:32px; }
     
     .product-card { background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s; }
@@ -43,9 +39,7 @@
     .action-btn.delete { background:rgba(239,68,68,0.1);color:#ef4444; }
     .action-btn.delete:hover { background:rgba(239,68,68,0.2); }
     
-    .btn-add { display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--accent);color:#111827;font-weight:600;border-radius:10px;text-decoration:none;transition:all .2s;border:none;cursor:pointer; }
-    .btn-add:hover { background:var(--accent-hover);transform:translateY(-2px); }
-    
+        
     .empty-state { text-align:center;padding:60px 24px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px; }
     .empty-state i { font-size:64px;color:var(--text-muted);margin-bottom:16px; }
     .empty-state h3 { font-size:20px;font-weight:700;color:var(--text-main);margin-bottom:8px; }
@@ -59,7 +53,8 @@
 @endpush
 
 @section('content')
-<div class="page-header">
+<div class="content-wrapper">
+<div class="page-header-with-actions">
     <div>
         <h1 class="page-title">Produk Saya</h1>
         <p class="page-subtitle">Kelola semua produk toko {{ $seller->nama_toko }}</p>
@@ -74,14 +69,18 @@
 @if(session('success'))
 <div class="alert alert-success">
     <i class="uil uil-check-circle"></i>
-    <span>{{ session('success') }}</span>
+    <div class="alert-content">
+        <div class="alert-text">{{ session('success') }}</div>
+    </div>
 </div>
 @endif
 
 @if(session('error'))
 <div class="alert alert-error">
     <i class="uil uil-times-circle"></i>
-    <span>{{ session('error') }}</span>
+    <div class="alert-content">
+        <div class="alert-text">{{ session('error') }}</div>
+    </div>
 </div>
 @endif
 
@@ -142,4 +141,5 @@
     <p>Mulai berjualan dengan menambahkan produk pertama Anda.</p>
 </div>
 @endif
+</div>
 @endsection

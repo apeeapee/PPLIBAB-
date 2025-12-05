@@ -8,8 +8,12 @@
         .dashboard-content {
             padding: 0;
             margin: 0;
+            padding-top: 20px;
         }
-        .page-header { margin-bottom:32px; }
+        .page-header {
+            margin-bottom:32px;
+            margin-top: 10px;
+        }
         .page-title { font-size:28px;font-weight:700;color:var(--text-main);margin-bottom:6px; }
         .page-subtitle { font-size:14px;color:var(--text-muted); }
 
@@ -82,7 +86,7 @@
         .empty-state { text-align:center;padding:48px 24px; }
         .empty-state i { font-size:64px;color:var(--text-muted);margin-bottom:16px; }
         .empty-state p { color:var(--text-muted);margin-bottom:20px; }
-        .empty-state .btn-add { padding:8px 14px;font-size:13px; }
+        .empty-state .btn-add { padding:6px 12px;font-size:12px; }
     </style>
 @endpush
 
@@ -136,7 +140,7 @@
             </div>
         </div>
 
-        {{-- SRS-08: Charts Section --}}
+        {{-- Charts Section --}}
         <style>
             .charts-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:24px;margin-bottom:28px; }
             @media(max-width:800px) { .charts-grid { grid-template-columns:1fr; } }
@@ -159,7 +163,7 @@
         </style>
 
         <div class="charts-grid">
-            {{-- SRS-08: Sebaran Stok per Produk --}}
+            {{-- Sebaran Stok per Produk --}}
             <div class="chart-card">
                 <div class="chart-title"><i class="uil uil-layers"></i> Sebaran Stok per Produk</div>
                 <div class="chart-subtitle">Top 10 produk berdasarkan jumlah stok</div>
@@ -188,7 +192,7 @@
                 @endif
             </div>
 
-            {{-- SRS-08: Sebaran Rating per Produk --}}
+            {{-- Sebaran Rating per Produk --}}
             <div class="chart-card">
                 <div class="chart-title"><i class="uil uil-star"></i> Sebaran Rating per Produk</div>
                 <div class="chart-subtitle">Top 10 produk berdasarkan rating tertinggi</div>
@@ -222,7 +226,7 @@
                 @endif
             </div>
 
-            {{-- SRS-08: Sebaran Pemberi Rating Berdasarkan Provinsi --}}
+            {{-- Sebaran Pemberi Rating Berdasarkan Provinsi --}}
             <div class="chart-card">
                 <div class="chart-title"><i class="uil uil-map-marker"></i> Review Berdasarkan Provinsi</div>
                 <div class="chart-subtitle">Asal pemberi rating untuk produk Anda</div>

@@ -3,12 +3,13 @@
 @section('title', 'Restock Alert - ' . $seller->nama_toko)
 
 @section('content')
+<div class="content-wrapper" style="padding-top: 30px;">
 {{-- Header --}}
 <div class="mb-6 sm:mb-8">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
             <h1 class="text-2xl sm:text-3xl font-bold" style="color:var(--text-main)">Laporan Daftar Produk Segera Dipesan</h1>
-            <p class="text-sm sm:text-base" style="color:var(--text-muted)">SRS-MartPlace-14: Produk dengan stok &lt; {{ $threshold }} unit</p>
+            <p class="text-sm sm:text-base" style="color:var(--text-muted)">Produk dengan stok &lt; {{ $threshold }} unit</p>
         </div>
         <div class="text-center sm:text-right px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-white" style="background:linear-gradient(135deg,#ef4444,#dc2626)">
             <div class="text-xs sm:text-sm opacity-90 mb-1">{{ now()->format('d F Y') }}</div>
@@ -151,5 +152,6 @@
     <p class="text-sm" style="color:#3b82f6"><strong>Keterangan:</strong></p>
     <p class="text-sm" style="color:#3b82f6">***) Diurutkan berdasarkan kategori dan produk alfabetis</p>
     <p class="text-sm" style="color:#3b82f6">***) Stock produk yang segera dipesan jika stock &lt; {{ $threshold }}</p>
+</div>
 </div>
 @endsection

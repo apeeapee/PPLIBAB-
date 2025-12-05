@@ -16,7 +16,22 @@ use App\Exports\RestockExport;
 class ReportController extends Controller
 {
     /**
-     * SRS-MartPlace-12: Laporan Daftar Produk Berdasarkan Stock (DESCENDING)
+     * Display list of available reports
+     */
+    public function index(Request $request)
+    {
+        $seller = Auth::user()->seller;
+
+        if (!$seller || $seller->status !== 'approved') {
+            return redirect()->route('seller.dashboard')
+                ->with('error', 'Anda harus memiliki toko yang sudah diverifikasi.');
+        }
+
+        return view('Seller.reports.index', compact('seller'));
+    }
+
+    /**
+     * Laporan Daftar Produk Berdasarkan Stock (DESCENDING)
      */
     public function stock(Request $request)
     {

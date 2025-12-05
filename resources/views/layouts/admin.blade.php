@@ -280,10 +280,10 @@
 
         /* ===================== MAIN CONTENT ===================== */
         .main-content{
-            padding:100px 48px 48px;
+            padding:120px 48px 48px;
             max-width:1500px;
             margin:0 auto;
-            min-height:calc(100vh - 80px);
+            min-height:calc(100vh - 120px);
         }
 
         /* ===================== CARDS ===================== */

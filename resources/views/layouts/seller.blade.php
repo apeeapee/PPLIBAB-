@@ -227,8 +227,8 @@
         .main-container {
             max-width:1400px;
             margin:0 auto;
-            padding:75px 48px 40px;
-            min-height:calc(100vh - 75px);
+            padding:100px 48px 40px;
+            min-height:calc(100vh - 100px);
         }
         
         .btn-add {
@@ -301,7 +301,7 @@
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="{{ route('seller.reports.stock') }}" class="nav-link {{ request()->routeIs('seller.reports*') ? 'active' : '' }}">
+                    <a href="{{ route('seller.reports.index') }}" class="nav-link {{ request()->routeIs('seller.reports*') ? 'active' : '' }}">
                         <i class="uil uil-chart-bar"></i>
                         <span>Laporan</span>
                     </a>
