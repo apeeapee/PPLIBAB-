@@ -157,13 +157,13 @@
     </div>
     @endif
 
-    <!-- Detail Location (if selected) -->
+    <!-- Detail Location (if selected) - SRS-10 Format: No | Nama Toko | Nama PIC | Propinsi -->
     @if($selectedLocation && $sellersDetail)
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
             <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Detail Toko di {{ $selectedLocation }}</h2>
-                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Daftar toko yang terdaftar</p>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Laporan Daftar Toko Berdasarkan Lokasi Propinsi</h2>
+                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Tanggal dibuat: {{ now()->format('d-m-Y') }} oleh {{ auth()->user()->name ?? 'Admin' }}</p>
             </div>
             <a href="{{ route('admin.reports.sellers-location') }}" class="px-4 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all shadow-md font-medium flex items-center gap-2 text-sm">
                 <i class="uil uil-arrow-left"></i> Kembali
@@ -176,9 +176,8 @@
                     <tr>
                         <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">No</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nama Toko</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">PIC</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kontak</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nama PIC</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Propinsi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -187,18 +186,11 @@
                         <td class="px-6 py-4 text-center text-sm text-gray-900 dark:text-gray-200">{{ $index + 1 }}</td>
                         <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{{ $seller->nama_toko }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">{{ $seller->nama_pic }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">{{ $seller->no_hp_pic }}</td>
-                        <td class="px-6 py-4 text-center">
-                            @if($seller->status == 'approved')
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">AKTIF</span>
-                            @else
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300">PENDING</span>
-                            @endif
-                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">{{ $seller->provinsi ?? '-' }}</td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-12 text-center">
+                        <td colspan="4" class="px-6 py-12 text-center">
                             <div class="text-center">
                                 <i class="uil uil-store text-4xl sm:text-5xl text-gray-400 dark:text-gray-600 mb-3"></i>
                                 <p class="text-sm sm:text-base text-gray-500 dark:text-gray-400">Tidak ada toko di lokasi ini</p>
@@ -211,4 +203,9 @@
         </div>
     </div>
     @endif
+
+    <!-- Keterangan -->
+    <div class="mt-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-700">
+        <p class="text-sm text-blue-700 dark:text-blue-300"><strong>Keterangan:</strong> ***) Diurutkan berdasarkan propinsi alfabetis</p>
+    </div>
 @endsection

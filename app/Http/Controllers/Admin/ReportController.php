@@ -26,6 +26,7 @@ class ReportController extends Controller
 
     /**
      * SRS-09: Laporan Daftar Akun Penjual
+     * Urutan: Aktif dulu baru Tidak Aktif (sesuai SRS)
      */
     public function sellers(Request $request)
     {
@@ -55,8 +56,8 @@ class ReportController extends Controller
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        // Sorting
-        $sort = $request->get('sort', 'newest');
+        // SRS-09: Urutan berdasarkan status (aktif dulu baru tidak aktif)
+        $sort = $request->get('sort', 'status');
         switch ($sort) {
             case 'oldest':
                 $query->orderBy('created_at', 'asc');
@@ -67,8 +68,11 @@ class ReportController extends Controller
             case 'name_desc':
                 $query->orderBy('nama_toko', 'desc');
                 break;
-            default: // newest
+            case 'newest':
                 $query->orderBy('created_at', 'desc');
+                break;
+            default: // status - SRS requirement
+                $query->orderByRaw("FIELD(status, 'approved', 'pending', 'rejected')");
                 break;
         }
 
@@ -79,17 +83,19 @@ class ReportController extends Controller
 
     /**
      * SRS-10: Laporan Daftar Penjual per Lokasi Provinsi
+     * Urutan: berdasarkan provinsi alfabetis (sesuai SRS)
      */
     public function sellersByLocation(Request $request)
     {
         // SRS-10: Hardcode group by provinsi
         $groupBy = 'provinsi';
 
+        // SRS-10: Urutan berdasarkan provinsi alfabetis
         $sellersByLocation = Seller::select($groupBy, DB::raw('count(*) as total'))
             ->where('status', 'approved')
             ->whereNotNull($groupBy)
             ->groupBy($groupBy)
-            ->orderBy('total', 'desc')
+            ->orderBy($groupBy, 'asc')
             ->get();
 
         // Detail penjual per lokasi
@@ -206,22 +212,8 @@ class ReportController extends Controller
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        // Sorting
-        $sort = $request->get('sort', 'newest');
-        switch ($sort) {
-            case 'oldest':
-                $query->orderBy('created_at', 'asc');
-                break;
-            case 'name_asc':
-                $query->orderBy('nama_toko', 'asc');
-                break;
-            case 'name_desc':
-                $query->orderBy('nama_toko', 'desc');
-                break;
-            default: // newest
-                $query->orderBy('created_at', 'desc');
-                break;
-        }
+        // SRS-09: Urutan berdasarkan status (aktif dulu baru tidak aktif)
+        $query->orderByRaw("FIELD(status, 'approved', 'pending', 'rejected')");
 
         $sellers = $query->get();
 
@@ -253,19 +245,21 @@ class ReportController extends Controller
         // Hardcode group by provinsi
         $groupBy = 'provinsi';
 
+        // SRS-10: Urutan berdasarkan provinsi alfabetis
         $sellersByLocation = Seller::select($groupBy, DB::raw('count(*) as total'))
             ->where('status', 'approved')
             ->whereNotNull($groupBy)
             ->groupBy($groupBy)
-            ->orderBy('total', 'desc')
+            ->orderBy($groupBy, 'asc')
             ->get();
 
         $selectedLocation = $request->get('location');
         $sellersDetail = null;
         if ($selectedLocation) {
+            // SRS-10: Urutan berdasarkan nama toko
             $sellersDetail = Seller::where('status', 'approved')
                 ->where($groupBy, $selectedLocation)
-                ->orderBy('nama_toko')
+                ->orderBy('nama_toko', 'asc')
                 ->get();
         }
 

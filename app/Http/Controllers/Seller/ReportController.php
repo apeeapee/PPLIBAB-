@@ -110,6 +110,7 @@ class ReportController extends Controller
     /**
      * SRS-MartPlace-14: Laporan Daftar Produk Segera Dipesan (Restock)
      * Threshold default: stock < 2 sesuai SRS
+     * Urutan: berdasarkan kategori dan produk alfabetis
      */
     public function restock(Request $request)
     {
@@ -126,9 +127,10 @@ class ReportController extends Controller
         // Total semua produk toko
         $totalProducts = Product::where('seller_id', $seller->id)->count();
 
+        // SRS-14: Urutan berdasarkan kategori dan produk alfabetis
         $products = Product::where('seller_id', $seller->id)
             ->where('stock', '<', $threshold)
-            ->orderBy('stock', 'asc')
+            ->orderBy('category_slug', 'asc')
             ->orderBy('name', 'asc')
             ->get();
 
@@ -178,8 +180,15 @@ class ReportController extends Controller
             ->orderBy('products.stock', 'desc')
             ->get();
 
-        $filename = 'Laporan_Stok_Produk_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.xlsx';
-        return Excel::download(new StockExport($request), $filename);
+        $pdf = Pdf::loadView('pdf.seller-stock-professional', [
+            'title' => 'LAPORAN DAFTAR PRODUK BERDASARKAN STOCK',
+            'products' => $products,
+            'seller' => $seller,
+            'user' => auth()->user()->name ?? $seller->nama_pic,
+            'generatedDate' => now(),
+        ]);
+
+        return $pdf->download('Laporan_Daftar_Produk_Stock_' . date('Y-m-d') . '.pdf');
     }
 
     public function exportRating(Request $request)
@@ -223,8 +232,15 @@ class ReportController extends Controller
             ->orderBy('avg_rating', 'desc')
             ->get();
 
-        $filename = 'Laporan_Rating_Produk_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.xlsx';
-        return Excel::download(new StockByRatingExport(), $filename);
+        $pdf = Pdf::loadView('pdf.seller-rating-professional', [
+            'title' => 'LAPORAN DAFTAR PRODUK BERDASARKAN RATING',
+            'products' => $products,
+            'seller' => $seller,
+            'user' => auth()->user()->name ?? $seller->nama_pic,
+            'generatedDate' => now(),
+        ]);
+
+        return $pdf->download('Laporan_Daftar_Produk_Rating_' . date('Y-m-d') . '.pdf');
     }
 
     public function exportRestock(Request $request)
@@ -239,20 +255,22 @@ class ReportController extends Controller
         // SRS-14: Default threshold adalah 2 (stock < 2)
         $threshold = $request->get('threshold', 2);
 
+        // SRS-14: Urutan berdasarkan kategori dan produk alfabetis
         $products = Product::where('seller_id', $seller->id)
             ->where('stock', '<', $threshold)
-            ->orderBy('stock', 'asc')
+            ->orderBy('category_slug', 'asc')
             ->orderBy('name', 'asc')
             ->get();
 
-        $pdf = Pdf::loadView('pdf.seller-restock', [
-            'title' => 'Laporan Produk Perlu Restock',
+        $pdf = Pdf::loadView('pdf.seller-restock-professional', [
+            'title' => 'LAPORAN DAFTAR PRODUK SEGERA DIPESAN',
             'products' => $products,
             'seller' => $seller,
             'threshold' => $threshold,
+            'user' => auth()->user()->name ?? $seller->nama_pic,
+            'generatedDate' => now(),
         ]);
 
-        $filename = 'Laporan_Restock_' . preg_replace('/[^A-Za-z0-9]/', '_', $seller->nama_toko) . '_' . date('Y-m-d') . '.xlsx';
-        return Excel::download(new RestockExport(), $filename);
+        return $pdf->download('Laporan_Produk_Segera_Dipesan_' . date('Y-m-d') . '.pdf');
     }
 }

@@ -2,67 +2,8 @@
 
 @section('title', 'Restock Alert - ' . $seller->nama_toko)
 
-@push('styles')
-<style>
-    .page-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px; }
-    .page-title { font-size:28px;font-weight:700;color:var(--text-main);margin:0; }
-    .page-subtitle { color:var(--text-muted);margin:4px 0 0 0; }
-    
-    .alert { padding:20px 24px;border-radius:12px;margin-bottom:32px;display:flex;align-items:start;gap:16px; }
-    .alert-warning { background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3); }
-    .alert-success { background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3); }
-    .alert i { font-size:24px;margin-top:2px; }
-    .alert-warning i { color:#ef4444; }
-    .alert-success i { color:#22c55e; }
-    .alert-title { font-size:16px;font-weight:700;margin-bottom:4px; }
-    .alert-text { font-size:14px;color:var(--text-muted); }
-    
-    @keyframes pulse { 0%, 100% { opacity:1; } 50% { opacity:0.5; } }
-    .pulse { animation:pulse 2s infinite; }
-    
-    .stats-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:32px; }
-    .stat-card { background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:20px;display:flex;align-items:center;gap:16px; }
-    .stat-icon { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px; }
-    .stat-icon.red { background:rgba(239,68,68,0.1);color:#ef4444; }
-    .stat-icon.orange { background:rgba(249,115,22,0.1);color:var(--accent); }
-    .stat-icon.yellow { background:rgba(234,179,8,0.1);color:#eab308; }
-    .stat-value { font-size:28px;font-weight:700;color:var(--text-main); }
-    .stat-label { font-size:13px;color:var(--text-muted); }
-    
-    .card { background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;overflow:hidden; }
-    .card-header { padding:24px;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center; }
-    .card-title { font-size:18px;font-weight:700;color:var(--text-main);margin:0; }
-    
-    .table-wrap { overflow-x:auto; }
-    table { width:100%;border-collapse:collapse; }
-    thead { background:rgba(249,115,22,0.05); }
-    th { padding:16px;text-align:left;font-size:13px;font-weight:700;color:var(--text-main);border-bottom:1px solid var(--card-border); }
-    td { padding:16px;font-size:14px;color:var(--text-main);border-bottom:1px solid var(--card-border); }
-    tbody tr:hover { background:rgba(249,115,22,0.03); }
-    tbody tr.critical { background:rgba(239,68,68,0.05); }
-    
-    .badge { padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600; }
-    .badge-red { background:rgba(239,68,68,0.1);color:#ef4444; }
-    .badge-yellow { background:rgba(234,179,8,0.1);color:#eab308; }
-    
-    .btn-action { display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:all .2s; }
-    .btn-success { background:rgba(34,197,94,0.1);color:#22c55e; }
-    .btn-success:hover { background:rgba(34,197,94,0.2); }
-    .btn-primary { background:rgba(59,130,246,0.1);color:#3b82f6; }
-    .btn-primary:hover { background:rgba(59,130,246,0.2); }
-    
-    .empty-state { text-align:center;padding:40px;color:var(--text-muted); }
-    .empty-state i { font-size:48px;margin-bottom:12px; }
-    
-    @media print {
-        .no-print { display:none !important; }
-        body { background:white;color:black; }
-        .card { border:1px solid #e5e7eb; }
-    }
-</style>
-@endpush
-
 @section('content')
+<<<<<<< HEAD
 <div class="main-container">
 <div class="page-header">
     <div>
@@ -76,100 +17,142 @@
         <button onclick="window.print()" class="btn-action btn-primary">
             <i class="uil uil-print"></i> Cetak
         </button>
+=======
+{{-- Header --}}
+<div class="mb-6 sm:mb-8">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <div>
+            <h1 class="text-2xl sm:text-3xl font-bold" style="color:var(--text-main)">Laporan Daftar Produk Segera Dipesan</h1>
+            <p class="text-sm sm:text-base" style="color:var(--text-muted)">SRS-MartPlace-14: Produk dengan stok &lt; {{ $threshold }} unit</p>
+        </div>
+        <div class="text-center sm:text-right px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-white" style="background:linear-gradient(135deg,#ef4444,#dc2626)">
+            <div class="text-xs sm:text-sm opacity-90 mb-1">{{ now()->format('d F Y') }}</div>
+            <div class="text-2xl sm:text-3xl font-bold">{{ $products->count() }}</div>
+            <div class="text-xs sm:text-sm opacity-90">Perlu Restock</div>
+        </div>
+>>>>>>> origin/main
     </div>
 </div>
 
+<div class="my-6 sm:my-8">
+    <div class="h-1 rounded-full shadow-md" style="background:linear-gradient(90deg, rgba(249,115,22,0.2) 0%, var(--accent) 50%, rgba(249,115,22,0.2) 100%)"></div>
+</div>
+
+{{-- Alert --}}
 @if($totalProducts == 0)
-<div class="alert alert-success">
-    <i class="uil uil-info-circle"></i>
+<div class="p-4 rounded-xl mb-6 flex items-start gap-4" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3)">
+    <i class="uil uil-info-circle text-2xl mt-0.5" style="color:#22c55e"></i>
     <div>
-        <div class="alert-title" style="color:#22c55e;">Belum Ada Produk</div>
-        <div class="alert-text">Toko Anda belum memiliki produk. <a href="{{ route('seller.products.create') }}" style="color:#f97316;font-weight:600;">Tambahkan produk pertama</a> untuk mulai berjualan.</div>
+        <div class="font-bold mb-1" style="color:#22c55e">Belum Ada Produk</div>
+        <div class="text-sm" style="color:var(--text-muted)">Toko Anda belum memiliki produk. <a href="{{ route('seller.products.create') }}" class="font-semibold" style="color:var(--accent)">Tambahkan produk pertama</a> untuk mulai berjualan.</div>
     </div>
 </div>
 @elseif($products->count() > 0)
-<div class="alert alert-warning">
-    <i class="uil uil-exclamation-triangle pulse"></i>
+<div class="p-4 rounded-xl mb-6 flex items-start gap-4" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3)">
+    <i class="uil uil-exclamation-triangle text-2xl mt-0.5 animate-pulse" style="color:#ef4444"></i>
     <div>
-        <div class="alert-title" style="color:#ef4444;">Peringatan Stok Rendah!</div>
-        <div class="alert-text">Anda memiliki <strong style="color:#ef4444;">{{ $products->count() }} produk</strong> dengan stok di bawah {{ $threshold }} unit. Segera lakukan restock.</div>
+        <div class="font-bold mb-1" style="color:#ef4444">Peringatan Stok Rendah!</div>
+        <div class="text-sm" style="color:var(--text-muted)">Anda memiliki <strong style="color:#ef4444">{{ $products->count() }} produk</strong> dengan stok di bawah {{ $threshold }} unit. Segera lakukan restock.</div>
     </div>
 </div>
 @endif
 
 @if($totalProducts > 0)
-<div class="stats-grid">
-    <div class="stat-card">
-        <div class="stat-icon red"><i class="uil uil-exclamation-triangle"></i></div>
-        <div>
-            <div class="stat-value">{{ $products->count() }}</div>
-            <div class="stat-label">Perlu Restock</div>
+{{-- Statistics Cards --}}
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+    <div class="rounded-xl shadow-md p-4 sm:p-6" style="background:var(--card-bg);border:1px solid var(--card-border)">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background:rgba(239,68,68,0.1);color:#ef4444">
+                <i class="uil uil-exclamation-triangle"></i>
+            </div>
+            <div>
+                <div class="text-2xl font-bold" style="color:var(--text-main)">{{ $products->count() }}</div>
+                <div class="text-xs sm:text-sm" style="color:var(--text-muted)">Perlu Restock</div>
+            </div>
         </div>
     </div>
-    <div class="stat-card">
-        <div class="stat-icon orange"><i class="uil uil-times-circle"></i></div>
-        <div>
-            <div class="stat-value">{{ $products->where('stock', 0)->count() }}</div>
-            <div class="stat-label">Stok Habis</div>
+    <div class="rounded-xl shadow-md p-4 sm:p-6" style="background:var(--card-bg);border:1px solid var(--card-border)">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background:rgba(249,115,22,0.1);color:var(--accent)">
+                <i class="uil uil-times-circle"></i>
+            </div>
+            <div>
+                <div class="text-2xl font-bold" style="color:var(--text-main)">{{ $products->where('stock', 0)->count() }}</div>
+                <div class="text-xs sm:text-sm" style="color:var(--text-muted)">Stok Habis</div>
+            </div>
         </div>
     </div>
-    <div class="stat-card">
-        <div class="stat-icon yellow"><i class="uil uil-info-circle"></i></div>
-        <div>
-            <div class="stat-value">{{ $threshold }}</div>
-            <div class="stat-label">Batas Stok Minimum</div>
+    <div class="rounded-xl shadow-md p-4 sm:p-6" style="background:var(--card-bg);border:1px solid var(--card-border)">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background:rgba(234,179,8,0.1);color:#eab308">
+                <i class="uil uil-info-circle"></i>
+            </div>
+            <div>
+                <div class="text-2xl font-bold" style="color:var(--text-main)">{{ $threshold }}</div>
+                <div class="text-xs sm:text-sm" style="color:var(--text-muted)">Batas Stok Minimum</div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        <h2 class="card-title">Daftar Produk Perlu Restock</h2>
-        <span style="font-size:12px;color:var(--text-muted);">
-            Dibuat: {{ now()->format('d M Y, H:i') }}
-        </span>
+{{-- Export Buttons --}}
+<div class="flex gap-3 mb-6 flex-wrap">
+    <a href="{{ route('seller.reports.restock.export') }}" class="px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all shadow-md text-white" style="background:linear-gradient(135deg,#ef4444,#dc2626)">
+        <i class="uil uil-file-download-alt"></i> Export PDF
+    </a>
+    <button onclick="window.print()" class="px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all shadow-md text-white" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">
+        <i class="uil uil-print"></i> Cetak
+    </button>
+</div>
+
+<div class="my-6 sm:my-8">
+    <div class="h-1 rounded-full shadow-md" style="background:linear-gradient(90deg, rgba(249,115,22,0.2) 0%, var(--accent) 50%, rgba(249,115,22,0.2) 100%)"></div>
+</div>
+
+{{-- Data Table --}}
+<div class="rounded-xl shadow-lg overflow-hidden" style="background:var(--card-bg);border:1px solid var(--card-border)">
+    <div class="px-4 sm:px-6 py-4" style="border-bottom:1px solid var(--card-border)">
+        <h2 class="text-lg font-semibold" style="color:var(--text-main)">Daftar Produk Perlu Restock</h2>
+        <p class="text-xs sm:text-sm mt-1" style="color:var(--text-muted)">Dibuat: {{ now()->format('d M Y, H:i') }} oleh {{ auth()->user()->name }}</p>
     </div>
-    
-    <div class="table-wrap">
-        <table>
-            <thead>
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead style="background:rgba(249,115,22,0.05)">
                 <tr>
-                    <th>No</th>
-                    <th>Nama Produk</th>
-                    <th>Kategori</th>
-                    <th>Harga</th>
-                    <th>Stok</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider" style="color:var(--text-muted)">No</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color:var(--text-muted)">Produk</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color:var(--text-muted)">Kategori</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider" style="color:var(--text-muted)">Harga</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider" style="color:var(--text-muted)">Stock</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="color:var(--text-main)">
                 @forelse($products as $index => $product)
-                <tr class="{{ $product->stock == 0 ? 'critical' : '' }}">
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <div style="display:flex;align-items:center;gap:8px;">
+                <tr class="hover:bg-opacity-50 transition-colors {{ $product->stock == 0 ? 'bg-red-500/5' : '' }}" style="border-bottom:1px solid var(--card-border)">
+                    <td class="px-6 py-4 text-center text-sm">{{ $index + 1 }}</td>
+                    <td class="px-6 py-4 text-sm">
+                        <div class="flex items-center gap-2">
                             @if($product->stock == 0)
-                            <i class="uil uil-exclamation-circle" style="color:#ef4444;font-size:18px;"></i>
+                            <i class="uil uil-exclamation-circle" style="color:#ef4444;font-size:18px"></i>
                             @endif
-                            <span style="font-weight:600;">{{ $product->name }}</span>
+                            <span class="font-medium">{{ $product->name }}</span>
                         </div>
                     </td>
-                    <td>{{ ucfirst(str_replace('-', ' ', $product->category_slug)) }}</td>
-                    <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                    <td>
+                    <td class="px-6 py-4 text-sm">{{ ucfirst(str_replace('-', ' ', $product->category_slug)) }}</td>
+                    <td class="px-6 py-4 text-sm text-right">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                    <td class="px-6 py-4 text-center">
                         @if($product->stock == 0)
-                            <span class="badge badge-red">Habis</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium" style="background:rgba(239,68,68,0.1);color:#ef4444">HABIS</span>
                         @else
-                            <span class="badge badge-yellow">{{ $product->stock }} unit</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium" style="background:rgba(234,179,8,0.1);color:#eab308">{{ $product->stock }} unit</span>
                         @endif
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5">
-                        <div class="empty-state">
-                            <i class="uil uil-check-circle"></i>
-                            <p>Semua produk memiliki stok yang cukup!</p>
-                        </div>
+                    <td colspan="5" class="px-6 py-12 text-center">
+                        <i class="uil uil-check-circle text-4xl sm:text-5xl mb-3" style="color:#22c55e"></i>
+                        <p class="text-sm sm:text-base" style="color:#22c55e">Semua produk memiliki stok yang cukup!</p>
                     </td>
                 </tr>
                 @endforelse
@@ -178,5 +161,14 @@
     </div>
 </div>
 @endif
+<<<<<<< HEAD
+=======
+
+{{-- Info Box --}}
+<div class="mt-6 p-4 rounded-xl" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3)">
+    <p class="text-sm" style="color:#3b82f6"><strong>Keterangan:</strong></p>
+    <p class="text-sm" style="color:#3b82f6">***) Diurutkan berdasarkan kategori dan produk alfabetis</p>
+    <p class="text-sm" style="color:#3b82f6">***) Stock produk yang segera dipesan jika stock &lt; {{ $threshold }}</p>
+>>>>>>> origin/main
 </div>
 @endsection

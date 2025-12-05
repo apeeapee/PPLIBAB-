@@ -461,42 +461,53 @@
 
         /* ===================== USER DROPDOWN ===================== */
         .user-dropdown{position:relative;}
-        .dropdown-trigger{
-            display:flex;align-items:center;gap:8px;
-            padding:8px 16px;background:rgba(249,115,22,0.1);
+        .user-dropdown-toggle{
+            display:flex;align-items:center;gap:10px;
+            padding:8px 16px;border-radius:50px;cursor:pointer;
+            background:rgba(249,115,22,0.1);
             border:1px solid rgba(249,115,22,0.3);
-            border-radius:50px;font-size:14px;
-            font-weight:500;color:var(--text-main);
-            cursor:pointer;transition:all .3s;
+            transition:all .2s;
         }
-        .dropdown-trigger:hover{background:rgba(249,115,22,0.2);}
-        .dropdown-trigger i.uil-angle-down{transition:transform .3s;}
-        .user-dropdown.open .dropdown-trigger i.uil-angle-down{transform:rotate(180deg);}
-        .dropdown-menu{
+        .user-dropdown-toggle:hover{background:rgba(249,115,22,0.2);}
+        .user-avatar{
+            width:32px;height:32px;border-radius:50%;
+            background:linear-gradient(135deg,#f97316,#ea580c);
+            display:flex;align-items:center;justify-content:center;
+            color:white;font-weight:700;font-size:14px;
+        }
+        .user-info{display:flex;flex-direction:column;align-items:flex-start;}
+        .user-name{font-size:13px;font-weight:600;color:var(--text-main);}
+        .user-role{font-size:11px;color:#f97316;}
+        .dropdown-arrow{font-size:12px;color:var(--text-main);transition:transform .2s;}
+        .user-dropdown.open .dropdown-arrow{transform:rotate(180deg);}
+        .user-dropdown-menu{
             position:absolute;top:calc(100% + 8px);right:0;
+            min-width:220px;padding:8px;
             background:var(--card-bg);border:1px solid var(--card-border);
-            border-radius:12px;min-width:180px;
-            box-shadow:0 10px 40px rgba(0,0,0,0.3);
-            opacity:0;visibility:hidden;
-            transform:translateY(-10px);
-            transition:all .3s;z-index:100;
-            overflow:hidden;
+            border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.3);
+            opacity:0;visibility:hidden;transform:translateY(-10px);
+            transition:all .2s;z-index:100;
         }
-        .user-dropdown.open .dropdown-menu{
+        .user-dropdown.open .user-dropdown-menu{
             opacity:1;visibility:visible;transform:translateY(0);
         }
+        .dropdown-header{
+            padding:12px;margin-bottom:8px;
+            border-bottom:1px solid var(--card-border);
+        }
+        .dropdown-header-name{font-size:14px;font-weight:600;color:var(--page-title-color);}
+        .dropdown-header-email{font-size:12px;color:var(--section-text);margin-top:2px;}
         .dropdown-item{
             display:flex;align-items:center;gap:10px;
-            padding:12px 16px;font-size:14px;
-            color:var(--text-main);text-decoration:none;
-            transition:background .2s;
+            padding:10px 12px;border-radius:8px;
+            color:var(--page-title-color);font-size:13px;
+            transition:all .2s;cursor:pointer;
         }
-        .dropdown-item:hover{background:rgba(249,115,22,0.1);}
-        .dropdown-item i{font-size:18px;color:#f97316;}
-        .dropdown-divider{height:1px;background:var(--card-border);margin:0;}
+        .dropdown-item:hover{background:rgba(249,115,22,0.1);color:#f97316;}
+        .dropdown-item i{font-size:16px;width:20px;text-align:center;}
+        .dropdown-divider{height:1px;background:var(--card-border);margin:8px 0;}
         .dropdown-item.logout{color:#ef4444;}
-        .dropdown-item.logout i{color:#ef4444;}
-        .dropdown-item.logout:hover{background:rgba(239,68,68,0.1);}
+        .dropdown-item.logout:hover{background:rgba(239,68,68,0.1);color:#ef4444;}
 
         /* ===================== FOOTER ===================== */
         .footer{
@@ -929,42 +940,6 @@
     </div>
     
     <div class="nav-actions">
-        @auth
-            <div class="user-dropdown" id="userDropdown">
-                <div class="dropdown-trigger" onclick="toggleDropdown()">
-                    <i class="uil uil-user-circle"></i>
-                    <span>{{ auth()->user()->name }}</span>
-                    <i class="uil uil-angle-down"></i>
-                </div>
-                <div class="dropdown-menu">
-                    @can('verify-sellers')
-                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
-                            <i class="uil uil-shield-check"></i> Admin Dashboard
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    @endcan
-                    @if(auth()->user()->seller)
-                        <a href="{{ route('seller.dashboard') }}" class="dropdown-item">
-                            <i class="uil uil-dashboard"></i> Seller Dashboard
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    @endif
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="dropdown-item logout" style="width:100%;border:none;background:none;cursor:pointer;">
-                            <i class="uil uil-sign-out-alt"></i> Logout
-                        </button>
-                    </form>
-                </div>
-            </div>
-        @else
-            <a href="{{ route('login') }}" class="btn-auth btn-login">
-                <i class="uil uil-shop"></i> Login
-            </a>
-            <a href="{{ route('register') }}" class="btn-auth btn-register">
-                <i class="uil uil-store-alt"></i> Daftar Penjual
-            </a>
-        @endauth
         <div class="theme-toggle-wrapper">
             <label class="toggle-switch">
                 <input type="checkbox" class="js-theme-toggle" />
@@ -980,6 +955,98 @@
                 </span>
             </label>
         </div>
+
+        @auth
+            @php
+                $hasSeller = \App\Models\Seller::where('user_id', auth()->id())->exists();
+            @endphp
+            @if(auth()->user()->is_admin)
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-toggle" onclick="toggleUserDropdown()">
+                        <div class="user-avatar">
+                            <i class="uil uil-shield-check"></i>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">{{ auth()->user()->name }}</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                        <i class="uil uil-angle-down dropdown-arrow"></i>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <div class="dropdown-header">
+                            <div class="dropdown-header-name">{{ auth()->user()->name }}</div>
+                            <div class="dropdown-header-email">{{ auth()->user()->email }}</div>
+                        </div>
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                            <i class="uil uil-dashboard"></i> Dashboard
+                        </a>
+                        <a href="{{ route('admin.sellers.index') }}" class="dropdown-item">
+                            <i class="uil uil-folder-open"></i> Pengajuan Toko
+                        </a>
+                        <a href="{{ route('admin.reports.index') }}" class="dropdown-item">
+                            <i class="uil uil-chart-bar"></i> Laporan
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('home') }}" class="dropdown-item">
+                            <i class="uil uil-home"></i> Home
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                            @csrf
+                            <button type="submit" class="dropdown-item logout" style="width:100%;border:none;background:none;">
+                                <i class="uil uil-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @elseif($hasSeller)
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-toggle" onclick="toggleUserDropdown()" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);">
+                        <div class="user-avatar" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);">
+                            <i class="uil uil-store"></i>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">{{ auth()->user()->name }}</span>
+                            <span class="user-role" style="color:#3b82f6;">Penjual</span>
+                        </div>
+                        <i class="uil uil-angle-down dropdown-arrow"></i>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <div class="dropdown-header">
+                            <div class="dropdown-header-name">{{ auth()->user()->name }}</div>
+                            <div class="dropdown-header-email">{{ auth()->user()->email }}</div>
+                        </div>
+                        <a href="{{ route('seller.dashboard') }}" class="dropdown-item">
+                            <i class="uil uil-dashboard"></i> Dashboard
+                        </a>
+                        <a href="{{ route('seller.products.index') }}" class="dropdown-item">
+                            <i class="uil uil-box"></i> Produk Saya
+                        </a>
+                        <a href="{{ route('seller.reports.stock') }}" class="dropdown-item">
+                            <i class="uil uil-chart-bar"></i> Laporan
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('home') }}" class="dropdown-item">
+                            <i class="uil uil-home"></i> Home
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                            @csrf
+                            <button type="submit" class="dropdown-item logout" style="width:100%;border:none;background:none;">
+                                <i class="uil uil-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endif
+        @else
+            <a href="{{ route('login') }}" class="btn-auth btn-login">
+                <i class="uil uil-shop"></i> Login
+            </a>
+            <a href="{{ route('register') }}" class="btn-auth btn-register">
+                <i class="uil uil-store-alt"></i> Daftar Penjual
+            </a>
+        @endauth
     </div>
 </nav>
 
@@ -1264,8 +1331,8 @@
         }
     })();
 
-    // Dropdown toggle
-    function toggleDropdown(){
+    // User Dropdown toggle
+    function toggleUserDropdown(){
         const dd = document.getElementById('userDropdown');
         if(dd) dd.classList.toggle('open');
     }
