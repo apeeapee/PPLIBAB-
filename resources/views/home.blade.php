@@ -1335,7 +1335,7 @@
                     </a>
                 @elsecan('manage-products')
                     <a href="{{ route('seller.dashboard') }}" class="btn-dashboard seller">
-                        <i class="uil uil-store"></i> Dashboard Seller
+                        <i class="uil uil-arrow-left"></i> Dashboard Seller
                     </a>
                 @endcan
                 <form method="POST" action="{{ route('logout') }}" style="display:inline;">

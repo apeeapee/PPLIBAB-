@@ -275,7 +275,7 @@
             
             @if($hasSeller && !auth()->user()->is_admin)
                 <a href="{{ route('seller.dashboard') }}" class="btn-dashboard seller">
-                    <i class="uil uil-store"></i> Dashboard Seller
+                    <i class="uil uil-arrow-left"></i> Dashboard Seller
                 </a>
             @endif
             
