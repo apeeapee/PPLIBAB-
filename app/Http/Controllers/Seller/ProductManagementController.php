@@ -16,17 +16,17 @@ class ProductManagementController extends Controller
     public function index()
     {
         $seller = Auth::user()->seller;
-        
+
         if (!$seller) {
             return redirect()->route('seller.register')
                 ->with('error', 'Anda belum mendaftar sebagai seller. Silakan daftar terlebih dahulu.');
         }
-        
+
         if ($seller->status === 'pending') {
             return redirect()->route('seller.dashboard')
                 ->with('info', 'Toko Anda masih menunggu verifikasi dari admin. Anda belum bisa mengelola produk.');
         }
-        
+
         if ($seller->status === 'rejected') {
             return redirect()->route('seller.dashboard')
                 ->with('error', 'Pendaftaran toko Anda ditolak. Silakan hubungi admin untuk informasi lebih lanjut.');
@@ -40,12 +40,12 @@ class ProductManagementController extends Controller
     public function create()
     {
         $seller = Auth::user()->seller;
-        
+
         if (!$seller) {
             return redirect()->route('seller.register')
                 ->with('error', 'Anda belum mendaftar sebagai seller. Silakan daftar terlebih dahulu.');
         }
-        
+
         if ($seller->status !== 'approved') {
             return redirect()->route('seller.dashboard')
                 ->with('error', 'Toko Anda harus diverifikasi terlebih dahulu sebelum bisa menambah produk.');
@@ -53,9 +53,10 @@ class ProductManagementController extends Controller
 
         $categories = [
             ['name' => 'Fashion', 'slug' => 'fashion'],
-            ['name' => 'Alat Kuliah', 'slug' => 'alat-kuliah'],
-            ['name' => 'Buku & Alat Tulis', 'slug' => 'buku-alat-tulis'],
             ['name' => 'Elektronik', 'slug' => 'elektronik'],
+            ['name' => 'Buku', 'slug' => 'buku'],
+            ['name' => 'Alat Tulis', 'slug' => 'alat-tulis'],
+            ['name' => 'Alat Kuliah', 'slug' => 'alat-kuliah'],
         ];
 
         return view('seller.products.create', compact('categories', 'seller'));
@@ -64,7 +65,7 @@ class ProductManagementController extends Controller
     public function store(Request $request)
     {
         $seller = Auth::user()->seller;
-        
+
         if (!$seller || $seller->status !== 'approved') {
             return redirect()->route('products.index')
                 ->with('error', 'Anda harus memiliki toko yang sudah diverifikasi.');
@@ -84,7 +85,7 @@ class ProductManagementController extends Controller
         ]);
 
         $slug = Str::slug($validated['name']) . '-' . Str::random(6);
-        
+
         $primaryImagePath = null;
         if ($request->hasFile('images') && count($request->file('images')) > 0) {
             $primaryIndex = $request->input('primary_image', 0);
@@ -102,7 +103,7 @@ class ProductManagementController extends Controller
             'slug' => $slug,
             'category_slug' => $validated['category_slug'],
             'condition' => $validated['condition'],
-            'size' => $validated['size'],
+            'size' => $validated['size'] ?? null,
             'price' => $validated['price'],
             'stock' => $validated['stock'],
             'description' => $validated['description'],
@@ -132,7 +133,7 @@ class ProductManagementController extends Controller
     public function edit(Product $product)
     {
         $seller = Auth::user()->seller;
-        
+
         if (!$seller || $product->seller_id !== $seller->id) {
             return redirect()->route('seller.products.index')
                 ->with('error', 'Anda tidak memiliki akses untuk mengedit produk ini.');
@@ -140,9 +141,10 @@ class ProductManagementController extends Controller
 
         $categories = [
             ['name' => 'Fashion', 'slug' => 'fashion'],
-            ['name' => 'Alat Kuliah', 'slug' => 'alat-kuliah'],
-            ['name' => 'Buku & Alat Tulis', 'slug' => 'buku-alat-tulis'],
             ['name' => 'Elektronik', 'slug' => 'elektronik'],
+            ['name' => 'Buku', 'slug' => 'buku'],
+            ['name' => 'Alat Tulis', 'slug' => 'alat-tulis'],
+            ['name' => 'Alat Kuliah', 'slug' => 'alat-kuliah'],
         ];
 
         $product->load('images');
@@ -153,7 +155,7 @@ class ProductManagementController extends Controller
     public function update(Request $request, Product $product)
     {
         $seller = Auth::user()->seller;
-        
+
         if (!$seller || $product->seller_id !== $seller->id) {
             return redirect()->route('seller.products.index')
                 ->with('error', 'Anda tidak memiliki akses untuk mengupdate produk ini.');
@@ -230,7 +232,7 @@ class ProductManagementController extends Controller
     public function destroy(Product $product)
     {
         $seller = Auth::user()->seller;
-        
+
         if (!$seller || $product->seller_id !== $seller->id) {
             return redirect()->route('seller.products.index')
                 ->with('error', 'Anda tidak memiliki akses untuk menghapus produk ini.');

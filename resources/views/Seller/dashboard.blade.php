@@ -212,19 +212,21 @@
             .chart-card { background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px; }
             .chart-title { font-size:16px;font-weight:700;color:var(--text-main);margin-bottom:4px;display:flex;align-items:center;gap:8px; }
             .chart-subtitle { font-size:12px;color:var(--text-muted);margin-bottom:20px; }
+            
+            /* Horizontal Bar Chart */
+            .h-bar-chart { display:flex;flex-direction:column;gap:12px;max-height:300px;overflow-y:auto; }
+            .h-bar-item { display:flex;align-items:center;gap:12px; }
+            .h-bar-label { font-size:12px;color:var(--text-main);font-weight:500;min-width:80px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+            .h-bar-track { flex:1;height:24px;background:rgba(148,163,184,0.15);border-radius:12px;overflow:hidden;position:relative; }
+            .h-bar-fill { height:100%;border-radius:12px;display:flex;align-items:center;justify-content:flex-end;padding:0 8px;min-width:40px;transition:width 0.3s; }
+            .h-bar-value { font-size:11px;font-weight:700;color:white;white-space:nowrap; }
+            
+            /* Legacy column chart (keeping for compatibility) */
             .bar-chart { display:flex;align-items:flex-end;justify-content:flex-start;gap:8px;height:180px;border-left:1px solid var(--card-border);border-bottom:1px solid var(--card-border);padding:16px 8px 0;overflow-x:auto; }
             .bar-item { display:flex;flex-direction:column;align-items:center;min-width:50px;flex-shrink:0; }
             .bar { width:40px;border-radius:6px 6px 0 0;position:relative;min-height:10px;transition:height 0.3s; }
             .bar-value { position:absolute;top:-22px;left:50%;transform:translateX(-50%);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;color:white;white-space:nowrap; }
             .bar-label { font-size:9px;color:var(--text-muted);margin-top:6px;text-align:center;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
-            .progress-list { display:flex;flex-direction:column;gap:14px;max-height:200px;overflow-y:auto; }
-            .progress-item { }
-            .progress-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:6px; }
-            .progress-label { display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--text-main); }
-            .progress-dot { width:8px;height:8px;border-radius:50%; }
-            .progress-value { font-size:12px;font-weight:600;color:var(--text-main); }
-            .progress-bar { height:6px;background:rgba(148,163,184,0.2);border-radius:50px;overflow:hidden; }
-            .progress-fill { height:100%;border-radius:50px; }
         </style>
 
         <div class="charts-grid">
@@ -234,18 +236,20 @@
                 <div class="chart-subtitle">Top 10 produk berdasarkan jumlah stok</div>
                 @if($stockByProduct->count() > 0)
                     @php $maxStock = $stockByProduct->max('stock') ?: 1; @endphp
-                    <div class="bar-chart">
-                        @foreach($stockByProduct as $idx => $item)
+                    <div class="h-bar-chart">
+                        @foreach($stockByProduct as $item)
                             @php 
                                 $pct = ($item->stock / $maxStock) * 100;
                                 $colors = ['#3b82f6', '#22c55e', '#f97316', '#a855f7', '#06b6d4', '#ef4444', '#eab308', '#ec4899'];
-                                $color = $colors[$idx % count($colors)];
+                                $color = $colors[$loop->index % count($colors)];
                             @endphp
-                            <div class="bar-item">
-                                <div class="bar" style="height:{{ max(10, $pct) }}%; background:linear-gradient(to top, {{ $color }}, {{ $color }}99);">
-                                    <span class="bar-value" style="background:{{ $color }};">{{ $item->stock }}</span>
+                            <div class="h-bar-item">
+                                <span class="h-bar-label" title="{{ $item->name }}">{{ Str::limit($item->name, 12) }}</span>
+                                <div class="h-bar-track">
+                                    <div class="h-bar-fill" style="width:{{ max(10, $pct) }}%; background:linear-gradient(to right, {{ $color }}, {{ $color }}99);">
+                                        <span class="h-bar-value">{{ $item->stock }}</span>
+                                    </div>
                                 </div>
-                                <span class="bar-label" title="{{ $item->name }}">{{ Str::limit($item->name, 8) }}</span>
                             </div>
                         @endforeach
                     </div>
@@ -262,30 +266,27 @@
                 <div class="chart-title"><i class="uil uil-star"></i> Sebaran Rating per Produk</div>
                 <div class="chart-subtitle">Top 10 produk berdasarkan rating tertinggi</div>
                 @if($ratingByProduct->count() > 0)
-                    <div class="progress-list">
-                        @foreach($ratingByProduct as $idx => $item)
+                    @php $maxRating = 5; @endphp
+                    <div class="h-bar-chart">
+                        @foreach($ratingByProduct->filter(fn($item) => $item->review_count > 0)->take(10) as $item)
                             @php 
-                                $ratingPct = ($item->avg_rating / 5) * 100;
-                                $colors = ['#eab308', '#f97316', '#22c55e', '#3b82f6', '#a855f7'];
-                                $color = $colors[$idx % count($colors)];
+                                $pct = ($item->avg_rating / $maxRating) * 100;
+                                $colors = ['#eab308', '#f97316', '#22c55e', '#3b82f6', '#a855f7', '#06b6d4', '#ef4444', '#ec4899'];
+                                $color = $colors[$loop->index % count($colors)];
                             @endphp
-                            <div class="progress-item">
-                                <div class="progress-header">
-                                    <span class="progress-label">
-                                        <span class="progress-dot" style="background:{{ $color }};"></span>
-                                        {{ Str::limit($item->name, 20) }}
-                                    </span>
-                                    <span class="progress-value">{{ number_format($item->avg_rating, 1) }} ★ ({{ $item->review_count }})</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width:{{ $ratingPct }}%; background:linear-gradient(to right, {{ $color }}, {{ $color }}99);"></div>
+                            <div class="h-bar-item">
+                                <span class="h-bar-label" title="{{ $item->name }}">{{ Str::limit($item->name, 12) }}</span>
+                                <div class="h-bar-track">
+                                    <div class="h-bar-fill" style="width:{{ max(10, $pct) }}%; background:linear-gradient(to right, {{ $color }}, {{ $color }}99);">
+                                        <span class="h-bar-value">{{ number_format($item->avg_rating, 1) }}★ ({{ $item->review_count }})</span>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                 @else
                     <div style="text-align:center;padding:30px;color:var(--text-muted);">
-                        <i class="uil uil-info-circle" style="font-size:32px;"></i>
+                        <i class="uil uil-star" style="font-size:32px;"></i>
                         <p style="font-size:13px;">Belum ada data rating</p>
                     </div>
                 @endif
@@ -296,24 +297,20 @@
                 <div class="chart-title"><i class="uil uil-map-marker"></i> Review Berdasarkan Provinsi</div>
                 <div class="chart-subtitle">Asal pemberi rating untuk produk Anda</div>
                 @if($reviewersByProvince->count() > 0)
-                    <div class="progress-list">
-                        @php $maxReviews = $reviewersByProvince->max('total') ?: 1; @endphp
-                        @foreach($reviewersByProvince as $idx => $item)
+                    @php $maxReviews = $reviewersByProvince->max('total') ?: 1; @endphp
+                    <div class="h-bar-chart">
+                        @foreach($reviewersByProvince->take(10) as $item)
                             @php 
-                                $provincePct = ($item->total / $maxReviews) * 100;
+                                $pct = ($item->total / $maxReviews) * 100;
                                 $colors = ['#3b82f6', '#22c55e', '#f97316', '#a855f7', '#06b6d4', '#ef4444', '#eab308', '#ec4899'];
-                                $color = $colors[$idx % count($colors)];
+                                $color = $colors[$loop->index % count($colors)];
                             @endphp
-                            <div class="progress-item">
-                                <div class="progress-header">
-                                    <span class="progress-label">
-                                        <span class="progress-dot" style="background:{{ $color }};"></span>
-                                        {{ $item->guest_province }}
-                                    </span>
-                                    <span class="progress-value">{{ $item->total }} review</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width:{{ $provincePct }}%; background:linear-gradient(to right, {{ $color }}, {{ $color }}99);"></div>
+                            <div class="h-bar-item">
+                                <span class="h-bar-label" title="{{ $item->guest_province }}">{{ Str::limit($item->guest_province, 12) }}</span>
+                                <div class="h-bar-track">
+                                    <div class="h-bar-fill" style="width:{{ max(10, $pct) }}%; background:linear-gradient(to right, {{ $color }}, {{ $color }}99);">
+                                        <span class="h-bar-value">{{ $item->total }} review</span>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

@@ -45,6 +45,9 @@ class SellerRejected extends Mailable implements ShouldQueue
     {
         return new Content(
             view: 'emails.seller-rejected',
+            with: [
+                'rejectionReason' => $this->rejectionReason,
+            ],
         );
     }
 

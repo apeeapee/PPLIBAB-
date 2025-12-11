@@ -165,7 +165,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h3 class="text-base sm:text-lg font-semibold" style="color:var(--text-main)">Statistik Review</h3>
-                        <p class="text-xs sm:text-sm mt-1" style="color:var(--text-muted)">Jumlah reviewer dan ulasan produk</p>
+                        <p class="text-xs sm:text-sm mt-1" style="color:var(--text-muted)">Pengunjung yang memberikan komentar dan rating</p>
                     </div>
                     <div class="stat-icon blue" style="width:40px;height:40px;font-size:18px;"><i class="uil uil-star"></i></div>
                 </div>
@@ -173,25 +173,13 @@
                     <div class="flex justify-center items-end gap-8 sm:gap-12" style="height:180px">
                         <div class="flex flex-col items-center">
                             <div class="text-base sm:text-lg font-bold mb-2" style="color:var(--text-main)">{{ $totalReviews }}</div>
-                            <div style="width:70px;background:linear-gradient(to top, #3b82f6, #60a5fa);border-radius:8px 8px 0 0;height:{{ max(40, min(140, ($totalReviews / 10) * 1.5)) }}px"></div>
+                            <div style="width:70px;background:linear-gradient(to top, #3b82f6, #60a5fa);border-radius:8px 8px 0 0;height:{{ max(40, min(140, $totalReviews * 3)) }}px"></div>
                             <div class="text-xs sm:text-sm mt-3 font-semibold" style="color:var(--text-muted)">Total Review</div>
                         </div>
                         <div class="flex flex-col items-center">
                             <div class="text-base sm:text-lg font-bold mb-2" style="color:var(--text-main)">{{ $uniqueReviewers }}</div>
-                            <div style="width:70px;background:linear-gradient(to top, var(--accent), #fb923c);border-radius:8px 8px 0 0;height:{{ max(40, min(140, ($uniqueReviewers / 10) * 1.5)) }}px"></div>
-                            <div class="text-xs sm:text-sm mt-3 font-semibold" style="color:var(--text-muted)">Reviewer</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="border-top:1px solid var(--card-border);padding-top:16px">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="chart-area p-3 text-center">
-                            <div class="text-xs" style="color:var(--text-muted)">User Terdaftar</div>
-                            <div class="text-lg sm:text-xl font-bold" style="color:var(--text-main)">{{ $userReviewers }}</div>
-                        </div>
-                        <div class="chart-area p-3 text-center">
-                            <div class="text-xs" style="color:var(--text-muted)">Guest Reviewer</div>
-                            <div class="text-lg sm:text-xl font-bold" style="color:var(--text-main)">{{ $guestReviewers }}</div>
+                            <div style="width:70px;background:linear-gradient(to top, var(--accent), #fb923c);border-radius:8px 8px 0 0;height:{{ max(40, min(140, $uniqueReviewers * 10)) }}px"></div>
+                            <div class="text-xs sm:text-sm mt-3 font-semibold" style="color:var(--text-muted)">Total Pengunjung</div>
                         </div>
                     </div>
                 </div>
@@ -279,6 +267,46 @@
 
     <div class="divider"></div>
 
+    <!-- Stock Analysis -->
+    <div class="mb-6 sm:mb-8">
+        <h2 class="text-lg sm:text-xl font-bold mb-4" style="color:var(--text-main)">Analisis Stok Produk</h2>
+        <div class="card p-4 sm:p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-base sm:text-lg font-semibold" style="color:var(--text-main)">Ketersediaan Stok</h3>
+                    <p class="text-xs sm:text-sm mt-1" style="color:var(--text-muted)">Perbandingan produk ready vs habis</p>
+                </div>
+                <div class="stat-icon green" style="width:40px;height:40px;font-size:18px;"><i class="uil uil-box"></i></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                <div class="flex justify-center">
+                    <div style="width:200px;height:200px;border-radius:50%;background:conic-gradient(#22c55e {{ ($totalProducts > 0 ? ($stockDistribution['in_stock'] / $totalProducts) * 100 : 0) }}%, #ef4444 0);display:flex;align-items:center;justify-content:center;position:relative">
+                        <div style="width:160px;height:160px;background:var(--card-bg);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10">
+                            <span class="text-3xl font-bold" style="color:var(--text-main)">{{ $totalProducts }}</span>
+                            <span class="text-xs text-muted">Total Produk</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 rounded-lg" style="background:rgba(34,197,94,0.1)">
+                        <div class="flex items-center gap-3">
+                            <div style="width:12px;height:12px;border-radius:50%;background:#22c55e"></div>
+                            <span class="font-semibold" style="color:var(--text-main)">Tersedia</span>
+                        </div>
+                        <span class="font-bold" style="color:#22c55e">{{ $stockDistribution['in_stock'] }}</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-lg" style="background:rgba(239,68,68,0.1)">
+                        <div class="flex items-center gap-3">
+                            <div style="width:12px;height:12px;border-radius:50%;background:#ef4444"></div>
+                            <span class="font-semibold" style="color:var(--text-main)">Stok Habis</span>
+                        </div>
+                        <span class="font-bold" style="color:#ef4444">{{ $stockDistribution['out_of_stock'] }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Rating Analytics -->
     <div class="mb-6 sm:mb-8">
         <h2 class="text-lg sm:text-xl font-bold mb-4" style="color:var(--text-main)">Analisis Rating & Review</h2>
@@ -338,7 +366,7 @@
                             $maxRev = $ratingsByProvince->max('total');
                             $pctRev = $maxRev > 0 ? ($item['total'] / $maxRev) * 100 : 0;
                             $clrs = ['#3b82f6', '#22c55e', '#8b5cf6', '#ec4899', '#6366f1'];
-                            $clr = $clrs[$idx % 5];
+                            $clr = $clrs[$loop->index % 5];
                         @endphp
                         <div style="display:flex;align-items:center;gap:12px">
                             <div style="width:100px;flex-shrink:0">

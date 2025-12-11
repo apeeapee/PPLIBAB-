@@ -23,8 +23,8 @@ class ReviewController extends Controller
             }
 
             $data = $request->validate([
-                'rating' => ['required','integer','min:1','max:5'],
-                'body' => ['required','string','max:2000'],
+                'rating' => ['required', 'integer', 'min:1', 'max:5'],
+                'body' => ['required', 'string', 'max:2000'],
             ]);
 
             $review = Review::updateOrCreate(
@@ -38,16 +38,19 @@ class ReviewController extends Controller
                 ]
             );
 
-            return redirect()->route('products.show', $product)->with('status', 'Ulasan tersimpan.');
+            // Send email to logged-in user
+            Mail::to($user->email)->send(new ReviewThankYou($review, $product, $user->name));
+
+            return redirect()->route('products.show', $product)->with('status', 'Ulasan tersimpan dan email konfirmasi terkirim.');
         } else {
             $data = $request->validate([
-                'guest_name' => ['required','string','max:255'],
-                'guest_phone' => ['required','string','max:20'],
-                'guest_email' => ['required','email','max:255'],
-                'guest_province' => ['required','string','max:255'],
-                'guest_city' => ['nullable','string','max:255'],
-                'rating' => ['required','integer','min:1','max:5'],
-                'body' => ['required','string','max:2000'],
+                'guest_name' => ['required', 'string', 'max:255'],
+                'guest_phone' => ['required', 'string', 'max:20'],
+                'guest_email' => ['required', 'email', 'max:255'],
+                'guest_province' => ['required', 'string', 'max:255'],
+                'guest_city' => ['nullable', 'string', 'max:255'],
+                'rating' => ['required', 'integer', 'min:1', 'max:5'],
+                'body' => ['required', 'string', 'max:2000'],
             ]);
 
             $review = Review::create([

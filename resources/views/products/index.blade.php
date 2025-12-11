@@ -1180,8 +1180,13 @@
                     </div>
                     
                     <div class="location-filter-group">
-                        <select name="provinsi" id="filterProvinsi" class="filter-select">
+                        <select name="provinsi" id="filterProvinsi" class="filter-select" onchange="document.getElementById('filterForm').submit()">
                             <option value="">Semua Provinsi</option>
+                        </select>
+                    </div>
+                    <div class="location-filter-group">
+                        <select name="kota" id="filterKota" class="filter-select" onchange="document.getElementById('filterForm').submit()">
+                            <option value="">Semua Kota/Kabupaten</option>
                         </select>
                     </div>
                 </div>
@@ -1266,9 +1271,9 @@
                                 <div class="product-price">
                                     Rp {{ number_format($p->price, 0, ',', '.') }}
                                 </div>
-                                <div class="product-stock {{ $p->stock < 10 ? 'low' : '' }}">
-                                    <i class="uil uil-layers"></i>
-                                    Stok: {{ $p->stock }}
+                                <div class="product-stock">
+                                    <i class="uil uil-star text-warning" style="color:#f59e0b"></i>
+                                    {{ number_format($p->reviews_avg_rating ?? 0, 1) }} | {{ $p->reviews_count }} terjual
                                 </div>
                             </div>
                         </a>
@@ -1473,16 +1478,16 @@
     const API_BASE = 'https://www.emsifa.com/api-wilayah-indonesia/api';
     
     const locationCache = {
-        provinces: null
+        provinces: null,
+        regencies: {}
     };
 
     const filterProvinsi = document.getElementById('filterProvinsi');
+    const filterKota = document.getElementById('filterKota');
 
     // Data dari server (filter yang sedang aktif)
     const currentProvinsi = "{{ $selProvinsi ?? '' }}";
-    
-    // Lokasi default seller jika login
-    const sellerLocation = @json($sellerLocation ?? null);
+    const currentKota = "{{ $selKota ?? '' }}";
 
     async function fetchLocationData(url) {
         try {
@@ -1524,7 +1529,41 @@
             option.value = prov.name;
             option.textContent = prov.name;
             option.dataset.id = prov.id;
+            if (prov.name === currentProvinsi) {
+                option.selected = true;
+            }
             filterProvinsi.appendChild(option);
+        });
+    }
+
+    async function loadKota(provinsiId) {
+        if (!provinsiId) {
+            filterKota.innerHTML = '<option value="">Semua Kota/Kabupaten</option>';
+            return;
+        }
+
+        if (locationCache.regencies[provinsiId]) {
+            populateKota(locationCache.regencies[provinsiId]);
+            return;
+        }
+
+        setSelectLoading(filterKota, true);
+        const regencies = await fetchLocationData(`${API_BASE}/regencies/${provinsiId}.json`);
+        locationCache.regencies[provinsiId] = regencies;
+        populateKota(regencies);
+        setSelectLoading(filterKota, false);
+    }
+
+    function populateKota(regencies) {
+        filterKota.innerHTML = '<option value="">Semua Kota/Kabupaten</option>';
+        regencies.forEach(reg => {
+            const option = document.createElement('option');
+            option.value = reg.name;
+            option.textContent = reg.name;
+            if (reg.name === currentKota) {
+                option.selected = true;
+            }
+            filterKota.appendChild(option);
         });
     }
 
@@ -1532,10 +1571,20 @@
     window.addEventListener('DOMContentLoaded', async function() {
         await loadProvinces();
 
-        // Set provinsi value from current filter
+        // If there's a current provinsi selected, load kota
         if (currentProvinsi) {
-            filterProvinsi.value = currentProvinsi;
+            const selectedOption = filterProvinsi.options[filterProvinsi.selectedIndex];
+            if (selectedOption && selectedOption.dataset.id) {
+                await loadKota(selectedOption.dataset.id);
+            }
         }
+    });
+
+    // When provinsi changes, load kota (but don't submit yet, wait for kota selection)
+    filterProvinsi.addEventListener('change', async function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const provinsiId = selectedOption?.dataset?.id;
+        await loadKota(provinsiId);
     });
 </script>
 

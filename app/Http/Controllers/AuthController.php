@@ -20,7 +20,7 @@ class AuthController extends Controller
     public function login(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email'    => ['required', 'email'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
@@ -44,7 +44,7 @@ class AuthController extends Controller
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-                
+
                 return redirect()->route('register')
                     ->with('error', 'Akun Anda tidak terdaftar sebagai penjual. Silakan registrasi ulang sebagai penjual.')
                     ->with('info', 'Catatan: Pembeli tidak perlu registrasi/login. Langsung belanja di market sebagai guest.');
@@ -67,7 +67,7 @@ class AuthController extends Controller
             // Seller/Toko data
             'nama_toko' => 'required|string|max:255',
             'deskripsi_singkat' => 'required|string|max:500',
-            
+
             // Owner/PIC data (also used for login)
             'nama_pic' => 'required|string|max:255',
             'no_hp_pic' => [
@@ -86,17 +86,15 @@ class AuthController extends Controller
                 'regex:/^[0-9]{16}$/',
             ],
             'password' => ['required', 'confirmed', Password::defaults()],
-            
+
             // Address
             'alamat_pic' => 'required|string',
             'rt' => 'required|string|max:5',
             'rw' => 'required|string|max:5',
             'kelurahan' => 'required|string|max:255',
-            'kecamatan' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
             'kota' => 'required|string|max:255',
-            'kode_pos' => 'required|string|max:10',
-            
+
             // Documents
             'foto_pic' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'file_ktp_pic' => 'required|mimes:pdf,jpg,jpeg,png|max:4096',
@@ -128,10 +126,8 @@ class AuthController extends Controller
             'rt' => $validated['rt'],
             'rw' => $validated['rw'],
             'kelurahan' => $validated['kelurahan'],
-            'kecamatan' => $validated['kecamatan'],
             'provinsi' => $validated['provinsi'],
             'kota' => $validated['kota'],
-            'kode_pos' => $validated['kode_pos'],
             'foto_pic' => $fotoPicPath,
             'file_ktp_pic' => $fileKtpPath,
             'status' => 'pending',
@@ -144,7 +140,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();     
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

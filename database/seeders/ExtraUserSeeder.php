@@ -154,6 +154,8 @@ class ExtraUserSeeder extends Seeder
                         'product_id' => $product->id,
                         'rating' => rand(4, 5), // Mostly good ratings
                         'body' => 'Produk sangat bagus, sesuai deskripsi!',
+                        'guest_province' => 'Jawa Tengah',
+                        'guest_city' => 'Kota Semarang',
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
